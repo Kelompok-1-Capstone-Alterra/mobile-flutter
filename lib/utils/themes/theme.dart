@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flutter/utils/themes/custom_color.dart';
 
 final ThemeData agriplantLight = ThemeData(
   useMaterial3: true,
@@ -24,8 +25,8 @@ final ThemeData agriplantLight = ThemeData(
       headlineSmall: GoogleFonts.inter(fontWeight: FontWeight.w600),
       //--------------
       titleLarge: GoogleFonts.inter(fontWeight: FontWeight.w400),
-      titleMedium: GoogleFonts.inter(fontWeight: FontWeight.w400),
-      titleSmall: GoogleFonts.inter(fontWeight: FontWeight.w400),
+      titleMedium: GoogleFonts.inter(fontWeight: FontWeight.w500),
+      titleSmall: GoogleFonts.inter(fontWeight: FontWeight.w500),
       //--------------
       labelLarge: GoogleFonts.inter(fontWeight: FontWeight.w600),
       labelMedium: GoogleFonts.inter(fontWeight: FontWeight.w600),
