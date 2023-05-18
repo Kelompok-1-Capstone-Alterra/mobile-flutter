@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 final ThemeData agriplantLight = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
-
+  scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
     elevation: 0,
     shadowColor: Colors.black12,
