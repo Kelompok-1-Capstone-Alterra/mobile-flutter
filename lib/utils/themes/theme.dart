@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_flutter/utils/themes/custom_color.dart';
 
 final ThemeData agriplantLight = ThemeData(
   useMaterial3: true,
