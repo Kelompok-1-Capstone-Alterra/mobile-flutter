@@ -7,6 +7,8 @@ class TanamankuScreen extends StatelessWidget {
 
   final isEmptry = true;
   //tambah line satu
+  final double horizontal = 20;
+  final double vertical = 10;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +27,8 @@ class TanamankuScreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding:
+            EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

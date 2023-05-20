@@ -13,7 +13,6 @@ final ThemeData agriplantLight = ThemeData(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
   ),
-
   textTheme: GoogleFonts.interTextTheme(
     TextTheme(
       displayLarge: GoogleFonts.inter(fontWeight: FontWeight.w600),
