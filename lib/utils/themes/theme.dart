@@ -12,7 +12,6 @@ final ThemeData agriplantLight = ThemeData(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
   ),
-
   textTheme: GoogleFonts.interTextTheme(
     TextTheme(
       displayLarge: GoogleFonts.inter(fontWeight: FontWeight.w600),
@@ -24,8 +23,8 @@ final ThemeData agriplantLight = ThemeData(
       headlineSmall: GoogleFonts.inter(fontWeight: FontWeight.w600),
       //--------------
       titleLarge: GoogleFonts.inter(fontWeight: FontWeight.w400),
-      titleMedium: GoogleFonts.inter(fontWeight: FontWeight.w400),
-      titleSmall: GoogleFonts.inter(fontWeight: FontWeight.w400),
+      titleMedium: GoogleFonts.inter(fontWeight: FontWeight.w500),
+      titleSmall: GoogleFonts.inter(fontWeight: FontWeight.w500),
       //--------------
       labelLarge: GoogleFonts.inter(fontWeight: FontWeight.w600),
       labelMedium: GoogleFonts.inter(fontWeight: FontWeight.w600),
