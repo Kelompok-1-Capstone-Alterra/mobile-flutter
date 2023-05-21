@@ -48,6 +48,8 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   google_fonts: ^4.0.4
   persistent_bottom_nav_bar_v2: ^4.2.8
+  flutter_html: ^3.0.0-beta.1
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/svg/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
