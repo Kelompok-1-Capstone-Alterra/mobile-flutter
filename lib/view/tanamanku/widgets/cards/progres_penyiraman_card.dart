@@ -25,32 +25,28 @@ class ProgresPenyiraman extends StatelessWidget {
             ),
             SizedBox(
               height: 50.0,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width * 0.107,
-                    // height: 45.0,
-                    decoration: BoxDecoration(
-                      color: neutral[40],
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: primary,
+              child: Row(
+                children: List.generate(7, (index) {
+                  return Expanded(
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: neutral[40],
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: primary,
+                        ),
                       ),
-                    ), // Nanti buat kondisi dimana hari ini yang ada bordernya
-                    child: Icon(
-                      FluentIcons.drop_12_filled,
-                      color: neutral[10],
+                      child: Icon(
+                        FluentIcons.drop_12_filled,
+                        color: neutral[10],
+                      ),
                     ),
                   );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 4);
-                },
+                }),
               ),
-            )
+            ),
           ],
         ),
       ),

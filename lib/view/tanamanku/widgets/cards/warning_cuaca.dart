@@ -8,48 +8,43 @@ class WarningCuaca extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 110,
-      child: Card(
-        elevation: 15,
-        shadowColor: Colors.black26,
-        color: error[100],
-        surfaceTintColor: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    FluentIcons.warning_16_filled,
-                    color: neutral,
-                  ),
-                  const SizedBox(width: 13),
-                  Expanded(
-                    child: AutoSizeText(
-                      'Cuaca kamu saat ini tidak mendukung',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: AutoSizeText(
-                  'Suhu ideal tanaman tomat antara 24°C - 28°C. Suhu daerahmu sekarang 32°C.',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  minFontSize: 14,
-                  style: Theme.of(context).textTheme.bodySmall,
+    return Card(
+      elevation: 15,
+      shadowColor: Colors.black26,
+      color: error[100],
+      surfaceTintColor: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  FluentIcons.warning_16_filled,
+                  color: neutral,
                 ),
-              ),
-            ],
-          ),
+                const SizedBox(width: 13),
+                Expanded(
+                  child: AutoSizeText(
+                    'Cuaca kamu saat ini tidak mendukung',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            AutoSizeText(
+              'Suhu ideal tanaman tomat antara 24°C - 28°C. Suhu daerahmu sekarang 32°C.',
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              minFontSize: 14,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
         ),
       ),
     );

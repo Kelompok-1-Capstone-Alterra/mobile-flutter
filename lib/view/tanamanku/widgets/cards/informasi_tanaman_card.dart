@@ -10,24 +10,34 @@ class InformasiTanamanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(30),
-      height: MediaQuery.of(context).size.height * 0.49,
-      child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2, // Jumlah kolom
-        children: <Widget>[
-          // Container 1
-          gridItem(context, FluentIcons.tree_deciduous_20_regular,
-              'Cara Menanam', InformasiType.caraMenanam),
-          // Container 2
-          gridItem(context, FluentIcons.food_grains_20_regular, 'Pemupukan',
-              InformasiType.pemupukan),
-          // Container 3
-          gridItem(context, FluentIcons.drop_16_regular, 'Penyiraman',
-              InformasiType.penyiraman),
-          // Container 4
-          gridItem(context, FluentIcons.temperature_16_regular,
-              'Temperatur Ideal', InformasiType.temperaturIdeal),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Container 1
+              gridItem(context, FluentIcons.tree_deciduous_20_regular,
+                  'Cara Menanam', InformasiType.caraMenanam),
+              // Container 2
+              gridItem(context, FluentIcons.food_grains_20_regular, 'Pemupukan',
+                  InformasiType.pemupukan),
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Container 3
+              gridItem(context, FluentIcons.drop_16_regular, 'Penyiraman',
+                  InformasiType.penyiraman),
+              // Container 4
+              gridItem(context, FluentIcons.temperature_16_regular,
+                  'Temperatur Ideal', InformasiType.temperaturIdeal),
+            ],
+          )
         ],
       ),
     );
