@@ -5,8 +5,14 @@ import 'package:mobile_flutter/utils/themes/theme.dart';
 import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
 import 'package:mobile_flutter/view/home/screen/home_screen.dart';
-import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
+import 'package:mobile_flutter/view_model/email_kami_provider.dart';
 import 'package:mobile_flutter/view_model/home_provider.dart';
+import 'package:mobile_flutter/view_model/masukan_saran_provider.dart';
+import 'package:mobile_flutter/view_model/profile_provider.dart';
+import 'package:mobile_flutter/view_model/statistik_penanaman_provider.dart';
+import 'package:mobile_flutter/view_model/ubah_kata_sandi_provider.dart';
+import 'package:mobile_flutter/view_model/ubah_nama_provider.dart';
+import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/detail_progress_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_nama_tanaman_provider.dart';
@@ -25,6 +31,24 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => CustomNavbarProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UbahNamaProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UbahKataSandiProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StatistikaPenanamanProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EmailKamiProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MasukanSaranProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => ValidatorProvider(),

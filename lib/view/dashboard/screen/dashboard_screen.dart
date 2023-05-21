@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view/settings/screens/settings_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
@@ -223,7 +224,7 @@ class TanamankuDasboardItem extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
                 SizedBox(
@@ -348,7 +349,14 @@ class WeatherWidget extends StatelessWidget {
                         //   width: 5,
                         // ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SettingsScreen(),
+                              ),
+                            );
+                          },
                           icon: const Icon(
                             FluentIcons.settings_16_regular,
                             size: 30,
