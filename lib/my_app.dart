@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/models/toko_provider/search_provider.dart';
+import 'package:mobile_flutter/models/toko_provider/search_menu_provider.dart';
 import 'package:mobile_flutter/utils/themes/theme.dart';
 import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider.dart';
 import 'package:mobile_flutter/view/home/screen/home_screen.dart';
@@ -22,6 +24,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => CustomNavbarProvider(),
+        ),
+        ChangeNotifierProvider<SearchProvider>(
+          create: (context) => SearchProvider(products: []),
+        ),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (context) => ProductProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => DashboardProvider(),
