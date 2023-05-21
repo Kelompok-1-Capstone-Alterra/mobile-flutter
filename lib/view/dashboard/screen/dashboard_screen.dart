@@ -224,7 +224,7 @@ class TanamankuDasboardItem extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
                 SizedBox(
