@@ -54,7 +54,7 @@ class PemupukanCard extends StatelessWidget {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      customBorder: CircleBorder(),
+                      customBorder: const CircleBorder(),
                       splashColor: Colors.black12.withOpacity(0.05),
                       onTap: () {},
                     ),

@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class DetailProgressProvider with ChangeNotifier {
+class AddProgressProvider with ChangeNotifier {
   List imageList = [
     {"id": 1, "image_path": 'assets/images/sample_tomat.png'},
     {"id": 2, "image_path": 'assets/images/sample_tomat_2.png'},

@@ -49,27 +49,6 @@ class PenyiramanCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: [
-                  //     AutoSizeText(
-                  //       '0',
-                  //       style: Theme.of(context).textTheme.displayMedium,
-                  //     ),
-                  //     AutoSizeText(
-                  //       ' / ',
-                  //       style: Theme.of(context).textTheme.titleLarge,
-                  //     ),
-                  //     AutoSizeText(
-                  //       '2',
-                  //       style: Theme.of(context).textTheme.titleLarge,
-                  //     ),
-                  //     AutoSizeText(
-                  //       '  kali sehari',
-                  //       style: Theme.of(context).textTheme.titleSmall,
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             ),

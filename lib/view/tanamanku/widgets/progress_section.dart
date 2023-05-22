@@ -1,8 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/no_progress_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/progress_card.dart';
+import 'package:mobile_flutter/view/tanamanku/screen/add_progress_mingguan_screen.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/progress_card/no_progress_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/progress_card/progress_card.dart';
 
 class ProgressSection extends StatelessWidget {
   const ProgressSection({super.key});
@@ -44,7 +45,14 @@ class ProgressSection extends StatelessWidget {
           height: 13,
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddProgressMingguanScreen(),
+              ),
+            );
+          },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 10),
             backgroundColor: primary,

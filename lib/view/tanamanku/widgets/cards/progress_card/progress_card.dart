@@ -85,7 +85,7 @@ class ProgressCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailProgresScreen(),
+                    builder: (context) => const DetailProgresScreen(),
                   ),
                 );
               },
