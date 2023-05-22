@@ -10,6 +10,8 @@ class CustomTextFormField extends StatefulWidget {
   final IconButton? suffixIcon;
   final int? maxLength;
   final TextInputAction textInputAction;
+  final Function(String?)? onChanged;
+  final String? helperText;
 
   const CustomTextFormField({
     super.key,
@@ -21,6 +23,8 @@ class CustomTextFormField extends StatefulWidget {
     this.controller,
     this.suffixIcon,
     this.maxLength,
+    this.onChanged,
+    this.helperText,
   });
 
   @override
@@ -56,6 +60,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       maxLength: widget.maxLength,
       textInputAction: widget.textInputAction,
       focusNode: _focusNode,
+      onChanged: widget.onChanged,
       style: const TextStyle(
         color: neutral,
       ),
@@ -68,6 +73,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       ? primary
                       : neutral,
             ),
+        helperText: widget.helperText,
+        helperStyle: Theme.of(context).textTheme.bodySmall,
         hintText: widget.hint,
         hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: neutral[40],
