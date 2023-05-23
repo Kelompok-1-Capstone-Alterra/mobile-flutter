@@ -14,32 +14,32 @@ class PlantGridviewProvider extends ChangeNotifier {
     CardMyPlantModel(
       picture: 'assets/images/sample_tomat.png',
       latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'cabai',
+      plantName: 'Cabai',
     ),
     CardMyPlantModel(
       picture: 'assets/images/sample_tomat.png',
       latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'pisang',
+      plantName: 'Pisang',
     ),
     CardMyPlantModel(
       picture: 'assets/images/sample_tomat.png',
       latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'anggur',
+      plantName: 'Anggur',
     ),
     CardMyPlantModel(
       picture: 'assets/images/sample_tomat.png',
       latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'wortel',
+      plantName: 'Wortel',
     ),
     CardMyPlantModel(
       picture: 'assets/images/sample_tomat.png',
       latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'buah zakar',
+      plantName: 'Bawang Merah',
     ),
     CardMyPlantModel(
       picture: 'assets/images/sample_tomat.png',
       latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'buah dada',
+      plantName: 'Bawang Putih',
     ),
   ];
 

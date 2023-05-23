@@ -1,12 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/tanamanku/screen/edit_nama_tanaman_screen.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/overview_section.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/progress_section.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/pemupukan_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/progres_penyiraman_card.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/detail_progress_provider.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
 import 'package:provider/provider.dart';
 
 class DetailProgresScreen extends StatefulWidget {
@@ -19,7 +18,8 @@ class DetailProgresScreen extends StatefulWidget {
 class _DetailProgresScreenState extends State<DetailProgresScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TanamankuProvider>(context, listen: false);
+    final provider =
+        Provider.of<DetailProgressProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -33,7 +33,7 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
             shape: const CircleBorder(),
             disabledElevation: 0,
             onPressed: () {
-              provider.fullDescription = false;
+              provider.currentIndex = 0;
               Navigator.pop(context);
             },
             child: Icon(
@@ -108,27 +108,12 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Tomat',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EditNamaTanamanScreen(),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(FluentIcons.edit_16_regular))
-                          ],
+                        Text(
+                          'Minggu ke 1',
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Text(
-                          'Solanum lycopersicum',
+                          '24-30 May 2023',
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
@@ -137,82 +122,81 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                         const SizedBox(
                           height: 22,
                         ),
-                        // Row(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     GestureDetector(
-                        //       onTap: () {
-                        //         provider.setSelectedIndex(context, 0);
-                        //       },
-                        //       child: Container(
-                        //         height: 25,
-                        //         padding: const EdgeInsets.symmetric(
-                        //           horizontal: 8.5,
-                        //           vertical: 2.5,
-                        //         ),
-                        //         decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(20),
-                        //           color: provider.selectedIndex == 0
-                        //               ? success[500]
-                        //               : Colors.transparent,
-                        //         ),
-                        //         child: Center(
-                        //           child: Text(
-                        //             'Overview',
-                        //             style: Theme.of(context)
-                        //                 .textTheme
-                        //                 .labelLarge!
-                        //                 .copyWith(
-                        //                   color: provider.selectedIndex == 0
-                        //                       ? neutral[10]
-                        //                       : primary[500],
-                        //                 ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     const SizedBox(
-                        //       width: 10,
-                        //     ),
-                        //     GestureDetector(
-                        //       onTap: () {
-                        //         provider.setSelectedIndex(context, 1);
-                        //       },
-                        //       child: Container(
-                        //         height: 25,
-                        //         padding: const EdgeInsets.symmetric(
-                        //           horizontal: 8.5,
-                        //           vertical: 2.5,
-                        //         ),
-                        //         decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(20),
-                        //           color: provider.selectedIndex == 1
-                        //               ? primary[500]
-                        //               : Colors.transparent,
-                        //         ),
-                        //         child: Center(
-                        //           child: Text(
-                        //             'Progress',
-                        //             style: Theme.of(context)
-                        //                 .textTheme
-                        //                 .labelLarge!
-                        //                 .copyWith(
-                        //                   color: provider.selectedIndex == 1
-                        //                       ? neutral[10]
-                        //                       : success[500],
-                        //                 ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // const SizedBox(
-                        //   height: 22,
-                        // ),
-                        // provider.selectedIndex == 0
-                        //     ? const OverviewSection()
-                        //     : const ProgressSection(),
+                        Text('Kondisi Tanaman',
+                            style: Theme.of(context).textTheme.labelLarge),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.all(0),
+                          elevation: 15,
+                          shadowColor: Colors.black26,
+                          color: success[100],
+                          surfaceTintColor: Colors.transparent,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 60,
+                                  height: 60,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  decoration: BoxDecoration(
+                                      color: primary[400],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Icon(
+                                    FluentIcons.plant_grass_20_regular,
+                                    color: neutral[10],
+                                  ),
+                                ),
+                                const SizedBox(width: 36),
+                                AutoSizeText(
+                                  "Sangat Sehat",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const ProgresPenyiraman(),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const PemupukanCard(),
+                        const SizedBox(
+                          height: 28,
+                        ),
+                        Text('Progres',
+                            style: Theme.of(context).textTheme.labelLarge),
+                        const Text(
+                            'Minggu ke 1 tanaman tomat saya sangat sehat dan segar. Minggu ke 1 tanaman tomat saya sangat sehat dan segar. Minggu ke 1 tanaman tomat saya sangat sehat dan segar.'),
+                        const SizedBox(
+                          height: 44,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            backgroundColor: primary,
+                            minimumSize: const Size(double.infinity,
+                                0), // Mengatur minimumSize dengan double.infinity
+                          ),
+                          child: Text(
+                            'Edit progres mingguan',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                  color: neutral[10],
+                                ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
