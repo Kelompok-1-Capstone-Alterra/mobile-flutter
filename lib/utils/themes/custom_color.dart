@@ -71,3 +71,27 @@ const MaterialColor information =
 const int _informationAccentValue = 0xFF3B82F6;
 
 // ------------------------------------------------------------------------------------------------------------------------------
+
+const MaterialColor primaryswatch =
+    MaterialColor(_primaryswatchPrimaryValue, <int, Color>{
+  50: Color(0xFFE2F7F0),
+  100: Color(0xFFB7EAD9),
+  200: Color(0xFF88DCC0),
+  300: Color(0xFF58CEA7),
+  400: Color(0xFF34C494),
+  500: Color(_primaryswatchPrimaryValue),
+  600: Color(0xFF0EB279),
+  700: Color(0xFF0CAA6E),
+  800: Color(0xFF09A264),
+  900: Color(0xFF059351),
+});
+const int _primaryswatchPrimaryValue = 0xFF10B981;
+
+const MaterialColor primaryswatchAccent =
+    MaterialColor(_primaryswatchAccentValue, <int, Color>{
+  100: Color(0xFFBFFFDE),
+  200: Color(_primaryswatchAccentValue),
+  400: Color(0xFF59FFA9),
+  700: Color(0xFF40FF9C),
+});
+const int _primaryswatchAccentValue = 0xFF8CFFC3;
