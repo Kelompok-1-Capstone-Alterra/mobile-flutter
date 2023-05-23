@@ -79,19 +79,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: neutral[40],
             ),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: neutral[40]!,
-            width: 2.0,
-          ),
-          borderRadius: BorderRadius.circular(4),
-        ),
+        border: Theme.of(context).inputDecorationTheme.border,
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: _isError ? error : primary,
             width: 2.0,
           ),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(10),
         ),
         errorStyle: const TextStyle(
           color: error,
