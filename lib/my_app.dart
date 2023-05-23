@@ -10,6 +10,7 @@ import 'package:mobile_flutter/view_model/home_provider.dart';
 import 'package:mobile_flutter/view_model/masukan_saran_provider.dart';
 import 'package:mobile_flutter/view_model/profile_provider.dart';
 import 'package:mobile_flutter/view_model/statistik_penanaman_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
 import 'package:mobile_flutter/view_model/ubah_kata_sandi_provider.dart';
 import 'package:mobile_flutter/view_model/ubah_nama_provider.dart';
 import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
@@ -73,6 +74,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => DetailProgressProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddProgressProvider(),
         ),
       ],
       child: MaterialApp(

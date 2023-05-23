@@ -65,7 +65,7 @@ class DetailTanamanScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          EditNamaTanamanScreen(),
+                                          const EditNamaTanamanScreen(),
                                     ),
                                   );
                                 },

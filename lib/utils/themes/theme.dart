@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_flutter/utils/themes/custom_color.dart';
 
 final ThemeData agriplantLight = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
+  primaryColor: primary[300],
+  primarySwatch: primaryswatch,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
     elevation: 0,
@@ -11,6 +14,31 @@ final ThemeData agriplantLight = ThemeData(
     surfaceTintColor: Colors.transparent,
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
+  ),
+
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: primaryswatch,
+    selectionColor: primaryswatch,
+    selectionHandleColor: primaryswatch,
+  ),
+
+  inputDecorationTheme: InputDecorationTheme(
+    focusColor: primaryswatch,
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(
+        color: primaryswatch,
+      ),
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(
+        color: neutral,
+      ),
+    ),
   ),
   textTheme: GoogleFonts.interTextTheme(
     TextTheme(

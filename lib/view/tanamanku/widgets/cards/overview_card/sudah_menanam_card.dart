@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 
@@ -51,16 +50,32 @@ class SudahMenanamCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(primary),
-              ),
-              padding: const EdgeInsets.all(13),
-              icon: Icon(
-                FluentIcons.plant_ragweed_20_regular,
-                color: neutral[10],
-              ),
+            Stack(
+              children: [
+                Container(
+                  width: 50.0,
+                  height: 50.0,
+                  padding: const EdgeInsets.all(15),
+                  decoration: const BoxDecoration(
+                    color: primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/icons/penanaman.png',
+                    color: neutral[10],
+                  ),
+                ),
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      splashColor: Colors.black12.withOpacity(0.05),
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

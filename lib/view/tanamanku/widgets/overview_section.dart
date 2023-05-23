@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/description_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/informasi_tanaman_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/pemupukan_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/penyiraman_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/progres_penyiraman_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/sudah_menanam_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/warning_cuaca.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/weekly_progres_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/description_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/informasi_tanaman_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/pemupukan_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/penyiraman_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/progres_penyiraman_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/sudah_menanam_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/warning_cuaca.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/weekly_progres_card.dart';
 
 class OverviewSection extends StatelessWidget {
   const OverviewSection({super.key});
