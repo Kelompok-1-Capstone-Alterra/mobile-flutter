@@ -3,8 +3,13 @@ import 'package:mobile_flutter/models/toko_provider/search_provider.dart';
 import 'package:mobile_flutter/models/toko_provider/search_menu_provider.dart';
 import 'package:mobile_flutter/utils/themes/theme.dart';
 import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider.dart';
+import 'package:mobile_flutter/view/splash/splash_screen.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/change_password_provider.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/forgot_password_provider.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/login_provider.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/register_provider.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
-import 'package:mobile_flutter/view/home/screen/home_screen.dart';
 import 'package:mobile_flutter/view_model/email_kami_provider.dart';
 import 'package:mobile_flutter/view_model/home_provider.dart';
 import 'package:mobile_flutter/view_model/masukan_saran_provider.dart';
@@ -78,12 +83,27 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AddProgressProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => SharedPreferencesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RegisterProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ForgotPasswordProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChangePasswordProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Agriplan - App',
         theme: agriplantLight,
-        home: const HomeScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
