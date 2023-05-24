@@ -1,6 +1,7 @@
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view/settings/widgets/statistik_penanaman_empty_widget.dart';
 import 'package:mobile_flutter/view_model/statistik_penanaman_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -59,16 +60,20 @@ class StatistikPenanamanScreen extends StatelessWidget {
           vertical: 18,
         ),
         child: Consumer<StatistikaPenanamanProvider>(
-          builder: (context, statistikaPenanaman, _) => GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              childAspectRatio: 6 / 7,
-              mainAxisSpacing: 20,
-            ),
-            itemCount: statistikaPenanaman.items.length,
-            itemBuilder: (context, index) => statistikaPenanaman.items[index],
-          ),
+          builder: (context, statistikaPenanaman, _) => statistikaPenanaman
+                  .items.isNotEmpty
+              ? GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    childAspectRatio: 6 / 7,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemCount: statistikaPenanaman.items.length,
+                  itemBuilder: (context, index) =>
+                      statistikaPenanaman.items[index],
+                )
+              : const StatistikPenanamanEmptyWidget(),
         ),
       ),
     );
