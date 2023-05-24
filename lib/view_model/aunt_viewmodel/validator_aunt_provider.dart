@@ -30,17 +30,16 @@ class ValidatorProvider extends ChangeNotifier {
     String? confirmpasswordController,
     String? passwordController,
   ) {
-    // print(confirmpasswordController);
-    // print(passwordController);
     if (value == null || value.isEmpty) {
       return 'Konformasi Kata sandi tidak boleh kosong';
-    } else if (value.length < 8) {
-      return 'Minimal 8 karakter';
-    } else if (confirmpasswordController != passwordController) {
-      return "Kata sandi tidak sesuai";
-    } else {
-      return null; // validasi berhasil
     }
+    if (value.length < 8) {
+      return 'Minimal 8 karakter';
+    }
+    if (confirmpasswordController != passwordController) {
+      return "Kata sandi tidak sesuai";
+    }
+    return null; // validasi berhasil
   }
 
   String? validateName(String? value) {
