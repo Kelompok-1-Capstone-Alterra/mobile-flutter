@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view/home/screen/home_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
+import 'package:provider/provider.dart';
 
 class ArtikelScreen extends StatelessWidget {
   const ArtikelScreen({super.key});
-  void setLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', false);
-  }
-
   logout(BuildContext context) async {
-    setLoginStatus();
+    Provider.of<SharedPreferencesProvider>(context, listen: false).logout();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const HomeScreen(),
