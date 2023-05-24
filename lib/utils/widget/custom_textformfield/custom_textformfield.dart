@@ -79,6 +79,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: neutral[40],
             ),
+        disabledBorder: Theme.of(context).inputDecorationTheme.disabledBorder,
         border: Theme.of(context).inputDecorationTheme.border,
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
