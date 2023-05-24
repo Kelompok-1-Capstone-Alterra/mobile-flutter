@@ -3,7 +3,8 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:mobile_flutter/view/aunt/screen/login_screen.dart';
 import 'package:mobile_flutter/view/aunt/screen/register_screen.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
+import 'package:provider/provider.dart';
 
 class OnBroadingScreen extends StatefulWidget {
   const OnBroadingScreen({super.key});
@@ -13,13 +14,9 @@ class OnBroadingScreen extends StatefulWidget {
 }
 
 class _OnBroadingScreenState extends State<OnBroadingScreen> {
-  void setOnboardingStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isFirstTime', false);
-  }
-
   void _toRegister() {
-    setOnboardingStatus();
+    Provider.of<SharedPreferencesProvider>(context, listen: false)
+        .completeOnboarding();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const RegisterScreen(),
@@ -28,7 +25,8 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
   }
 
   void _toLogin() {
-    setOnboardingStatus();
+    Provider.of<SharedPreferencesProvider>(context, listen: false)
+        .completeOnboarding();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
