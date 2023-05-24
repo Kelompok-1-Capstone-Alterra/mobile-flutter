@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-import 'package:mobile_flutter/view/aunt/screen/login_screen.dart';
 import 'package:mobile_flutter/view/aunt/screen/register_screen.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
@@ -27,11 +26,6 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
   void _toLogin() {
     Provider.of<SharedPreferencesProvider>(context, listen: false)
         .completeOnboarding();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
   }
 
   @override
