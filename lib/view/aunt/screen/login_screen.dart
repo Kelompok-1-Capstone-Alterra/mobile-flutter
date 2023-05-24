@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _toRegister(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const RegisterScreen(),
       ),
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _toForgotPassword(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const ForgotPasswordScreen(),
       ),
