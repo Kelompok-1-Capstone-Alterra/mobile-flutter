@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
-import 'package:mobile_flutter/utils/widget/toko_widget/reusable_price.dart';
+import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
 import 'package:provider/provider.dart';
-import 'package:mobile_flutter/models/toko_provider/search_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -99,7 +99,6 @@ class _ListProdukState extends State<ListProduk> {
                                 'assets/images/toko_image/empty.png',
                                 width: 200,
                                 height: 200,
-                                color: neutral[100],
                               ),
                               const Text('Produk belum tersedia dietalase.'),
                             ],
