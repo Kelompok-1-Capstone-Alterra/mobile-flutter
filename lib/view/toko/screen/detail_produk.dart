@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
-import 'package:mobile_flutter/utils/widget/toko_widget/reusable_price.dart';
-import 'package:mobile_flutter/utils/widget/toko_widget/reusable_button_chat.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
+import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
+import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_button_chat.dart';
 import 'package:mobile_flutter/view/toko/screen/deskripsi_produk.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Details extends StatefulWidget {
   const Details({
@@ -45,12 +47,12 @@ class _DetailsState extends State<Details> {
             children: [
               Text(
                 "Barang",
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-              Icon(
-                Icons.screen_share_outlined,
-                color: neutral[90],
-              ),
+              Image.asset(
+                'assets/images/toko_image/share.png',
+                color: neutral[100],
+              )
             ],
           ),
         ),
@@ -63,28 +65,54 @@ class _DetailsState extends State<Details> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ///Top Image
-                SizedBox(
-                  width: size.width,
-                  height: size.height * 0.5,
-                  child: Stack(
-                    children: [
-                      Hero(
-                        tag: widget.isCameFromProduk
-                            ? current.imageUrl
-                            : current.id,
-                        child: Container(
+                CarouselSlider.builder(
+                  options: CarouselOptions(
+                    height: 300,
+                    autoPlay: false,
+                    enlargeCenterPage: true,
+                    aspectRatio: 2,
+                    viewportFraction: 1,
+                  ),
+                  itemCount: 1,
+                  itemBuilder:
+                      (BuildContext context, int index, int realIndex) {
+                    return Stack(
+                      children: [
+                        Container(
                           width: size.width,
-                          height: size.height * 0.5,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(current.imageUrl),
-                                fit: BoxFit.fill),
+                              image: AssetImage(current.imageUrl),
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                        const Positioned(
+                          bottom: 10,
+                          right: 10,
+                          child: Text(
+                            '1/1',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
+
+                // Container(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 2,
+                //   ), // Sesuaikan dengan nilai padding yang Anda inginkan
+                //   child: Image.asset(
+                //     current.imageUrl,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -163,16 +191,12 @@ class _DetailsState extends State<Details> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: size.height * 0.016,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: Text(
-                                current.simpleDeskripsi,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                              child: Html(
+                                data: current.simpleDeskripsi,
                               ),
                             ),
                           ],
