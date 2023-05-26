@@ -1,8 +1,12 @@
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
 
 List<Crousel> crousel = [
   Crousel(
     id: 1,
+    imageUrl: "assets/images/toko_image/baner.png",
+  ),
+  Crousel(
+    id: 2,
     imageUrl: "assets/images/toko_image/baner.png",
   ),
 ];
@@ -115,8 +119,28 @@ List<BaseModel> getAlatTaniProducts() {
       review: 4.6,
       star: 4.8,
       id: 6,
-      simpleDeskripsi: "Deskripsi Alat Tani Kultivator",
-      deskripsi: "Detail Alat Tani Kultivator",
+      simpleDeskripsi:
+          "<p>Kultivator merupakan traktor kecil atau traktor mini dengan gerak motor bensin rata-rata 5,5 HP - 6,5 HP tergantung tipe tanah tempat penanaman.</p>",
+      deskripsi: """
+    <p>Kultivator merupakan traktor kecil atau traktor mini dengan gerak motor bensin rata-rata 5,5 HP - 6,5 HP tergantung tipe tanah tempat penanaman.</p>
+    <p>Kondisi: Baru</p>
+    <p>Berat: 100 kg</p>
+    <p>Merek: Tasco</p>
+    <p>Memiliki:</p>
+    <ul>
+      <li>pisau/blade/rotary atau cakar yang terletak pada poros as utama. Pisau ini digunakan untuk mencacah tanah sekaligus untuk berjalan kedepan.</li>
+      <li>ridger yang dipasang pada bagian belakang dari pisau yang berguna untuk membuat guludan atau bedengan atau pembumbunan. Ridger hanya bermanfaat membuat parit di tanah yang telah dicacah sebelumnya oleh pisau rotary.</li>
+    </ul>
+    <p>Manfaat:</p>
+    <ul>
+      <li>untuk penyiangan dan memberantas tanaman pengganggu seperti gulma atau rumput</li>
+      <li>untuk membuat guludan/bedengan;</li>
+      <li>untuk memperbaiki aerasi tanah dan mempertahankan kadar lengas tanah;</li>
+      <li>untuk memacu kerja mikroorganisme lebih aktif;</li>
+      <li>untuk mengembangkan penyediaan unsur hara dalam tanah;</li>
+      <li>untuk menggemburkan tanah agar penetrasi akar tanaman pokok lebih mudah.</li>
+    </ul>
+  """,
     ),
   ];
 }
@@ -132,7 +156,7 @@ List<BaseModel> getPupukProducts() {
       star: 4.8,
       id: 2,
       simpleDeskripsi: "Deskripsi Pupuk NPK Mutiara 16-16-16",
-      deskripsi: "Detail Alat Tani Kultivator",
+      deskripsi: "Detail Pupuk NPK Mutiara 16-16-16",
     ),
     BaseModel(
       imageUrl: "assets/images/toko_image/pupuk/pupuk1.png",
@@ -321,25 +345,63 @@ List<BaseModel> getBibitProducts() {
 
 List<BaseModel> mainList = [
   BaseModel(
-    imageUrl: "assets/images/toko_image/alat_tani/alat1.png",
-    name: "Harvester",
+    imageUrl: "assets/images/toko_image/alat_tani/alat6.png",
+    name: "Kultivator",
     price: 100000,
-    review: 6.6,
+    review: 4.6,
     star: 4.8,
     id: 1,
-    simpleDeskripsi: "Deskripsi Alat Tani Harvester",
-    deskripsi:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum felis et risus varius, non ultrices odio finibus. Quisque aliquam erat in nisi porta, vitae tincidunt velit efficitur. Ut maximus purus non felis lobortis, nec fermentum purus ultricies. Fusce ut malesuada nunc. Sed vitae tristique nibh, vitae interdum mauris. Nullam semper aliquam tincidunt. Nullam eu finibus justo, sed finibus elit. Aenean eu ante vitae dui efficitur semper. Mauris mollis venenatis justo, ac malesuada nulla facilisis eu. Sed vel turpis non elit luctus fermentum. Sed a neque elit. Nullam a purus eget arcu bibendum varius. Quisque eget massa ut nisl tincidunt dignissim. Integer auctor justo a sapien luctus, ut finibus metus hendrerit. Vivamus id justo non dui fringilla sagittis",
+    simpleDeskripsi:
+        "<p>Kultivator merupakan traktor kecil atau traktor mini dengan gerak motor bensin rata-rata 5,5 HP - 6,5 HP tergantung tipe tanah tempat penanaman.</p>",
+    deskripsi: """
+    <p>Kultivator merupakan traktor kecil atau traktor mini dengan gerak motor bensin rata-rata 5,5 HP - 6,5 HP tergantung tipe tanah tempat penanaman.</p>
+    <p>Kondisi: Baru</p>
+    <p>Berat: 100 kg</p>
+    <p>Merek: Tasco</p>
+    <p>Memiliki:</p>
+    <ul>
+      <li>pisau/blade/rotary atau cakar yang terletak pada poros as utama. Pisau ini digunakan untuk mencacah tanah sekaligus untuk berjalan kedepan.</li>
+      <li>ridger yang dipasang pada bagian belakang dari pisau yang berguna untuk membuat guludan atau bedengan atau pembumbunan. Ridger hanya bermanfaat membuat parit di tanah yang telah dicacah sebelumnya oleh pisau rotary.</li>
+    </ul>
+    <p>Manfaat:</p>
+    <ul>
+      <li>untuk penyiangan dan memberantas tanaman pengganggu seperti gulma atau rumput</li>
+      <li>untuk membuat guludan/bedengan;</li>
+      <li>untuk memperbaiki aerasi tanah dan mempertahankan kadar lengas tanah;</li>
+      <li>untuk memacu kerja mikroorganisme lebih aktif;</li>
+      <li>untuk mengembangkan penyediaan unsur hara dalam tanah;</li>
+      <li>untuk menggemburkan tanah agar penetrasi akar tanaman pokok lebih mudah.</li>
+    </ul>
+  """,
   ),
   BaseModel(
     imageUrl: "assets/images/toko_image/pestisida/pestisida2.png",
-    name: "Pestisida Nabati Organik",
+    name: "Pestisida Nabati Organik Paten",
     price: 100000,
     review: 7.6,
     star: 4.8,
     id: 2,
     simpleDeskripsi: "Deskripsi Pestisida Nabati Organik",
-    deskripsi: "Detail Pestisida Nabati Organik",
+    deskripsi: """
+    <p>Pestisida merupakan Pestisida kecil atau traktor mini dengan gerak motor bensin rata-rata 5,5 HP - 6,5 HP tergantung tipe tanah tempat penanaman.</p>
+    <p>Kondisi: Baru</p>
+    <p>Berat: 100 kg</p>
+    <p>Merek: Tasco</p>
+    <p>Memiliki:</p>
+    <ul>
+      <li>pisau/blade/rotary atau cakar yang terletak pada poros as utama. Pisau ini digunakan untuk mencacah tanah sekaligus untuk berjalan kedepan.</li>
+      <li>ridger yang dipasang pada bagian belakang dari pisau yang berguna untuk membuat guludan atau bedengan atau pembumbunan. Ridger hanya bermanfaat membuat parit di tanah yang telah dicacah sebelumnya oleh pisau rotary.</li>
+    </ul>
+    <p>Manfaat:</p>
+    <ul>
+      <li>untuk penyiangan dan memberantas tanaman pengganggu seperti gulma atau rumput</li>
+      <li>untuk membuat guludan/bedengan;</li>
+      <li>untuk memperbaiki aerasi tanah dan mempertahankan kadar lengas tanah;</li>
+      <li>untuk memacu kerja mikroorganisme lebih aktif;</li>
+      <li>untuk mengembangkan penyediaan unsur hara dalam tanah;</li>
+      <li>untuk menggemburkan tanah agar penetrasi akar tanaman pokok lebih mudah.</li>
+    </ul>
+  """,
   ),
   BaseModel(
     imageUrl: "assets/images/toko_image/pestisida/pestisida3.png",

@@ -1,4 +1,4 @@
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
 import 'package:flutter/material.dart';
 
 class SearchProvider with ChangeNotifier {
@@ -20,6 +20,19 @@ class SearchProvider with ChangeNotifier {
 
   void resetFilter() {
     filteredProducts = List.from(allProducts);
+    notifyListeners();
+  }
+
+  void filterProducts(String keyword) {
+    allProducts = allProducts
+        .where((product) =>
+            product.name.toLowerCase().contains(keyword.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
+
+  void resetall() {
+    allProducts = List.from(allProducts);
     notifyListeners();
   }
 }

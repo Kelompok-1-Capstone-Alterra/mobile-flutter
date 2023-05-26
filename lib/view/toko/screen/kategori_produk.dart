@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
-import 'package:mobile_flutter/utils/widget/toko_widget/reusable_price.dart';
+import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
 import 'package:provider/provider.dart';
-import 'package:mobile_flutter/models/toko_provider/search_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class ListProduk extends StatefulWidget {
   final String category;
   final List<BaseModel> products;
 
-  ListProduk({super.key, required this.category, required this.products});
+  const ListProduk({required this.category, required this.products, Key? key})
+      : super(key: key);
 
   @override
-  _ListProdukState createState() => _ListProdukState();
+  ListProdukState createState() => ListProdukState();
 }
 
-class _ListProdukState extends State<ListProduk> {
+class ListProdukState extends State<ListProduk> {
   late List<BaseModel> filteredProducts;
   TextEditingController searchController = TextEditingController();
 
@@ -79,7 +81,7 @@ class _ListProdukState extends State<ListProduk> {
                           searchProvider.onSearch('');
                           searchProvider.resetFilter();
                         },
-                        icon: const Icon(Icons.close),
+                        icon: const Icon(Icons.highlight_remove_outlined),
                       ),
                       hintStyle: Theme.of(context).textTheme.bodyLarge,
                       hintText: "Cari Produk disini...",
@@ -99,9 +101,12 @@ class _ListProdukState extends State<ListProduk> {
                                 'assets/images/toko_image/empty.png',
                                 width: 200,
                                 height: 200,
-                                color: neutral[100],
                               ),
-                              const Text('Produk belum tersedia dietalase.'),
+                              Text(
+                                'Sepertinya produk yang kamu cari belum tersedia dietalase',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
                         )
@@ -124,15 +129,14 @@ class _ListProdukState extends State<ListProduk> {
                               BaseModel current = filteredProducts[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Details(
+                                  pushNewScreen(context,
+                                      screen: Details(
                                         data: current,
                                         isCameFromProduk: true,
                                       ),
-                                    ),
-                                  );
+                                      withNavBar: false,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 0),

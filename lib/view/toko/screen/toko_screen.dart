@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
-import 'package:mobile_flutter/models/toko_provider/toko_data.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/toko_data.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mobile_flutter/view/toko/screen/cari_menu.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
-import 'package:mobile_flutter/utils/widget/toko_widget/reusable_price.dart';
+import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
 import 'package:mobile_flutter/view/toko/screen/kategori_produk.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 
 class TokoScreen extends StatefulWidget {
   const TokoScreen({super.key});
@@ -21,131 +24,159 @@ class _TokoScreenState extends State<TokoScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
+
     return SafeArea(
       child: Scaffold(
           body: SizedBox(
-        width: size.width,
-        height: size.height,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: size.width * 0.03, vertical: 5),
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height * 0.07,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ListAllProduk(allProducts: getAllProducts()),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    pushNewScreen(
+                      context,
+                      screen: ListAllProduk(allProducts: getAllProducts()),
+                      withNavBar: false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: neutral[10],
+                    surfaceTintColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      side: BorderSide(color: neutral[70]!),
+                    ),
+                    padding:
+                        const EdgeInsets.all(16), // Ubah ukuran padding tombol
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.search, color: neutral[70]),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Cari Kebutuhan disini...",
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: neutral[10],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(color: neutral[70]!),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.search, color: neutral[70]),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            "Cari Kebutuhan disini...",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
               ),
 
               /// Body Slider
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: size.height * 0.20,
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 5),
-                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                  // Other configuration options...
+              Consumer<CarouselProvider>(
+                builder: (context, carouselProvider, _) => Stack(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        aspectRatio: 2,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 5),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        enableInfiniteScroll: true,
+                        onPageChanged: (index, reason) {
+                          carouselProvider.setCurrentSlide(index);
+                        },
+                      ),
+                      items: crousel.map((data) {
+                        return GestureDetector(
+                          child: card(data, textTheme, size),
+                        );
+                      }).toList(),
+                    ),
+                    Positioned(
+                      bottom: 25.0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: crousel.asMap().entries.map((entry) {
+                            int index = entry.key;
+                            return Container(
+                              width: 25.0,
+                              height: 7.0,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                                color: carouselProvider.currentSlide %
+                                            crousel.length ==
+                                        index
+                                    ? primary[300]
+                                    : neutral[30],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                items: crousel.map((data) {
-                  return GestureDetector(
-                    child: card(data, textTheme, size),
-                  );
-                }).toList(),
               ),
 
               //select kategory
-              Container(
-                margin: const EdgeInsets.only(top: 2),
-                width: size.width,
-                height: size.height * 0.16,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: category.length,
-                  itemBuilder: (ctx, index) {
-                    Category current = category[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: GestureDetector(
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (final item in category)
+                      GestureDetector(
                         onTap: () {
                           List<BaseModel> products =
-                              getProductsByCategory(current.name);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ListProduk(
-                                category: current.name,
-                                products: products,
-                              ),
-                            ),
-                          );
+                              getProductsByCategory(item.name);
+                          pushNewScreen(context,
+                              screen: ListProduk(
+                                  category: item.name, products: products),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
                         },
                         child: Column(
                           children: [
                             Container(
+                              width: 70.0,
+                              height: 70.0,
                               decoration: BoxDecoration(
-                                color: primary[300],
+                                color: primary[400],
                                 shape: BoxShape.circle,
                               ),
-                              child: CircleAvatar(
-                                radius: 35,
-                                backgroundColor: Colors.transparent,
-                                child: Container(
-                                  width: 40,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: AssetImage(current.imageUrl),
-                                      fit: BoxFit.contain,
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Transform.scale(
+                                      scale: 0.5,
+                                      child: Image.asset(
+                                        item.imageUrl,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              height: size.height * 0.008,
+                            const SizedBox(
+                              height: 10,
                             ),
                             Text(
-                              current.name,
+                              item.name,
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ],
                         ),
                       ),
-                    );
-                  },
+                  ],
                 ),
               ),
 
@@ -169,9 +200,9 @@ class _TokoScreenState extends State<TokoScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 width: size.width,
-                height: size.height * 0.47,
                 child: GridView.builder(
-                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: mainList.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -183,16 +214,16 @@ class _TokoScreenState extends State<TokoScreen> {
                     itemBuilder: (context, index) {
                       BaseModel current = mainList[index];
                       return GestureDetector(
-                        onTap: (() => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                return Details(
-                                  data: current,
-                                  isCameFromProduk: true,
-                                );
-                              }),
-                            )),
+                        onTap: () {
+                          pushNewScreen(context,
+                              screen: Details(
+                                data: current,
+                                isCameFromProduk: true,
+                              ),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 0),
                           child: Card(
@@ -293,23 +324,25 @@ class _TokoScreenState extends State<TokoScreen> {
 
   /// Page view Cards
   Widget card(Crousel data, TextTheme theme, Size size) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 7.0),
-      child: Column(
-        children: [
-          Container(
-            height: size.height * 0.19, // Adjust the height of the container
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 2,
+            horizontal: 5,
+          ),
+          child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
               image: DecorationImage(
                 image: AssetImage(data.imageUrl),
-                fit: BoxFit.contain,
+                fit: BoxFit.fill,
                 alignment: Alignment.center,
               ),
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

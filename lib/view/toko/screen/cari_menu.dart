@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/models/toko_provider/base_model.dart';
+import 'package:mobile_flutter/models/toko_model.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
-import 'package:mobile_flutter/utils/widget/toko_widget/reusable_price.dart';
+import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
 import 'package:provider/provider.dart';
-import 'package:mobile_flutter/models/toko_provider/search_menu_provider.dart';
-import 'package:mobile_flutter/models/toko_provider/toko_data.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ListAllProduk extends StatefulWidget {
   final List<BaseModel> allProducts;
 
-  const ListAllProduk({super.key, required this.allProducts});
+  const ListAllProduk({required this.allProducts, Key? key}) : super(key: key);
+
   @override
-  _ListAllProdukState createState() => _ListAllProdukState();
+  ListAllProdukState createState() => ListAllProdukState();
 }
 
-class _ListAllProdukState extends State<ListAllProduk> {
+class ListAllProdukState extends State<ListAllProduk> {
+  late List<BaseModel> allProducts;
   TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return ChangeNotifierProvider(
-      create: (context) => ProductProvider(),
-      child: Consumer<ProductProvider>(builder: (context, productProvider, _) {
-        List<BaseModel> allProducts = productProvider.allProducts;
+      create: (context) => SearchProvider(products: widget.allProducts),
+      child: Consumer<SearchProvider>(builder: (context, searchProvider, _) {
+        allProducts = searchProvider.filteredProducts;
 
         return SafeArea(
           child: Scaffold(
@@ -57,37 +57,37 @@ class _ListAllProdukState extends State<ListAllProduk> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Consumer<ProductProvider>(
-                    builder: (context, productProvider, _) {
-                      return TextField(
-                        controller: searchController,
-                        onChanged: (search) {
-                          productProvider.filterProducts(search);
-                          if (search.isEmpty) {
-                            productProvider.setAllProducts(getAllProducts());
-                          }
-                        },
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          filled: true,
-                          fillColor: neutral[10],
-                          prefixIcon: const Icon(Icons.search),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              searchController.clear();
-                            },
-                            icon: const Icon(Icons.close),
-                          ),
-                          hintStyle: Theme.of(context).textTheme.bodyLarge,
-                          hintText: "Cari Produk disini...",
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: neutral[100]!),
-                          ),
-                        ),
-                      );
+                  child: TextField(
+                    controller: searchController,
+                    onChanged: (search) {
+                      searchProvider.onSearch(search);
+                      if (search.isEmpty) {
+                        searchProvider.resetFilter();
+                      }
                     },
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      filled: true,
+                      fillColor: neutral[10],
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          searchController.clear();
+                          searchProvider.onSearch('');
+                          searchProvider.resetFilter();
+                        },
+                        icon: const Icon(
+                          Icons.highlight_remove_outlined,
+                        ),
+                      ),
+                      hintStyle: Theme.of(context).textTheme.bodyLarge,
+                      hintText: "Cari Produk disini...",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: neutral[100]!),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -100,9 +100,12 @@ class _ListAllProdukState extends State<ListAllProduk> {
                                 'assets/images/toko_image/empty.png',
                                 width: 200,
                                 height: 200,
-                                color: neutral[100],
                               ),
-                              const Text('Produk belum tersedia dietalase.'),
+                              Text(
+                                'Sepertinya produk yang kamu cari belum tersedia dietalase',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
                         )
