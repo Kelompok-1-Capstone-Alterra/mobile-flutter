@@ -1,14 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider.dart';
+import 'package:mobile_flutter/view/dashboard/screen/artikel_cuaca_screen.dart';
+import 'package:mobile_flutter/view/dashboard/screen/pilih_tambahkan_tanaman_screen.dart';
 import 'package:mobile_flutter/view/settings/screens/settings_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
-import '../widget/artikel_widget.dart';
+import '../../../view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
+import '../widget/artikel_trending_widget.dart';
 import '../widget/no_plant_card_widget.dart';
 import '../widget/product_widget.dart';
 
@@ -21,16 +24,29 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    // final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 25),
         child: FloatingActionButton(
+          heroTag: "fabDashboard",
           elevation: 10,
           backgroundColor: primary[300],
-          onPressed: () {},
+          onPressed: () {
+            pushNewScreen(context,
+                screen: const PilihTambahTanamanScreen(),
+                withNavBar: false,
+                pageTransitionAnimation: PageTransitionAnimation.cupertino);
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const PilihTambahTanamanScreen(),
+            //   ),
+            // );
+          },
           child: Icon(
             Icons.add,
             size: 30,
@@ -40,6 +56,7 @@ class DashboardScreen extends StatelessWidget {
         ),
       ),
       body: ListView(
+        // physics: BouncingScrollPhysics(),
         children: [
           // -----------header weather --------
           WeatherWidget(screenWidth: screenWidth, horizontal: _horizontal),
@@ -48,8 +65,8 @@ class DashboardScreen extends StatelessWidget {
             height: 15,
           ),
 
-          Consumer<DashboardProvider>(builder: (_, provider, __) {
-            if (provider.isTanamankuEmpty) {
+          Consumer<PlantGridviewProvider>(builder: (_, provider, __) {
+            if (provider.data.isNotEmpty) {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: _horizontal),
                 child: Row(
@@ -66,16 +83,19 @@ class DashboardScreen extends StatelessWidget {
             }
           }),
 
-          Consumer<DashboardProvider>(builder: (context, provider, child) {
-            if (provider.isTanamankuEmpty) {
-              // ----------------- card punya tanaman --------------------------
-              return TanamankuDasboardWidget(
-                  horizontal: _horizontal, screenWidth: screenWidth);
-            } else {
-              // ----------------- card kamu belum punya tanaman --------------------------
-              return NoPlantCardWidget(horizontal: _horizontal);
-            }
-          }),
+          TanamankuDasboardWidget(
+              horizontal: _horizontal, screenWidth: screenWidth),
+
+          // Consumer<DashboardProvider>(builder: (context, provider, child) {
+          //   if (provider.isTanamankuEmpty) {
+          //     // ----------------- card punya tanaman --------------------------
+          //     return TanamankuDasboardWidget(
+          //         horizontal: _horizontal, screenWidth: screenWidth);
+          //   } else {
+          //     // ----------------- card kamu belum punya tanaman --------------------------
+          //     return NoPlantCardWidget(horizontal: _horizontal);
+          //   }
+          // }),
 
           // ------------- artikel trending ------------------
           TitleSections(horizontal: _horizontal, title: "Artikel Trending"),
@@ -91,8 +111,8 @@ class DashboardScreen extends StatelessWidget {
 
           ProductWidget(horizontal: _horizontal),
 
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: screenHeight * 0.025,
           ),
         ],
       ),
@@ -112,28 +132,112 @@ class TanamankuDasboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 5, bottom: 20),
-      padding: EdgeInsets.symmetric(horizontal: _horizontal),
-      child: Card(
-        elevation: 15,
-        shadowColor: Colors.black26,
-        color: Colors.white,
-        // color: Colors.green,
-        surfaceTintColor: Colors.transparent,
-        margin: const EdgeInsets.all(0),
-        child: Container(
-          // color: Colors.blue,
-          margin: const EdgeInsets.only(top: 20, bottom: 10),
-          child: Column(
-            children: [
-              ListView.separated(
+    return Consumer<PlantGridviewProvider>(builder: (_, provider, __) {
+      if (provider.data.isEmpty) {
+        // --------------kalau data nya kosong--------------
+        return NoPlantCardWidget(horizontal: _horizontal);
+      } else if (provider.data.length >= 3) {
+        // --------------kalau data nya besar dari 3 agar muncul tombol tampilkan semua--------------
+        return Container(
+          margin: const EdgeInsets.only(top: 5, bottom: 20),
+          padding: EdgeInsets.symmetric(horizontal: _horizontal),
+          child: Card(
+            elevation: 15,
+            shadowColor: Colors.black26,
+            color: Colors.white,
+            // color: Colors.green,
+            surfaceTintColor: Colors.transparent,
+            margin: const EdgeInsets.all(0),
+            child: Container(
+              // color: Colors.blue,
+              margin: const EdgeInsets.only(top: 20, bottom: 10),
+              child: Column(
+                children: [
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => Stack(
+                      children: [
+                        TanamankuDasboardItem(
+                            screenWidth: screenWidth,
+                            image: provider.data[index].picture,
+                            lattinTanaman: provider.data[index].latinName,
+                            namaTanaman: provider.data[index].plantName),
+                        Positioned.fill(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(10),
+                              onTap: () {},
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    itemCount: 3,
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 15,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: Center(
+                      child: TextButton(
+                          style: ButtonStyle(
+                            overlayColor: MaterialStatePropertyAll(
+                                primary.withOpacity(0.1)),
+                          ),
+                          onPressed: () {
+                            context
+                                .read<CustomNavbarProvider>()
+                                .controller
+                                .jumpToTab(1);
+                          },
+                          child: Text(
+                            "Lihat semua",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(color: primary),
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      } else {
+        // --------------kalau data nya besar kurang dari 3 jadi ga ada tombol tampilkan semua--------------
+        return Container(
+          margin: const EdgeInsets.only(top: 5, bottom: 20),
+          padding: EdgeInsets.symmetric(horizontal: _horizontal),
+          child: Card(
+            elevation: 15,
+            shadowColor: Colors.black26,
+            color: Colors.white,
+            // color: Colors.green,
+            surfaceTintColor: Colors.transparent,
+            margin: const EdgeInsets.all(0),
+            child: Container(
+              // color: Colors.blue,
+              margin: const EdgeInsets.only(top: 20, bottom: 20),
+              child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 shrinkWrap: true,
                 itemBuilder: (context, index) => Stack(
                   children: [
-                    TanamankuDasboardItem(screenWidth: screenWidth),
+                    TanamankuDasboardItem(
+                        screenWidth: screenWidth,
+                        image: provider.data[index].picture,
+                        lattinTanaman: provider.data[index].latinName,
+                        namaTanaman: provider.data[index].plantName),
                     Positioned.fill(
                       child: Material(
                         color: Colors.transparent,
@@ -145,37 +249,16 @@ class TanamankuDasboardWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                itemCount: 3,
+                itemCount: provider.data.length,
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 15,
                 ),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                height: 40,
-                child: Center(
-                  child: TextButton(
-                      style: ButtonStyle(
-                        overlayColor:
-                            MaterialStatePropertyAll(primary.withOpacity(0.1)),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        "Lihat semua",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge!
-                            .copyWith(color: primary),
-                      )),
-                ),
-              )
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
+      }
+    });
   }
 }
 
@@ -183,7 +266,14 @@ class TanamankuDasboardItem extends StatelessWidget {
   const TanamankuDasboardItem({
     super.key,
     required this.screenWidth,
+    required this.image,
+    required this.namaTanaman,
+    required this.lattinTanaman,
   });
+
+  final String image;
+  final String namaTanaman;
+  final String lattinTanaman;
 
   final double screenWidth;
 
@@ -203,7 +293,7 @@ class TanamankuDasboardItem extends StatelessWidget {
                 height: 80,
                 width: 80,
                 child: Image.asset(
-                  "assets/images/sample_tomat.png",
+                  image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -218,7 +308,7 @@ class TanamankuDasboardItem extends StatelessWidget {
                 SizedBox(
                   width: screenWidth * 0.5,
                   child: AutoSizeText(
-                    "Wortel",
+                    namaTanaman,
                     maxLines: 1,
                     minFontSize: 16,
                     overflow: TextOverflow.ellipsis,
@@ -231,7 +321,7 @@ class TanamankuDasboardItem extends StatelessWidget {
                 SizedBox(
                   width: screenWidth * 0.5,
                   child: AutoSizeText(
-                    "Daucus carota subsp. sativus",
+                    lattinTanaman,
                     maxLines: 2,
                     minFontSize: 12,
                     overflow: TextOverflow.ellipsis,
@@ -279,6 +369,21 @@ class WeatherWidget extends StatelessWidget {
                   Colors.transparent,
                 ],
               ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              splashColor: Colors.black12.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                pushNewScreen(context,
+                    screen: const ArtikelCuacaScreen(),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.fade);
+              },
             ),
           ),
         ),
@@ -339,7 +444,7 @@ class WeatherWidget extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-                            context.read<DashboardProvider>().tanamankuEmpty();
+                            // context.read<DashboardProvider>().tanamankuEmpty();
                           },
                           icon: const Icon(
                             FluentIcons.alert_16_regular,

@@ -70,7 +70,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                                 color: neutral[10],
                               ),
                             ),
-                            Text(
+                            const Text(
                               'Sangat buruk',
                               textAlign: TextAlign.center,
                             ),
@@ -84,7 +84,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 10,
                   ),

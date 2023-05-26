@@ -11,6 +11,7 @@ import 'package:mobile_flutter/view_model/aunt_viewmodel/register_provider.dart'
 import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/email_kami_provider.dart';
+import 'package:mobile_flutter/view_model/dashboard_viewmodel/tambahkan_tanaman_provider.dart';
 import 'package:mobile_flutter/view_model/home_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/masukan_saran_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/profile_provider.dart';
@@ -101,6 +102,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => SettingValidatorProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TambahkanTanamanProvider(),
         ),
       ],
       child: MaterialApp(
