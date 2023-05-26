@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class UbahNamaProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   final TextEditingController ubahNamaC = TextEditingController();
-  bool isValid = false;
+
+  bool isValid = true;
 
   String? validatorUbahNama(String nama) {
     if (nama.length < 2) {
