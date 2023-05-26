@@ -11,12 +11,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 class ListAllProduk extends StatefulWidget {
   final List<BaseModel> allProducts;
 
-  ListAllProduk({required this.allProducts});
+  const ListAllProduk({required this.allProducts, Key? key}) : super(key: key);
+
   @override
-  _ListAllProdukState createState() => _ListAllProdukState();
+  ListAllProdukState createState() => ListAllProdukState();
 }
 
-class _ListAllProdukState extends State<ListAllProduk> {
+class ListAllProdukState extends State<ListAllProduk> {
   late List<BaseModel> allProducts;
   TextEditingController searchController = TextEditingController();
 
