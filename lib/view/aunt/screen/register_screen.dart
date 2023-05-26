@@ -1,8 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/view/aunt/screen/login_screen.dart';
+import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
 import 'package:mobile_flutter/view/aunt/widget/custom_materialbutton.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
+import 'package:mobile_flutter/view/home/screen/home_screen.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/register_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,19 +16,30 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  void _register(BuildContext context) {
+  void _register(BuildContext context) async {
     final provider = Provider.of<RegisterProvider>(context, listen: false);
     if (provider.formKey.currentState!.validate()) {
-      // ..
+      provider.emailController.clear();
+      provider.namaController.clear();
+      provider.passwordController.clear();
+      await customShowDialogIcon(
+        context: context,
+        iconDialog: FluentIcons.checkmark_circle_16_regular,
+        title: 'Akun Berhasil Dibuat',
+        desc:
+            'Selamat! Akunmu berhasil dibuat silahkan login untuk melanjutkan',
+      );
+      if (context.mounted) {
+        _toLogin(context);
+      }
     }
   }
 
   void _toLogin(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => const HomeScreen(),
       ),
-      (router) => false,
     );
   }
 
@@ -73,8 +85,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomTextFormField(
                       controller: register.namaController,
                       textInputAction: TextInputAction.next,
-                      onChanged: (value) =>
-                          register.namaController.text = value!,
                       maxLength: 30,
                       label: 'Nama',
                       hint: 'Masukan namamu',
@@ -87,8 +97,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomTextFormField(
                       controller: register.emailController,
                       textInputAction: TextInputAction.next,
-                      onChanged: (value) =>
-                          register.emailController.text = value!,
                       label: 'Email',
                       hint: 'Masukan emailmu',
                       validator: (value) =>
@@ -101,8 +109,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: register.passwordController,
                       textInputAction: TextInputAction.done,
                       maxLines: 1,
-                      onChanged: (value) =>
-                          register.passwordController.text = value!,
                       maxLength: 20,
                       label: 'Kata Sandi',
                       hint: 'Masukan kata sandimu',

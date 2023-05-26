@@ -16,10 +16,11 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
   void _toRegister() {
     Provider.of<SharedPreferencesProvider>(context, listen: false)
         .completeOnboarding();
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const RegisterScreen(),
       ),
+      (route) => false,
     );
   }
 

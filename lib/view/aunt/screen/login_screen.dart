@@ -25,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
       await Provider.of<SharedPreferencesProvider>(context, listen: false)
           .login();
       _toHome();
+      provider.emailController.clear();
+      provider.passwordController.clear();
     }
   }
 
@@ -37,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _toRegister(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const RegisterScreen(),
       ),
@@ -45,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _toForgotPassword(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const ForgotPasswordScreen(),
       ),
@@ -94,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextFormField(
                       controller: login.emailController,
                       textInputAction: TextInputAction.next,
-                      onChanged: (value) => login.emailController.text = value!,
                       label: 'Email',
                       hint: 'Masukan emailmu',
                       validator: (value) =>
@@ -106,8 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextFormField(
                       controller: login.passwordController,
                       textInputAction: TextInputAction.done,
-                      onChanged: (value) =>
-                          login.passwordController.text = value!,
                       maxLength: 20,
                       maxLines: 1,
                       label: 'Kata Sandi',

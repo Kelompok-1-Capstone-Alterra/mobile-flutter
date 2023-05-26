@@ -6,7 +6,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? hint;
   final String? Function(String?)? validator;
   final bool? obscureText;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final IconButton? suffixIcon;
   final int? maxLength;
   final TextInputAction textInputAction;
@@ -23,7 +23,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.hint,
     required this.validator,
     this.obscureText = false,
-    this.controller,
+    required this.controller,
     this.suffixIcon,
     this.maxLength,
     this.onChanged,
@@ -62,6 +62,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       obscureText: widget.obscureText!,
       maxLength: widget.maxLength,
       maxLines: widget.maxLines,
