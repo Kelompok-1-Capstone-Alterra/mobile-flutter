@@ -112,7 +112,7 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MasukanSaranScreen(),
+                      builder: (context) => const MasukanSaranScreen(),
                     ),
                   ),
                   title: Text(

@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/masukan_saran_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class MasukanSaranScreen extends StatelessWidget {
-  MasukanSaranScreen({super.key});
-
-  final TextEditingController masukanSaranC = TextEditingController();
+  const MasukanSaranScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MasukanSaranProvider>(context, listen: false);
+    final validatorProvider =
+        Provider.of<SettingValidatorProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -67,12 +68,8 @@ class MasukanSaranScreen extends StatelessWidget {
                       maxLength: 255,
                       maxLines: 5,
                       hint: 'Masukkan saran anda',
-                      validator: (value) {
-                        if (value!.length < 4) {
-                          return "Minimal 4 karakter";
-                        }
-                        return null;
-                      },
+                      validator: (value) =>
+                          validatorProvider.validateMasukanSaran(value),
                     ),
                   ],
                 ),

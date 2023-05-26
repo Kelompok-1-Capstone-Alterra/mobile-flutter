@@ -2,7 +2,7 @@ import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 
-import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class UbahKataSandiScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<UbahKataSandiProvider>(context, listen: false);
     final validatorProvider =
-        Provider.of<ValidatorProvider>(context, listen: false);
+        Provider.of<SettingValidatorProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -82,17 +82,9 @@ class UbahKataSandiScreen extends StatelessWidget {
                     maxLength: 20,
                     label: 'Konfirmasi kata sandi',
                     hint: 'Masukkan konfirmasi kata sandi',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Konfirmasi Kata sandi tidak boleh kosong';
-                      } else if (value.length < 8) {
-                        return 'Minimal 8 karakter';
-                      } else if (value != ubahKataSandi.ubahKataSandiC.text) {
-                        return "Kata sandi tidak sesuai";
-                      } else {
-                        return null; // validasi berhasil
-                      }
-                    },
+                    validator: (value) =>
+                        validatorProvider.validateConfirmPassword(
+                            value, provider.ubahKataSandiC.text),
                     obscureText: ubahKataSandi.konfirmasiObscureText,
                     suffixIcon: IconButton(
                       onPressed: () =>

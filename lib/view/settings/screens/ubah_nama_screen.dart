@@ -1,6 +1,7 @@
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_nama_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class UbahNamaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UbahNamaProvider>(context, listen: false);
+    final validatorProvider =
+        Provider.of<SettingValidatorProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -67,15 +70,7 @@ class UbahNamaScreen extends StatelessWidget {
                       weight: 2,
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Nama tidak boleh kosong';
-                    }
-                    if (value.length < 2) {
-                      return 'Minimal 2 karakter';
-                    }
-                    return null;
-                  },
+                  validator: (value) => validatorProvider.validateName(value),
                 ),
                 const SizedBox(
                   height: 15,

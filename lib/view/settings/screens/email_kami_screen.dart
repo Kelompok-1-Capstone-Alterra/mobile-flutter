@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/email_kami_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class EmailKamiScreen extends StatelessWidget {
@@ -12,6 +13,8 @@ class EmailKamiScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<EmailKamiProvider>(context, listen: false);
+    final validatorProvider =
+        Provider.of<SettingValidatorProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -72,15 +75,8 @@ class EmailKamiScreen extends StatelessWidget {
                             weight: 2,
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bagian ini tidak boleh kosong';
-                          } else if (value.length < 10) {
-                            return 'Minimal 10 angka';
-                          }
-                          return null;
-                        },
-                        
+                        validator: (value) =>
+                            validatorProvider.validatePhone(value),
                       ),
                       const SizedBox(
                         height: 16,
@@ -102,18 +98,8 @@ class EmailKamiScreen extends StatelessWidget {
                             weight: 2,
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bagian ini tidak boleh kosong';
-                          }
-                          const emailRegex =
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-                          if (!RegExp(emailRegex).hasMatch(value)) {
-                            return 'Format email salah';
-                          }
-
-                          return null;
-                        },
+                        validator: (value) =>
+                            validatorProvider.validateEmail(value),
                       ),
                       const SizedBox(
                         height: 16,
@@ -133,12 +119,8 @@ class EmailKamiScreen extends StatelessWidget {
                           },
                         ),
                         helperText: 'Jangan ragu untuk menulis keluhan anda',
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bagian ini tidak boleh kosong';
-                          }
-                          return null;
-                        },
+                        validator: (value) =>
+                            validatorProvider.validateCatatan(value),
                       ),
                     ],
                   ),
