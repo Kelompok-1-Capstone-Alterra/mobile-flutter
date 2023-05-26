@@ -26,31 +26,45 @@ class StatistikPenanamanScreen extends StatelessWidget {
               ),
         ),
         actions: [
-          DropdownButton(
-            padding: const EdgeInsets.only(right: 19),
-            items: const [
-              DropdownMenuItem(
-                value: 'Semua',
-                child: Text('Semua'),
+          Theme(
+            data: Theme.of(context).copyWith(
+              hoverColor: primary[200],
+              highlightColor: primary[200],
+              focusColor: Colors.transparent,
+              splashColor: primary[200],
+            ),
+            child: Consumer<StatistikaPenanamanProvider>(
+              builder: (context, statPenanamanProvider, _) => DropdownButton(
+                padding: const EdgeInsets.only(right: 19),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'Semua',
+                    child: Text('Semua'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Panen',
+                    child: Text('Panen'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Mati',
+                    child: Text('Mati'),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    statPenanamanProvider.setFilter(value);
+                  }
+                },
+                underline: const SizedBox(),
+                style: ThemeData().textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                iconDisabledColor: neutral,
+                iconEnabledColor: neutral,
+                icon: const Icon(FluentIcons.filter_16_filled),
               ),
-              DropdownMenuItem(
-                value: 'Panen',
-                child: Text('Panen'),
-              ),
-              DropdownMenuItem(
-                value: 'Mati',
-                child: Text('Mati'),
-              ),
-            ],
-            onChanged: (_) {},
-            underline: const SizedBox(),
-            style: ThemeData().textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
-            iconDisabledColor: neutral,
-            iconEnabledColor: neutral,
-            icon: const Icon(FluentIcons.filter_16_filled),
+            ),
           ),
         ],
       ),
@@ -60,20 +74,58 @@ class StatistikPenanamanScreen extends StatelessWidget {
           vertical: 18,
         ),
         child: Consumer<StatistikaPenanamanProvider>(
-          builder: (context, statistikaPenanaman, _) => statistikaPenanaman
-                  .items.isNotEmpty
-              ? GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    childAspectRatio: 6 / 7,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemCount: statistikaPenanaman.items.length,
-                  itemBuilder: (context, index) =>
-                      statistikaPenanaman.items[index],
-                )
-              : const StatistikPenanamanEmptyWidget(),
+          builder: (context, statistikaPenanaman, _) {
+            if (statistikaPenanaman.semuaItems.isEmpty) {
+              return const StatistikPenanamanEmptyWidget(
+                kondisiTanaman: 'tanaman',
+              );
+            } else if (statistikaPenanaman.selectedFilter == 'Panen') {
+              if (statistikaPenanaman.panenItems.isEmpty) {
+                return const StatistikPenanamanEmptyWidget(
+                  kondisiTanaman: 'tanaman panen',
+                );
+              }
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 6 / 7,
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: statistikaPenanaman.panenItems.length,
+                itemBuilder: (context, index) =>
+                    statistikaPenanaman.panenItems[index],
+              );
+            } else if (statistikaPenanaman.selectedFilter == 'Mati') {
+              if (statistikaPenanaman.matiItems.isEmpty) {
+                return const StatistikPenanamanEmptyWidget(
+                  kondisiTanaman: 'tanaman mati',
+                );
+              }
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 6 / 7,
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: statistikaPenanaman.matiItems.length,
+                itemBuilder: (context, index) =>
+                    statistikaPenanaman.matiItems[index],
+              );
+            }
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                childAspectRatio: 6 / 7,
+                mainAxisSpacing: 20,
+              ),
+              itemCount: statistikaPenanaman.semuaItems.length,
+              itemBuilder: (context, index) =>
+                  statistikaPenanaman.semuaItems[index],
+            );
+          },
         ),
       ),
     );

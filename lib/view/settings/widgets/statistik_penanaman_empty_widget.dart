@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 
 class StatistikPenanamanEmptyWidget extends StatelessWidget {
-  const StatistikPenanamanEmptyWidget({super.key});
+  const StatistikPenanamanEmptyWidget({
+    super.key,
+    this.kondisiTanaman,
+  });
+  final String? kondisiTanaman;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class StatistikPenanamanEmptyWidget extends StatelessWidget {
               height: 18,
             ),
             Text(
-              'Sepertinya kamu belum memiliki progres tanaman',
+              'Sepertinya kamu belum memiliki progres\n$kondisiTanaman',
               style: ThemeData().textTheme.labelLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
