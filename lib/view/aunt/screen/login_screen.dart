@@ -109,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) =>
                           login.passwordController.text = value!,
                       maxLength: 20,
+                      maxLines: 1,
                       label: 'Kata Sandi',
                       hint: 'Masukan kata sandimu',
                       validator: (value) =>

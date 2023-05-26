@@ -100,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomTextFormField(
                       controller: register.passwordController,
                       textInputAction: TextInputAction.done,
+                      maxLines: 1,
                       onChanged: (value) =>
                           register.passwordController.text = value!,
                       maxLength: 20,

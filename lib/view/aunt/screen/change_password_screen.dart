@@ -75,6 +75,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     CustomTextFormField(
                       controller: provider.changePasswordController,
                       textInputAction: TextInputAction.next,
+                      maxLines: 1,
                       onChanged: (value) =>
                           provider.changePasswordController.text = value!,
                       maxLength: 20,
@@ -96,6 +97,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     CustomTextFormField(
                       controller: provider.confirmPasswordController,
                       textInputAction: TextInputAction.done,
+                      maxLines: 1,
                       onChanged: (value) =>
                           provider.confirmPasswordController.text = value!,
                       maxLength: 20,

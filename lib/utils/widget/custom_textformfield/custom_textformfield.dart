@@ -12,11 +12,14 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputAction textInputAction;
   final Function(String?)? onChanged;
   final String? helperText;
+  final TextInputType? keyboardType;
+  final int? maxLines;
+  final Widget? icon;
 
   const CustomTextFormField({
     super.key,
     required this.textInputAction,
-    required this.label,
+    this.label,
     required this.hint,
     required this.validator,
     this.obscureText = false,
@@ -25,6 +28,9 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLength,
     this.onChanged,
     this.helperText,
+    this.keyboardType,
+    this.maxLines,
+    this.icon,
   });
 
   @override
@@ -58,8 +64,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       obscureText: widget.obscureText!,
       maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
       textInputAction: widget.textInputAction,
       focusNode: _focusNode,
+      keyboardType: widget.keyboardType,
       onChanged: widget.onChanged,
       style: const TextStyle(
         color: neutral,
@@ -93,6 +101,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: widget.suffixIcon,
+        icon: widget.icon,
       ),
       validator: widget.validator != null
           ? (value) {
