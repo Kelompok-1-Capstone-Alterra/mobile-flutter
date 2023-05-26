@@ -25,132 +25,142 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Settings',
+          'Pengaturan',
           style: ThemeData().textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: 24,
               ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 17),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 17),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ListTile(
-                  //  navigate to ubah profile
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfileScreen(),
-                    ),
-                  ),
-                  title: Text(
-                    'Profil',
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
+                Expanded(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        //  navigate to ubah profile
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProfileScreen(),
+                          ),
                         ),
+                        title: Text(
+                          'Profil',
+                          style: ThemeData().textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                        ),
+                        trailing: const Icon(
+                            FluentIcons.ios_chevron_right_20_regular),
+                      ),
+                      ListTile(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const StatistikPenanamanScreen(),
+                          ),
+                        ),
+                        title: Text(
+                          'Statistik Penanaman',
+                          style: ThemeData().textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                        ),
+                        trailing: const Icon(
+                            FluentIcons.ios_chevron_right_20_regular),
+                      ),
+                      ListTile(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AboutScreen(),
+                          ),
+                        ),
+                        title: Text(
+                          'Tentang Agriplan',
+                          style: ThemeData().textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                        ),
+                        trailing: const Icon(
+                            FluentIcons.ios_chevron_right_20_regular),
+                      ),
+                      ListTile(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PusatBantuanScreen(),
+                          ),
+                        ),
+                        title: Text(
+                          'Pusat Bantuan',
+                          style: ThemeData().textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                        ),
+                        trailing: const Icon(
+                            FluentIcons.ios_chevron_right_20_regular),
+                      ),
+                      ListTile(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MasukanSaranScreen(),
+                          ),
+                        ),
+                        title: Text(
+                          'Masukan & Saran',
+                          style: ThemeData().textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                        ),
+                        trailing: const Icon(
+                            FluentIcons.ios_chevron_right_20_regular),
+                      ),
+                    ],
                   ),
-                  trailing:
-                      const Icon(FluentIcons.ios_chevron_right_20_regular),
                 ),
-                ListTile(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const StatistikPenanamanScreen(),
+
+                // ? button logout
+                Container(
+                  padding: const EdgeInsets.only(bottom: 36),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(error),
+                    ),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          const LogoutAlertWidget(),
+                    ),
+                    child: Text(
+                      'Logout',
+                      style: ThemeData().textTheme.labelLarge!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            color: neutral[10],
+                          ),
                     ),
                   ),
-                  title: Text(
-                    'Statistik Penanaman',
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                  ),
-                  trailing:
-                      const Icon(FluentIcons.ios_chevron_right_20_regular),
-                ),
-                ListTile(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutScreen(),
-                    ),
-                  ),
-                  title: Text(
-                    'Tentang Agriplan',
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                  ),
-                  trailing:
-                      const Icon(FluentIcons.ios_chevron_right_20_regular),
-                ),
-                ListTile(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PusatBantuanScreen(),
-                    ),
-                  ),
-                  title: Text(
-                    'Pusat Bantuan',
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                  ),
-                  trailing:
-                      const Icon(FluentIcons.ios_chevron_right_20_regular),
-                ),
-                ListTile(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MasukanSaranScreen(),
-                    ),
-                  ),
-                  title: Text(
-                    'Masukan & Saran',
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                  ),
-                  trailing:
-                      const Icon(FluentIcons.ios_chevron_right_20_regular),
                 ),
               ],
             ),
-
-            // ? button logout
-            Container(
-              padding: const EdgeInsets.only(bottom: 36),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(error),
-                ),
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (BuildContext context) => const LogoutAlertWidget(),
-                ),
-                child: Text(
-                  'Logout',
-                  style: ThemeData().textTheme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        color: neutral[10],
-                      ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

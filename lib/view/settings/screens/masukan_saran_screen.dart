@@ -37,80 +37,79 @@ class MasukanSaranScreen extends StatelessWidget {
           horizontal: 16,
         ),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Form(
-                key: provider.formKey,
-                child: Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/masukan_saran.png',
-                      width: double.infinity,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Silahkan masukan dan saran kamu\ndisini',
-                      style: ThemeData().textTheme.titleMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomTextFormField(
-                      controller: provider.masukanSaranC,
-                      textInputAction: TextInputAction.done,
-                      maxLength: 255,
-                      maxLines: 5,
-                      hint: 'Masukkan saran anda',
-                      validator: (value) =>
-                          validatorProvider.validateMasukanSaran(value),
-                    ),
-                  ],
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.9,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Form(
+                  key: provider.formKey,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/masukan_saran.png',
+                        width: double.infinity,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Silahkan masukan dan saran kamu\ndisini',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomTextFormField(
+                        controller: provider.masukanSaranC,
+                        textInputAction: TextInputAction.done,
+                        maxLength: 255,
+                        maxLines: 5,
+                        hint: 'Masukkan saran anda',
+                        validator: (value) =>
+                            validatorProvider.validateMasukanSaran(value),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.30,
-              ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 36),
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (provider.formKey.currentState!.validate()) {
-                      await customShowDialogText(
-                        context: context,
-                        title: 'Masukan & Saran',
-                        desc: 'Masukan yang kamu berikan telah kami rekam.',
-                      );
-                      if (context.mounted) {
-                        provider.masukanSaranC.clear();
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (provider.formKey.currentState!.validate()) {
+                        await customShowDialogText(
+                          context: context,
+                          title: 'Masukan & Saran',
+                          desc: 'Masukan yang kamu berikan telah kami rekam.',
+                        );
+                        if (context.mounted) {
+                          provider.masukanSaranC.clear();
 
-                        Navigator.pop(context);
+                          Navigator.pop(context);
+                        }
                       }
-                    }
-                  },
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
-                      primary,
+                    },
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                        primary,
+                      ),
+                    ),
+                    child: Text(
+                      'Kirim',
+                      style: ThemeData().textTheme.labelLarge!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: neutral[10],
+                          ),
                     ),
                   ),
-                  child: Text(
-                    'Kirim',
-                    style: ThemeData().textTheme.labelLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: neutral[10],
-                        ),
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
