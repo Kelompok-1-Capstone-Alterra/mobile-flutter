@@ -12,13 +12,14 @@ class ListProduk extends StatefulWidget {
   final String category;
   final List<BaseModel> products;
 
-  ListProduk({required this.category, required this.products});
+  const ListProduk({required this.category, required this.products, Key? key})
+      : super(key: key);
 
   @override
-  _ListProdukState createState() => _ListProdukState();
+  ListProdukState createState() => ListProdukState();
 }
 
-class _ListProdukState extends State<ListProduk> {
+class ListProdukState extends State<ListProduk> {
   late List<BaseModel> filteredProducts;
   TextEditingController searchController = TextEditingController();
 
