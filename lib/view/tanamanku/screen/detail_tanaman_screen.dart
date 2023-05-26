@@ -5,6 +5,7 @@ import 'package:mobile_flutter/view/tanamanku/screen/edit_nama_tanaman_screen.da
 import 'package:mobile_flutter/view/tanamanku/widgets/overview_section.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/progress_section.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 class DetailTanamanScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class DetailTanamanScreen extends StatelessWidget {
         floatingActionButton: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: FloatingActionButton.small(
+            heroTag: "backDetailScreen",
             elevation: 0,
             backgroundColor: Colors.transparent,
             highlightElevation: 0,
@@ -61,13 +63,24 @@ class DetailTanamanScreen extends StatelessWidget {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EditNamaTanamanScreen(),
-                                    ),
-                                  );
+                                  // pushDynamicScreen(
+                                  //   context,
+                                  //   screen: EditNamaTanamanScreen(),
+                                  //   withNavBar: false,
+                                  // );
+                                  pushNewScreen(context,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                      screen: EditNamaTanamanScreen(),
+                                      withNavBar: false);
+
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) =>
+                                  //         const EditNamaTanamanScreen(),
+                                  //   ),
+                                  // );
                                 },
                                 icon: const Icon(FluentIcons.edit_16_regular))
                           ],
