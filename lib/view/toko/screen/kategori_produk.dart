@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class ListProduk extends StatefulWidget {
   final String category;
@@ -101,7 +102,11 @@ class ListProdukState extends State<ListProduk> {
                                 width: 200,
                                 height: 200,
                               ),
-                              const Text('Produk belum tersedia dietalase.'),
+                              Text(
+                                'Sepertinya produk yang kamu cari belum tersedia dietalase',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
                         )
@@ -124,15 +129,14 @@ class ListProdukState extends State<ListProduk> {
                               BaseModel current = filteredProducts[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Details(
+                                  pushNewScreen(context,
+                                      screen: Details(
                                         data: current,
                                         isCameFromProduk: true,
                                       ),
-                                    ),
-                                  );
+                                      withNavBar: false,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 0),
