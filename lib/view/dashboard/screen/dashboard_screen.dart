@@ -5,6 +5,7 @@ import 'package:mobile_flutter/view/settings/screens/settings_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 import '../widget/artikel_widget.dart';
@@ -350,12 +351,9 @@ class WeatherWidget extends StatelessWidget {
                         // ),
                         IconButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SettingsScreen(),
-                              ),
-                            );
+                            pushNewScreen(context,
+                                screen: const SettingsScreen(),
+                                withNavBar: false);
                           },
                           icon: const Icon(
                             FluentIcons.settings_16_regular,
