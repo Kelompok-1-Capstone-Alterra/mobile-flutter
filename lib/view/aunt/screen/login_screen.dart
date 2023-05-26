@@ -25,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
       await Provider.of<SharedPreferencesProvider>(context, listen: false)
           .login();
       _toHome();
+      provider.emailController.clear();
+      provider.passwordController.clear();
     }
   }
 
@@ -94,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextFormField(
                       controller: login.emailController,
                       textInputAction: TextInputAction.next,
-                      onChanged: (value) => login.emailController.text = value!,
                       label: 'Email',
                       hint: 'Masukan emailmu',
                       validator: (value) =>
@@ -106,9 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextFormField(
                       controller: login.passwordController,
                       textInputAction: TextInputAction.done,
-                      onChanged: (value) =>
-                          login.passwordController.text = value!,
                       maxLength: 20,
+                      maxLines: 1,
                       label: 'Kata Sandi',
                       hint: 'Masukan kata sandimu',
                       validator: (value) =>

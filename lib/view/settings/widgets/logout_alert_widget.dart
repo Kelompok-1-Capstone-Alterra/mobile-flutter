@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
+import 'package:provider/provider.dart';
 
 class LogoutAlertWidget extends StatelessWidget {
   const LogoutAlertWidget({
@@ -37,15 +41,23 @@ class LogoutAlertWidget extends StatelessWidget {
                 ),
           ),
         ),
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            'Ya',
-            style: ThemeData().textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: primary,
-                ),
+        Consumer<SharedPreferencesProvider>(
+          builder: (context, sharedPreferencesProvider, _) => TextButton(
+            onPressed: () async {
+              await sharedPreferencesProvider.logout();
+              if (context.mounted) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
+            },
+            child: Text(
+              'Ya',
+              style: ThemeData().textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: primary,
+                  ),
+            ),
           ),
         ),
       ],

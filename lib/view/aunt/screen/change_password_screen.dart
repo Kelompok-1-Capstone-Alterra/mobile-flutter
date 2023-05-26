@@ -20,6 +20,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     final provider =
         Provider.of<ChangePasswordProvider>(context, listen: false);
     if (provider.formKey.currentState!.validate()) {
+      provider.changePasswordController.clear();
+      provider.confirmPasswordController.clear();
       await customShowDialogIcon(
         context: context,
         iconDialog: FluentIcons.checkmark_circle_16_regular,
@@ -93,8 +95,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       CustomTextFormField(
                         controller: provider.changePasswordController,
                         textInputAction: TextInputAction.next,
-                        onChanged: (value) =>
-                            provider.changePasswordController.text = value!,
+                        maxLines: 1,
                         maxLength: 20,
                         label: 'Kata Sandi Baru',
                         hint: 'Masukan kata sandi baru',
@@ -115,8 +116,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       CustomTextFormField(
                         controller: provider.confirmPasswordController,
                         textInputAction: TextInputAction.done,
-                        onChanged: (value) =>
-                            provider.confirmPasswordController.text = value!,
+                        maxLines: 1,
                         maxLength: 20,
                         label: 'Konfirmasi Kata Sandi Baru',
                         hint: 'Masukan konfirmasi kata sandi baru',

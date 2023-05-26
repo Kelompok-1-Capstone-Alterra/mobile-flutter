@@ -1,6 +1,10 @@
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view/settings/screens/ubah_kata_sandi_screen.dart';
+import 'package:mobile_flutter/view/settings/screens/ubah_nama_screen.dart';
+
+enum NavigateType { ubahNama, ubahKataSandi, none }
 
 class ItemInfoPribadiWidget extends StatelessWidget {
   const ItemInfoPribadiWidget({
@@ -8,12 +12,14 @@ class ItemInfoPribadiWidget extends StatelessWidget {
     required this.title,
     required this.desc,
     this.isTapable = true,
-    this.navigate,
+    required this.navigateScreen,
   });
   final String title;
   final String desc;
   final bool isTapable;
-  final Widget? navigate;
+
+  final NavigateType navigateScreen;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +28,9 @@ class ItemInfoPribadiWidget extends StatelessWidget {
             ? Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => navigate!,
+                  builder: (context) => navigateScreen == NavigateType.ubahNama
+                      ? const UbahNamaScreen()
+                      : const UbahKataSandiScreen(),
                 ),
               )
             : '';
