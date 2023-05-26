@@ -19,6 +19,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _register(BuildContext context) async {
     final provider = Provider.of<RegisterProvider>(context, listen: false);
     if (provider.formKey.currentState!.validate()) {
+      provider.emailController.clear();
+      provider.namaController.clear();
+      provider.passwordController.clear();
       await customShowDialogIcon(
         context: context,
         iconDialog: FluentIcons.checkmark_circle_16_regular,
@@ -82,8 +85,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomTextFormField(
                       controller: register.namaController,
                       textInputAction: TextInputAction.next,
-                      onChanged: (value) =>
-                          register.namaController.text = value!,
                       maxLength: 30,
                       label: 'Nama',
                       hint: 'Masukan namamu',
@@ -96,8 +97,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomTextFormField(
                       controller: register.emailController,
                       textInputAction: TextInputAction.next,
-                      onChanged: (value) =>
-                          register.emailController.text = value!,
                       label: 'Email',
                       hint: 'Masukan emailmu',
                       validator: (value) =>
@@ -109,8 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomTextFormField(
                       controller: register.passwordController,
                       textInputAction: TextInputAction.done,
-                      onChanged: (value) =>
-                          register.passwordController.text = value!,
+                      maxLines: 1,
                       maxLength: 20,
                       label: 'Kata Sandi',
                       hint: 'Masukan kata sandimu',

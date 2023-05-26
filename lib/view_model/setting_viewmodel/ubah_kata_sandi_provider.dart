@@ -7,7 +7,6 @@ class UbahKataSandiProvider with ChangeNotifier {
 
   bool sandiObscureText = true;
   bool konfirmasiObscureText = true;
-  bool isValid = false;
 
   void sandiObscureTextStatus() {
     sandiObscureText = !sandiObscureText;
@@ -16,11 +15,6 @@ class UbahKataSandiProvider with ChangeNotifier {
 
   void konfirmasiObscureTextStatus() {
     konfirmasiObscureText = !konfirmasiObscureText;
-    notifyListeners();
-  }
-
-  void setValidity(bool value) {
-    isValid = value;
     notifyListeners();
   }
 }

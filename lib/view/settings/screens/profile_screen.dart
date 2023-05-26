@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/settings/screens/ubah_kata_sandi_screen.dart';
-import 'package:mobile_flutter/view/settings/screens/ubah_nama_screen.dart';
 import 'package:mobile_flutter/view/settings/widgets/item_info_pribadi_widget.dart';
-import 'package:mobile_flutter/view_model/profile_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/profile_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -88,8 +86,9 @@ class ProfileScreen extends StatelessWidget {
             const ItemInfoPribadiWidget(
               title: 'Nama Lengkap',
               desc: 'Juna Darendra',
-              navigate: UbahNamaScreen(),
+              navigateScreen: NavigateType.ubahNama,
             ),
+
             const SizedBox(height: 15),
 
             // ? Item Email
@@ -97,6 +96,7 @@ class ProfileScreen extends StatelessWidget {
               title: 'Email',
               desc: 'Juna.darendra@example.com',
               isTapable: false,
+              navigateScreen: NavigateType.none,
             ),
             const SizedBox(height: 15),
 
@@ -104,7 +104,7 @@ class ProfileScreen extends StatelessWidget {
             const ItemInfoPribadiWidget(
               title: 'Kata Sandi',
               desc: '*********',
-              navigate: UbahKataSandiScreen(),
+              navigateScreen: NavigateType.ubahKataSandi,
             ),
           ],
         ),

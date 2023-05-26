@@ -1,10 +1,10 @@
-import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/settings/widgets/label_pusat_bantuan_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view/settings/widgets/label_pusat_bantuan_widget.dart';
 
-class Q1DetailTambahTanamanScreen extends StatelessWidget {
-  const Q1DetailTambahTanamanScreen({super.key});
+class Q3JawabanScreen extends StatelessWidget {
+  const Q3JawabanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Bagaimana cara menambahkan tanaman?',
+              'Bagaimana cara menambahkan progres mingguan?',
               style: ThemeData().textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 22,
@@ -43,17 +43,18 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Kamu bisa melakukannya ketika sudah berada di halaman home Agriplan',
+              'Kamu bisa melakukan penambahan ketika sudah berhasil menyelesaikan progres penyiraman harian selama seminggu.',
               style: ThemeData().textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
                   ),
+              textAlign: TextAlign.justify,
             ),
             const SizedBox(
               height: 20,
             ),
             Text(
-              'Cara menambahkan tanaman',
+              'Cara menambahkan tanaman progres mingguan',
               style: ThemeData().textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
@@ -86,19 +87,44 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                               ),
-                          children: const [
-                            TextSpan(
+                          children: [
+                            const TextSpan(
                               text: 'Klik ',
                             ),
-                            WidgetSpan(
+                            const WidgetSpan(
                               child: Icon(
-                                FluentIcons.add_12_filled,
+                                FluentIcons.clipboard_text_ltr_16_regular,
                                 size: 16,
                               ),
                             ),
                             TextSpan(
-                              text:
-                                  ' atau tanda plus yang mengambang di bagian kanan.',
+                              text: ' Weekly Progress',
+                              style: TextStyle(
+                                color: neutral[50],
+                              ),
+                            ),
+                            const TextSpan(
+                              text: ' atau ',
+                            ),
+                            WidgetSpan(
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.only(right: 4, bottom: 2),
+                                width: 16,
+                                height: 16,
+                                decoration: const BoxDecoration(
+                                    color: primary, shape: BoxShape.circle),
+                                child: Center(
+                                  child: Icon(
+                                    FluentIcons.ios_chevron_right_20_regular,
+                                    size: 12,
+                                    color: neutral[10],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const TextSpan(
+                              text: ' anak panah.',
                             ),
                           ],
                         ),
@@ -136,32 +162,15 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
                               text: 'Klik ',
                             ),
                             const WidgetSpan(
-                              child: Icon(
-                                FluentIcons.search_16_filled,
-                                size: 16,
+                              child: LabelPusatBantuanWidget(
+                                title: 'Tambahkan tanaman',
                               ),
                             ),
-                            const TextSpan(
-                              text:
-                                  ' dan ketik untuk mencari tanaman, lalu klik',
-                            ),
                             TextSpan(
-                              text: ' Gambar',
+                              text: ' Tambah progres mingguan.',
                               style: TextStyle(
                                 color: neutral[50],
                               ),
-                            ),
-                            const TextSpan(
-                              text: ' tanaman tersebut atau',
-                            ),
-                            TextSpan(
-                              text: ' Nama',
-                              style: TextStyle(
-                                color: neutral[50],
-                              ),
-                            ),
-                            const TextSpan(
-                              text: ' tanaman.',
                             ),
                           ],
                         ),
@@ -194,23 +203,16 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                               ),
-                          children: [
-                            const TextSpan(
+                          children: const [
+                            TextSpan(
                               text: 'Klik ',
                             ),
-                            const WidgetSpan(
-                              child: LabelPusatBantuanWidget(
-                                title: 'Tambahkan tanaman',
-                              ),
+                            WidgetSpan(
+                              child: Icon(FluentIcons.plant_grass_20_regular),
                             ),
                             TextSpan(
-                              text: ' Tambahkan tanaman',
-                              style: TextStyle(
-                                color: neutral[50],
-                              ),
-                            ),
-                            const TextSpan(
-                              text: ' bagian paling bawah.',
+                              text:
+                                  ' kesehatan tanamanmu, lalu isi deskripsi dari progres tanamanmu.',
                             ),
                           ],
                         ),
@@ -243,9 +245,63 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                               ),
-                          children: const [
+                          children: [
+                            const TextSpan(
+                              text: 'Klik ',
+                            ),
+                            WidgetSpan(
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                  left: 4,
+                                  right: 4,
+                                ),
+                                height: 18,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: primary[200],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Icon(
+                                      FluentIcons.camera_16_filled,
+                                      size: 16,
+                                    ),
+                                    Text(
+                                      'Tambahkan foto tanamanmu',
+                                      style: ThemeData()
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 5,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             TextSpan(
-                              text: 'Pilih tempat untuk menanam.',
+                              text: ' Tambahkan foto tanamanmu,',
+                              style: TextStyle(
+                                color: neutral[50],
+                              ),
+                            ),
+                            const TextSpan(
+                              text: ' dan klik ',
+                            ),
+                            const WidgetSpan(
+                              child: LabelPusatBantuanWidget(
+                                title: 'Simpan progres',
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' Simpan progres.',
+                              style: TextStyle(
+                                color: neutral[50],
+                              ),
                             ),
                           ],
                         ),
@@ -256,6 +312,7 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
+
                 // ? Q5
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,69 +335,10 @@ class Q1DetailTambahTanamanScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                               ),
-                          children: [
-                            const TextSpan(
-                              text: 'Sesuaikan nama tanamanmu atau klik',
-                            ),
-                            TextSpan(
-                              text: ' Gunakan Nama Bawaan',
-                              style: TextStyle(
-                                color: neutral[50],
-                              ),
-                            ),
-                            const TextSpan(
-                              text:
-                                  ' pada bagian paling bawah dari aplikasi Agriplan, lalu klik ',
-                            ),
-                            const WidgetSpan(
-                              child: LabelPusatBantuanWidget(
-                                title: 'Simpan',
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' Simpan',
-                              style: TextStyle(
-                                color: neutral[50],
-                              ),
-                            ),
-                            const TextSpan(
-                              text: '.',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                // ? Q6
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        '6.',
-                        style: ThemeData().textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                            ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 24,
-                      child: Text.rich(
-                        TextSpan(
-                          style: ThemeData().textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              ),
                           children: const [
                             TextSpan(
                               text:
-                                  'Selesai, dan tanamanmu berhasil terdaftar.',
+                                  'Selesai, kamu berhasil menambahkan progres mingguan tanamanmu.',
                             ),
                           ],
                         ),

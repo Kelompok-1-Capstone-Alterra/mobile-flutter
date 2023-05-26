@@ -19,6 +19,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final provider =
         Provider.of<ForgotPasswordProvider>(context, listen: false);
     if (provider.formKey.currentState!.validate()) {
+      provider.emailController.clear();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ChangePasswordScreen(),
@@ -80,8 +81,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       CustomTextFormField(
                         controller: provider.emailController,
                         textInputAction: TextInputAction.done,
-                        onChanged: (value) =>
-                            provider.emailController.text = value!,
                         label: 'Email',
                         hint: 'Masukan emailmu',
                         validator: (value) =>
