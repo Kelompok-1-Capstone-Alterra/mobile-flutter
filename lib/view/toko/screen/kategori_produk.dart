@@ -79,9 +79,7 @@ class _ListProdukState extends State<ListProduk> {
                           searchProvider.onSearch('');
                           searchProvider.resetFilter();
                         },
-                        icon: const Icon(
-                          Icons.highlight_remove_outlined,
-                        ),
+                        icon: const Icon(Icons.close),
                       ),
                       hintStyle: Theme.of(context).textTheme.bodyLarge,
                       hintText: "Cari Produk disini...",
