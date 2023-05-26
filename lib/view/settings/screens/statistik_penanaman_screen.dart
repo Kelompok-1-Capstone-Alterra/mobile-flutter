@@ -19,7 +19,7 @@ class StatistikPenanamanScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Statistika Penanaman',
+          'Statistik Penanaman',
           style: ThemeData().textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: 24,

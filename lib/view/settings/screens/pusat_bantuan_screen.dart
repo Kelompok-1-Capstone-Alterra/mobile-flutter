@@ -33,105 +33,108 @@ class PusatBantuanScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 17),
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Ada yang bisa kami bantu?',
-              style: ThemeData().textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Ada yang bisa kami bantu?',
+                style: ThemeData().textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const ItemPertanyaanPusatBantuanWidget(
+                title:
+                    'Apakah ada informasi cara menanam suatu tanaman tertentu?',
+                navigateTo: Q1JawabanScreen(),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(),
+              const ItemPertanyaanPusatBantuanWidget(
+                title: 'Bagaimana cara menanambahkan tanaman?',
+                navigateTo: Q2JawabanScreen(),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              const ItemPertanyaanPusatBantuanWidget(
+                title: 'Bagaimana cara menambah progres mingguan?',
+                navigateTo: Q3JawabanScreen(),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              const ItemPertanyaanPusatBantuanWidget(
+                title:
+                    'Dimana kita bisa melihat history penanaman di aplikasi agriplan?',
+                navigateTo: Q4JawabanScreen(),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Hubungi Kami',
+                style: ThemeData().textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 22,
+                    ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EmailKamiScreen(),
                   ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const ItemPertanyaanPusatBantuanWidget(
-              title:
-                  'Apakah ada informasi cara menanam suatu tanaman tertentu?',
-              navigateTo: Q1JawabanScreen(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-            const ItemPertanyaanPusatBantuanWidget(
-              title: 'Bagaimana cara menanambahkan tanaman?',
-              navigateTo: Q2JawabanScreen(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 10,
-            ),
-            const ItemPertanyaanPusatBantuanWidget(
-              title: 'Bagaimana cara menambah progres mingguan?',
-              navigateTo: Q3JawabanScreen(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 10,
-            ),
-            const ItemPertanyaanPusatBantuanWidget(
-              title:
-                  'Dimana kita bisa melihat history penanaman di aplikasi agriplan?',
-              navigateTo: Q4JawabanScreen(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 10,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Hubungi Kami',
-              style: ThemeData().textTheme.titleLarge!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 22,
-                  ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EmailKamiScreen(),
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: primary[200],
+                      foregroundColor: neutral[80],
+                      child: const Icon(Icons.email_outlined),
+                    ),
+                    const SizedBox(
+                      width: 17,
+                    ),
+                    Text(
+                      'Masukkan Pertanyaan Anda',
+                      style: ThemeData().textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: primary[200],
-                    foregroundColor: neutral[80],
-                    child: const Icon(Icons.email_outlined),
-                  ),
-                  const SizedBox(
-                    width: 17,
-                  ),
-                  Text(
-                    'Masukkan Pertanyaan Anda',
-                    style: ThemeData().textTheme.titleSmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
