@@ -12,7 +12,7 @@ class ListProduk extends StatefulWidget {
   final String category;
   final List<BaseModel> products;
 
-  ListProduk({required this.category, required this.products});
+  ListProduk({super.key, required this.category, required this.products});
 
   @override
   _ListProdukState createState() => _ListProdukState();

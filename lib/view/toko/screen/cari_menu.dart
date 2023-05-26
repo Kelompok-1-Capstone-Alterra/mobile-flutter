@@ -12,7 +12,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 class ListAllProduk extends StatefulWidget {
   final List<BaseModel> allProducts;
 
-  ListAllProduk({required this.allProducts});
+  const ListAllProduk({super.key, required this.allProducts});
   @override
   _ListAllProdukState createState() => _ListAllProdukState();
 }
