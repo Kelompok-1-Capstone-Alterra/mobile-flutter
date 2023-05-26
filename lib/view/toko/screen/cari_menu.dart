@@ -101,7 +101,11 @@ class ListAllProdukState extends State<ListAllProduk> {
                                 width: 200,
                                 height: 200,
                               ),
-                              const Text('Produk belum tersedia dietalase.'),
+                              Text(
+                                'Sepertinya produk yang kamu cari belum tersedia dietalase',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
                         )

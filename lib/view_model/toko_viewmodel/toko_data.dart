@@ -376,7 +376,7 @@ List<BaseModel> mainList = [
   ),
   BaseModel(
     imageUrl: "assets/images/toko_image/pestisida/pestisida2.png",
-    name: "Pestisida Nabati Organik",
+    name: "Pestisida Nabati Organik Paten",
     price: 100000,
     review: 7.6,
     star: 4.8,
