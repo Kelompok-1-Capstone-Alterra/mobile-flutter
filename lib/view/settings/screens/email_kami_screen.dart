@@ -1,6 +1,8 @@
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
+import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 import 'package:mobile_flutter/view_model/email_kami_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -54,117 +56,116 @@ class EmailKamiScreen extends StatelessWidget {
                       const SizedBox(
                         height: 24,
                       ),
-                      TextFormField(
+                      CustomTextFormField(
                         controller: provider.nomorHpC,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        label: 'No. Handphone',
+                        hint: 'Masukkan nomor',
+                        helperText: 'Nomor anda terlindungi',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            provider.formKey.currentState!.reset();
+                          },
+                          icon: const Icon(
+                            Icons.highlight_remove_outlined,
+                            weight: 2,
+                          ),
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Bagian ini tidak boleh kosong";
+                            return 'Bagian ini tidak boleh kosong';
+                          } else if (value.length < 10) {
+                            return 'Minimal 10 angka';
                           }
                           return null;
                         },
-                        decoration: InputDecoration(
-                          helperText: 'Nomor anda terlindungi',
-                          helperStyle:
-                              ThemeData().textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    color: neutral[100],
-                                  ),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: 'No. Handphone',
-                          hintText: 'Masukkan nomor',
-                          hintStyle: ThemeData().textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: neutral[40],
-                              ),
-                          border: const OutlineInputBorder(),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: primary, width: 2),
-                          ),
-                        ),
+                        onChanged: (value) {},
                       ),
                       const SizedBox(
-                        height: 36,
+                        height: 16,
                       ),
-                      TextFormField(
+                      CustomTextFormField(
                         controller: provider.emailC,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Bagian ini tidak boleh kosong";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          helperText:
-                              'Email ini akan digunakan untuk mengirim balasan untukmu',
-                          helperStyle:
-                              ThemeData().textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    color: neutral[100],
-                                  ),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: 'Email',
-                          hintText: 'Masukkan Email',
-                          hintStyle: ThemeData().textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: neutral[40],
-                              ),
-                          border: const OutlineInputBorder(),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: primary, width: 2),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        label: 'Email',
+                        hint: 'Masukkan email',
+                        helperText:
+                            'Email ini akan digunakan untuk mengirim balasan untukmu',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            provider.formKey.currentState!.reset();
+                          },
+                          icon: const Icon(
+                            Icons.highlight_remove_outlined,
+                            weight: 2,
                           ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Bagian ini tidak boleh kosong';
+                          }
+                          const emailRegex =
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+                          if (!RegExp(emailRegex).hasMatch(value)) {
+                            return 'Format email salah';
+                          }
+
+                          return null;
+                        },
                       ),
                       const SizedBox(
-                        height: 36,
+                        height: 16,
                       ),
-                      TextFormField(
-                        controller: provider.catatanC,
+                      CustomTextFormField(
+                        hint: 'Masukkan catatanmu',
+                        maxLines: 5,
+                        controller: provider.nomorHpC,
+                        maxLength: 255,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.text,
+                        label: 'Catatan',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.highlight_remove_outlined),
+                          onPressed: () {
+                            provider.formKey.currentState!.reset();
+                          },
+                        ),
+                        helperText: 'Jangan ragu untuk menulis keluhan anda',
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Bagian ini tidak boleh kosong";
+                            return 'Bagian ini tidak boleh kosong';
                           }
                           return null;
                         },
-                        maxLines: 2,
-                        decoration: InputDecoration(
-                          helperText: 'Jangan ragu untuk menulis keluhan anda',
-                          helperStyle:
-                              ThemeData().textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    color: neutral[100],
-                                  ),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: 'Catatan',
-                          hintText: 'Masukkan Catatan',
-                          hintStyle: ThemeData().textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: neutral[40],
-                              ),
-                          border: const OutlineInputBorder(),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: primary, width: 2),
-                          ),
-                        ),
                       ),
                     ],
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.26,
+                    top: MediaQuery.of(context).size.height * 0.29,
                     bottom: 36,
                   ),
                   width: double.infinity,
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (provider.formKey.currentState!.validate()) {}
+                    onPressed: () async {
+                      if (provider.formKey.currentState!.validate()) {
+                        await customShowDialogText(
+                          context: context,
+                          title: 'Pusat Bantuan',
+                          desc: 'Pertanyaan yang kamu ajukan telah kami rekam.',
+                        );
+
+                        if (context.mounted) {
+                          provider.nomorHpC.clear();
+                          provider.emailC.clear();
+                          provider.catatanC.clear();
+                          Navigator.pop(context);
+                        }
+                      }
                     },
                     style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(

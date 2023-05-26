@@ -5,4 +5,10 @@ class EmailKamiProvider with ChangeNotifier {
   final TextEditingController nomorHpC = TextEditingController();
   final TextEditingController emailC = TextEditingController();
   final TextEditingController catatanC = TextEditingController();
+
+  bool isValid = false;
+  void setValidity(bool value) {
+    isValid = value;
+    notifyListeners();
+  }
 }
