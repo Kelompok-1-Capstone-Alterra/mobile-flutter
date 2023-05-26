@@ -65,7 +65,7 @@ class EmailKamiScreen extends StatelessWidget {
                         helperText: 'Nomor anda terlindungi',
                         suffixIcon: IconButton(
                           onPressed: () {
-                            provider.formKey.currentState!.reset();
+                            provider.nomorHpC.clear();
                           },
                           icon: const Icon(
                             Icons.highlight_remove_outlined,
@@ -80,7 +80,7 @@ class EmailKamiScreen extends StatelessWidget {
                           }
                           return null;
                         },
-                        onChanged: (value) {},
+                        
                       ),
                       const SizedBox(
                         height: 16,
@@ -95,7 +95,7 @@ class EmailKamiScreen extends StatelessWidget {
                             'Email ini akan digunakan untuk mengirim balasan untukmu',
                         suffixIcon: IconButton(
                           onPressed: () {
-                            provider.formKey.currentState!.reset();
+                            provider.emailC.clear();
                           },
                           icon: const Icon(
                             Icons.highlight_remove_outlined,
@@ -121,7 +121,7 @@ class EmailKamiScreen extends StatelessWidget {
                       CustomTextFormField(
                         hint: 'Masukkan catatanmu',
                         maxLines: 5,
-                        controller: provider.nomorHpC,
+                        controller: provider.catatanC,
                         maxLength: 255,
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
@@ -129,7 +129,7 @@ class EmailKamiScreen extends StatelessWidget {
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.highlight_remove_outlined),
                           onPressed: () {
-                            provider.formKey.currentState!.reset();
+                            provider.catatanC.clear();
                           },
                         ),
                         helperText: 'Jangan ragu untuk menulis keluhan anda',
