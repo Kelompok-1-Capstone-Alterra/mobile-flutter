@@ -156,7 +156,7 @@ List<BaseModel> getPupukProducts() {
       star: 4.8,
       id: 2,
       simpleDeskripsi: "Deskripsi Pupuk NPK Mutiara 16-16-16",
-      deskripsi: "Detail Alat Tani Kultivator",
+      deskripsi: "Detail Pupuk NPK Mutiara 16-16-16",
     ),
     BaseModel(
       imageUrl: "assets/images/toko_image/pupuk/pupuk1.png",
@@ -382,7 +382,26 @@ List<BaseModel> mainList = [
     star: 4.8,
     id: 2,
     simpleDeskripsi: "Deskripsi Pestisida Nabati Organik",
-    deskripsi: "Detail Pestisida Nabati Organik",
+    deskripsi: """
+    <p>Pestisida merupakan Pestisida kecil atau traktor mini dengan gerak motor bensin rata-rata 5,5 HP - 6,5 HP tergantung tipe tanah tempat penanaman.</p>
+    <p>Kondisi: Baru</p>
+    <p>Berat: 100 kg</p>
+    <p>Merek: Tasco</p>
+    <p>Memiliki:</p>
+    <ul>
+      <li>pisau/blade/rotary atau cakar yang terletak pada poros as utama. Pisau ini digunakan untuk mencacah tanah sekaligus untuk berjalan kedepan.</li>
+      <li>ridger yang dipasang pada bagian belakang dari pisau yang berguna untuk membuat guludan atau bedengan atau pembumbunan. Ridger hanya bermanfaat membuat parit di tanah yang telah dicacah sebelumnya oleh pisau rotary.</li>
+    </ul>
+    <p>Manfaat:</p>
+    <ul>
+      <li>untuk penyiangan dan memberantas tanaman pengganggu seperti gulma atau rumput</li>
+      <li>untuk membuat guludan/bedengan;</li>
+      <li>untuk memperbaiki aerasi tanah dan mempertahankan kadar lengas tanah;</li>
+      <li>untuk memacu kerja mikroorganisme lebih aktif;</li>
+      <li>untuk mengembangkan penyediaan unsur hara dalam tanah;</li>
+      <li>untuk menggemburkan tanah agar penetrasi akar tanaman pokok lebih mudah.</li>
+    </ul>
+  """,
   ),
   BaseModel(
     imageUrl: "assets/images/toko_image/pestisida/pestisida3.png",

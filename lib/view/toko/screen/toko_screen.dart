@@ -8,6 +8,7 @@ import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
 import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
 import 'package:mobile_flutter/view/toko/screen/kategori_produk.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 
@@ -33,21 +34,20 @@ class _TokoScreenState extends State<TokoScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 3,
+                  vertical: 10,
                   horizontal: 10,
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    pushNewScreen(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ListAllProduk(allProducts: getAllProducts()),
-                      ),
+                      screen: ListAllProduk(allProducts: getAllProducts()),
+                      withNavBar: false,
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: neutral[10],
+                    surfaceTintColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(2),
                       side: BorderSide(color: neutral[70]!),
@@ -76,6 +76,7 @@ class _TokoScreenState extends State<TokoScreen> {
                   children: [
                     CarouselSlider(
                       options: CarouselOptions(
+                        aspectRatio: 2,
                         autoPlay: true,
                         autoPlayInterval: const Duration(seconds: 5),
                         autoPlayAnimationDuration:
@@ -102,7 +103,7 @@ class _TokoScreenState extends State<TokoScreen> {
                           children: crousel.asMap().entries.map((entry) {
                             int index = entry.key;
                             return Container(
-                              width: 20.0,
+                              width: 25.0,
                               height: 7.0,
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 4.0),
@@ -126,7 +127,7 @@ class _TokoScreenState extends State<TokoScreen> {
               //select kategory
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -135,15 +136,12 @@ class _TokoScreenState extends State<TokoScreen> {
                         onTap: () {
                           List<BaseModel> products =
                               getProductsByCategory(item.name);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ListProduk(
-                                category: item.name,
-                                products: products,
-                              ),
-                            ),
-                          );
+                          pushNewScreen(context,
+                              screen: ListProduk(
+                                  category: item.name, products: products),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
                         },
                         child: Column(
                           children: [
@@ -216,16 +214,16 @@ class _TokoScreenState extends State<TokoScreen> {
                     itemBuilder: (context, index) {
                       BaseModel current = mainList[index];
                       return GestureDetector(
-                        onTap: (() => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                return Details(
-                                  data: current,
-                                  isCameFromProduk: true,
-                                );
-                              }),
-                            )),
+                        onTap: () {
+                          pushNewScreen(context,
+                              screen: Details(
+                                data: current,
+                                isCameFromProduk: true,
+                              ),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 0),
                           child: Card(
@@ -330,8 +328,8 @@ class _TokoScreenState extends State<TokoScreen> {
       builder: (BuildContext context, BoxConstraints constraints) {
         return Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 14,
-            horizontal: 10,
+            vertical: 2,
+            horizontal: 5,
           ),
           child: Container(
             decoration: BoxDecoration(
