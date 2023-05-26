@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/settings/widgets/item_info_pribadi_widget.dart';
-import 'package:mobile_flutter/view_model/profile_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/profile_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -3,7 +3,7 @@ import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textform
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
-import 'package:mobile_flutter/view_model/ubah_kata_sandi_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

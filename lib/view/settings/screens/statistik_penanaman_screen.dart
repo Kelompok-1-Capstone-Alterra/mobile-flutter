@@ -2,7 +2,7 @@ import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view/settings/widgets/statistik_penanaman_empty_widget.dart';
-import 'package:mobile_flutter/view_model/statistik_penanaman_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/statistik_penanaman_provider.dart';
 import 'package:provider/provider.dart';
 
 class StatistikPenanamanScreen extends StatelessWidget {

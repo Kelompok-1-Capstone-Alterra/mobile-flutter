@@ -3,7 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
-import 'package:mobile_flutter/view_model/email_kami_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/email_kami_provider.dart';
 import 'package:provider/provider.dart';
 
 class EmailKamiScreen extends StatelessWidget {
