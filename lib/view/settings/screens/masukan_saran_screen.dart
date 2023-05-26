@@ -62,6 +62,7 @@ class MasukanSaranScreen extends StatelessWidget {
                       height: 20,
                     ),
                     CustomTextFormField(
+                      controller: provider.masukanSaranC,
                       textInputAction: TextInputAction.done,
                       maxLength: 255,
                       maxLines: 5,
