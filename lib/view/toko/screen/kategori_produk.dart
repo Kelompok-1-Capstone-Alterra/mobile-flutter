@@ -81,7 +81,7 @@ class ListProdukState extends State<ListProduk> {
                           searchProvider.onSearch('');
                           searchProvider.resetFilter();
                         },
-                        icon: const Icon(Icons.close),
+                        icon: const Icon(Icons.highlight_remove_outlined),
                       ),
                       hintStyle: Theme.of(context).textTheme.bodyLarge,
                       hintText: "Cari Produk disini...",
