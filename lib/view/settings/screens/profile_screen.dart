@@ -22,91 +22,94 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Profile',
+          'Profil',
           style: ThemeData().textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: 24,
               ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 18),
-            Consumer<ProfileProvider>(
-              builder: (context, profileProvider, _) => Center(
-                child: provider.selectedImage == null
-                    ? SizedBox(
-                        width: 121,
-                        height: 120,
-                        child: Image.asset(
-                          'assets/images/ubah_profile.png',
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 18),
+              Consumer<ProfileProvider>(
+                builder: (context, profileProvider, _) => Center(
+                  child: provider.selectedImage == null
+                      ? SizedBox(
                           width: 121,
                           height: 120,
+                          child: Image.asset(
+                            'assets/images/ubah_profile.png',
+                            width: 121,
+                            height: 120,
+                          ),
+                        )
+                      : SizedBox(
+                          width: 121,
+                          height: 120,
+                          child: Image.file(
+                            File(provider.selectedImage!.path),
+                          ),
                         ),
-                      )
-                    : SizedBox(
-                        width: 121,
-                        height: 120,
-                        child: Image.file(
-                          File(provider.selectedImage!.path),
-                        ),
-                      ),
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // ? button ubah foto profile
-            Center(
-              child: TextButton(
-                onPressed: () => provider.selectImage(),
-                child: Text(
-                  'Ubah Foto Profile',
-                  style: ThemeData().textTheme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: success,
-                      ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Informasi Pribadi',
-              style: ThemeData().textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
+              const SizedBox(height: 8),
+
+              // ? button ubah foto profile
+              Center(
+                child: TextButton(
+                  onPressed: () => provider.selectImage(),
+                  child: Text(
+                    'Ubah Foto Profile',
+                    style: ThemeData().textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: success,
+                        ),
                   ),
-            ),
-            const SizedBox(height: 10),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Informasi Pribadi',
+                style: ThemeData().textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+              ),
+              const SizedBox(height: 10),
 
-            // ? Item nama lengkap
-            const ItemInfoPribadiWidget(
-              title: 'Nama Lengkap',
-              desc: 'Juna Darendra',
-              navigateScreen: NavigateType.ubahNama,
-            ),
+              // ? Item nama lengkap
+              const ItemInfoPribadiWidget(
+                title: 'Nama Lengkap',
+                desc: 'Juna Darendra',
+                navigateScreen: NavigateType.ubahNama,
+              ),
 
-            const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-            // ? Item Email
-            const ItemInfoPribadiWidget(
-              title: 'Email',
-              desc: 'Juna.darendra@example.com',
-              isTapable: false,
-              navigateScreen: NavigateType.none,
-            ),
-            const SizedBox(height: 15),
+              // ? Item Email
+              const ItemInfoPribadiWidget(
+                title: 'Email',
+                desc: 'Juna.darendra@example.com',
+                isTapable: false,
+                navigateScreen: NavigateType.none,
+              ),
+              const SizedBox(height: 15),
 
-            // ? Item kata sandi
-            const ItemInfoPribadiWidget(
-              title: 'Kata Sandi',
-              desc: '*********',
-              navigateScreen: NavigateType.ubahKataSandi,
-            ),
-          ],
+              // ? Item kata sandi
+              const ItemInfoPribadiWidget(
+                title: 'Kata Sandi',
+                desc: '*********',
+                navigateScreen: NavigateType.ubahKataSandi,
+              ),
+            ],
+          ),
         ),
       ),
     );
