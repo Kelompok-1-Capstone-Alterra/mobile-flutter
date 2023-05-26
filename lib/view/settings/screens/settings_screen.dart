@@ -39,7 +39,6 @@ class SettingsScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                const SizedBox(height: 18),
                 ListTile(
                   //  navigate to ubah profile
                   onTap: () => Navigator.push(
@@ -49,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    'Profile',
+                    'Profil',
                     style: ThemeData().textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -83,7 +82,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    'About',
+                    'Tentang Agriplan',
                     style: ThemeData().textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
