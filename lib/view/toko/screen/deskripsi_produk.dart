@@ -113,9 +113,11 @@ class _DeskripsiState extends State<Deskripsi> {
                         ),
                       ),
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
+                    SizedBox(
+                      height: size.width * 0.66,
+                      width: size.width,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
                         children: List.generate(mainList.length, (index) {
                           BaseModel current = mainList[index];
                           return GestureDetector(
@@ -147,11 +149,8 @@ class _DeskripsiState extends State<Deskripsi> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.3,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.45,
+                                      height: size.width * 0.35,
+                                      width: size.width * 0.5,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: AssetImage(current.imageUrl),
@@ -167,34 +166,25 @@ class _DeskripsiState extends State<Deskripsi> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
+                                            width: size.width * 0.45,
                                             child: AutoSizeText(
                                               current.name,
                                               overflow: TextOverflow.ellipsis,
                                               minFontSize: 14,
-                                              maxLines: 1,
+                                              maxLines: 2,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleSmall,
                                             ),
                                           ),
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
+                                            width: size.width * 0.45,
                                             child: ReuseablePrice(
                                               price: current.price,
                                             ),
                                           ),
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
+                                            width: size.width * 0.45,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
