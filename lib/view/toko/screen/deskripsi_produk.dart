@@ -112,7 +112,7 @@ class _DeskripsiState extends State<Deskripsi> {
                     ),
                   ),
                   SizedBox(
-                    height: size.width * 0.73,
+                    height: size.width * 0.70,
                     width: size.width,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -183,16 +183,12 @@ class _DeskripsiState extends State<Deskripsi> {
                                         ),
                                         SizedBox(
                                           width: size.width * 0.45,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5.0),
-                                            child: AutoSizeText(
-                                              "${current.review.toString()}RB dilihat",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                              maxLines: 1,
-                                            ),
+                                          child: AutoSizeText(
+                                            "${current.review.toString()}RB dilihat",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                            maxLines: 1,
                                           ),
                                         ),
                                       ],

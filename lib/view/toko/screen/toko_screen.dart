@@ -207,7 +207,7 @@ class _TokoScreenState extends State<TokoScreen> {
                     itemCount: mainList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 6 / size.height * 95,
+                      childAspectRatio: 7 / size.height * 90,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
                     ),
@@ -286,17 +286,12 @@ class _TokoScreenState extends State<TokoScreen> {
                                                     .size
                                                     .width *
                                                 0.38,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 3.0),
-                                              child: AutoSizeText(
-                                                "${current.review.toString()}RB dilihat",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                                maxLines: 1,
-                                              ),
+                                            child: AutoSizeText(
+                                              "${current.review.toString()}RB dilihat",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                              maxLines: 1,
                                             ),
                                           ),
                                         ],
