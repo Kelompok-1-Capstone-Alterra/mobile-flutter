@@ -4,16 +4,26 @@ import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/edit_nama_tanaman_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/overview_section.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/progress_section.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
-class DetailTanamanScreen extends StatelessWidget {
+// enum TabPreview { overview, progress }
+
+class DetailTanamanScreen extends StatefulWidget {
   const DetailTanamanScreen({super.key});
 
   @override
+  State<DetailTanamanScreen> createState() => _DetailTanamanScreenState();
+}
+
+class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TanamankuProvider>(context, listen: false);
+    final providerOverview =
+        Provider.of<OverviewProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -22,13 +32,14 @@ class DetailTanamanScreen extends StatelessWidget {
           child: FloatingActionButton.small(
             heroTag: "backDetailScreen",
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black12,
             highlightElevation: 0,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             shape: const CircleBorder(),
             disabledElevation: 0,
             onPressed: () {
-              provider.fullDescription = false;
+              provider.refresh();
+              providerOverview.refresh();
               Navigator.pop(context);
             },
             child: Icon(
@@ -63,24 +74,13 @@ class DetailTanamanScreen extends StatelessWidget {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  // pushDynamicScreen(
-                                  //   context,
-                                  //   screen: EditNamaTanamanScreen(),
-                                  //   withNavBar: false,
-                                  // );
-                                  pushNewScreen(context,
-                                      pageTransitionAnimation:
-                                          PageTransitionAnimation.cupertino,
-                                      screen: EditNamaTanamanScreen(),
-                                      withNavBar: false);
-
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         const EditNamaTanamanScreen(),
-                                  //   ),
-                                  // );
+                                  pushNewScreen(
+                                    context,
+                                    screen: EditNamaTanamanScreen(),
+                                    withNavBar: false,
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino,
+                                  );
                                 },
                                 icon: const Icon(FluentIcons.edit_16_regular))
                           ],
