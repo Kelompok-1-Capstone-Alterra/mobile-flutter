@@ -157,7 +157,8 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
             height: 10,
           ),
           // -------------------------- 4 grid button --------------------------
-          const InformasiTanamanCard(),
+          const InformasiTanamanCard(
+              caraMenanamType: CaraMenanamType.informasiCaraMenanam),
 
           //---------------- button tambkan tanaman -----------------------
           Padding(

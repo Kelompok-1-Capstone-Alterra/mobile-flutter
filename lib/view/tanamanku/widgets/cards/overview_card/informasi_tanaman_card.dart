@@ -5,14 +5,28 @@ import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/informasi/informasi_cara_menanam_screen.dart';
 import 'package:mobile_flutter/view/informasi/informasi_penyiraman_screen.dart';
 import 'package:mobile_flutter/view/informasi/informasi_temperature_screen.dart';
+import 'package:mobile_flutter/view/informasi/lokasi_tanaman_screen.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 import '../../../../informasi/informasi_pemupukan_screen.dart';
 
-enum InformasiType { caraMenanam, pemupukan, penyiraman, temperaturIdeal }
+enum InformasiType {
+  caraMenanam,
+  pemupukan,
+  penyiraman,
+  temperaturIdeal,
+  spesifikCaraMenanam
+}
+
+enum CaraMenanamType { informasiCaraMenanam, spesifikCaraMenanam }
 
 class InformasiTanamanCard extends StatelessWidget {
-  const InformasiTanamanCard({super.key});
+  final CaraMenanamType caraMenanamType;
+
+  const InformasiTanamanCard({
+    super.key,
+    required this.caraMenanamType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +43,9 @@ class InformasiTanamanCard extends StatelessWidget {
                 context,
                 FluentIcons.tree_deciduous_20_regular,
                 'Cara Menanam',
-                InformasiType.caraMenanam,
+                caraMenanamType == CaraMenanamType.informasiCaraMenanam
+                    ? InformasiType.caraMenanam
+                    : InformasiType.spesifikCaraMenanam,
               ),
 
               // Container 2
@@ -77,12 +93,16 @@ class InformasiTanamanCard extends StatelessWidget {
             switch (type) {
               case InformasiType.caraMenanam:
                 {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const LokasiTanamanScreen(),
-                  //   ),
-                  // );
+                  pushNewScreen(
+                    context,
+                    screen: const LokasiTanamanScreen(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                }
+                break;
+              case InformasiType.spesifikCaraMenanam:
+                {
                   pushNewScreen(
                     context,
                     screen: const InformasiCaraMenanamScreen(),
@@ -93,31 +113,31 @@ class InformasiTanamanCard extends StatelessWidget {
                 break;
               case InformasiType.pemupukan:
                 {
-                  Navigator.push(
+                  pushNewScreen(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const InformasiPemupukanScreen(),
-                    ),
+                    screen: const InformasiPemupukanScreen(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 }
                 break;
               case InformasiType.penyiraman:
                 {
-                  Navigator.push(
+                  pushNewScreen(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const InformasiPenyiramanScreen(),
-                    ),
+                    screen: const InformasiPenyiramanScreen(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 }
                 break;
               case InformasiType.temperaturIdeal:
                 {
-                  Navigator.push(
+                  pushNewScreen(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const InformasiTempIdealScreen(),
-                    ),
+                    screen: const InformasiTempIdealScreen(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 }
                 break;

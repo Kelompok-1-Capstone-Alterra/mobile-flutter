@@ -61,7 +61,9 @@ class OverviewSection extends StatelessWidget {
               'Informasi Tanaman',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const InformasiTanamanCard(),
+            const InformasiTanamanCard(
+              caraMenanamType: CaraMenanamType.spesifikCaraMenanam,
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -69,18 +71,77 @@ class OverviewSection extends StatelessWidget {
               child: Column(
                 children: [
                   ElevatedButton(
-                    onPressed:
-                        provider.counterPenyiraman == provider.batasPenyiraman
-                            ? () {
-                                pushNewScreen(
-                                  context,
-                                  screen: AddPanenScreen(),
-                                  withNavBar: true,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.cupertino,
+                    onPressed: provider.counterPenyiraman ==
+                            provider.batasPenyiraman
+                        ? () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Tanamanmu Sudah panen ?',
+                                    style: ThemeData()
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 24,
+                                        ),
+                                  ),
+                                  content: Text(
+                                    'Silahkan isi progres panen kamu',
+                                    style: ThemeData()
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                        ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        'Batal',
+                                        style: ThemeData()
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              color: neutral[40],
+                                            ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        pushNewScreen(
+                                          context,
+                                          screen: AddPanenScreen(),
+                                          withNavBar: true,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
+                                        );
+                                      },
+                                      child: Text(
+                                        'Progres',
+                                        style: ThemeData()
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              color: primary,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
                                 );
-                              }
-                            : null,
+                              },
+                            );
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       backgroundColor: primary,
@@ -94,18 +155,77 @@ class OverviewSection extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed:
-                        provider.counterPenyiraman == provider.batasPenyiraman
-                            ? () {
-                                pushNewScreen(
-                                  context,
-                                  screen: AddProgresMatiScreen(),
-                                  withNavBar: true,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.cupertino,
+                    onPressed: provider.counterPenyiraman ==
+                            provider.batasPenyiraman
+                        ? () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Tanamanmu mati ?',
+                                    style: ThemeData()
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 24,
+                                        ),
+                                  ),
+                                  content: Text(
+                                    'Silahkan isi penyebab tanamanmu mati',
+                                    style: ThemeData()
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                        ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        'Batal',
+                                        style: ThemeData()
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              color: neutral[40],
+                                            ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        pushNewScreen(
+                                          context,
+                                          screen: AddProgresMatiScreen(),
+                                          withNavBar: true,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
+                                        );
+                                      },
+                                      child: Text(
+                                        'Isi Penyebab',
+                                        style: ThemeData()
+                                            .textTheme
+                                            .headlineSmall!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              color: primary,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
                                 );
-                              }
-                            : null,
+                              },
+                            );
+                          }
+                        : null,
                     style: ButtonStyle(
                       overlayColor:
                           MaterialStatePropertyAll(error.withOpacity(0.1)),
