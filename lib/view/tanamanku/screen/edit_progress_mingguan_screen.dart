@@ -5,18 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddProgressMingguanScreen extends StatelessWidget {
-  AddProgressMingguanScreen({super.key});
+class EditProgressMingguanScreen extends StatefulWidget {
+  const EditProgressMingguanScreen({super.key});
 
+  @override
+  State<EditProgressMingguanScreen> createState() =>
+      _EditProgressMingguanScreenState();
+}
+
+class _EditProgressMingguanScreenState
+    extends State<EditProgressMingguanScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    Provider.of<EditProgresMingguanProvider>(context, listen: false)
+        .addAssetImage('assets/images/sample_tomat.png');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AddProgressProvider>(context, listen: false);
+    final provider =
+        Provider.of<EditProgresMingguanProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -60,7 +75,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Consumer<AddProgressProvider>(
+                  Consumer<EditProgresMingguanProvider>(
                     builder: (context, provider, _) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,6 +161,8 @@ class AddProgressMingguanScreen extends StatelessWidget {
                         TextFormField(
                           maxLines: 4,
                           maxLength: 100,
+                          initialValue:
+                              'Minggu ke 1 tanaman tomat saya sangat sehat dan segar',
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                             filled: true,
@@ -226,7 +243,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  Consumer<AddProgressProvider>(
+                  Consumer<EditProgresMingguanProvider>(
                     builder: (context, provider, _) {
                       return GridView.builder(
                         shrinkWrap: true,
@@ -274,7 +291,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  Consumer<AddProgressProvider>(
+                  Consumer<EditProgresMingguanProvider>(
                     builder: (context, provider, _) {
                       return ElevatedButton(
                         onPressed: provider.isButtonDisabled
@@ -288,9 +305,9 @@ class AddProgressMingguanScreen extends StatelessWidget {
                                     context: context,
                                     iconDialog:
                                         FluentIcons.plant_ragweed_20_regular,
-                                    title: 'Progres',
+                                    title: 'Ubah Progres',
                                     desc:
-                                        'Progres mingguan tanaman kamu berhasil ditambahkan',
+                                        'Progres mingguan tanaman kamu berhasil diubah',
                                   );
                                   if (context.mounted) {
                                     provider.refresh();

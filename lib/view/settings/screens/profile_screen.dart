@@ -65,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                 child: TextButton(
                   onPressed: () => provider.selectImage(),
                   child: Text(
-                    'Ubah Foto Profile',
+                    'Ubah Foto Profil',
                     style: ThemeData().textTheme.labelLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,

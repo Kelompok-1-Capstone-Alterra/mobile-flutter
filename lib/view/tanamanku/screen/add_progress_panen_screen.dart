@@ -5,23 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_progress.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddProgressMingguanScreen extends StatelessWidget {
-  AddProgressMingguanScreen({super.key});
-
+class AddPanenScreen extends StatelessWidget {
+  AddPanenScreen({super.key});
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AddProgressProvider>(context, listen: false);
+    final provider = Provider.of<AddPanenMatiProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Progres Mingguan',
+            'Panen Tanaman',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           leading: IconButton(
@@ -43,79 +41,8 @@ class AddProgressMingguanScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '1 - 7 May 2023',
+                    '24 May 2023',
                     style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Kesehatan Tanaman Kamu',
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  Text(
-                    'Bagaimana kesehatan tanaman kamu saat ini?',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Consumer<AddProgressProvider>(
-                    builder: (context, provider, _) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          for (final item in provider.qualityItems)
-                            GestureDetector(
-                              onTap: () {
-                                final index =
-                                    provider.qualityItems.indexOf(item);
-                                provider.toggleItemSelection(index);
-                                provider.checkAllItemsUnselected();
-                              },
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    child: Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: item['isSelected'] &&
-                                                item['label'] == 'Sangat Buruk'
-                                            ? error[400]
-                                            : item['isSelected'] &&
-                                                    item['label'] == 'Buruk'
-                                                ? error
-                                                : item['isSelected'] &&
-                                                        item['label'] == 'Baik'
-                                                    ? primary
-                                                    : item['isSelected'] &&
-                                                            item['label'] ==
-                                                                'Sangat Baik'
-                                                        ? primary[400]
-                                                        : neutral[40],
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        FluentIcons.plant_grass_20_regular,
-                                        color: neutral[10],
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    item['label'],
-                                    style:
-                                        Theme.of(context).textTheme.labelSmall,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
-                        ],
-                      );
-                    },
                   ),
                   const SizedBox(
                     height: 20,
@@ -149,6 +76,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                             filled: true,
+                            counterStyle: TextStyle(color: neutral),
                             fillColor: neutral[10],
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -226,7 +154,7 @@ class AddProgressMingguanScreen extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  Consumer<AddProgressProvider>(
+                  Consumer<AddPanenMatiProvider>(
                     builder: (context, provider, _) {
                       return GridView.builder(
                         shrinkWrap: true,
@@ -274,33 +202,28 @@ class AddProgressMingguanScreen extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  Consumer<AddProgressProvider>(
+                  Consumer<AddPanenMatiProvider>(
                     builder: (context, provider, _) {
                       return ElevatedButton(
-                        onPressed: provider.isButtonDisabled
-                            ? null
-                            : () async {
-                                // Logika Database
+                        onPressed: () async {
+                          // Logika Database
 
-                                // Dialog Sementara
-                                if (_formKey.currentState!.validate()) {
-                                  await customShowDialogIcon(
-                                    context: context,
-                                    iconDialog:
-                                        FluentIcons.plant_ragweed_20_regular,
-                                    title: 'Progres',
-                                    desc:
-                                        'Progres mingguan tanaman kamu berhasil ditambahkan',
-                                  );
-                                  if (context.mounted) {
-                                    provider.refresh();
-                                    Provider.of<TanamankuProvider>(context,
-                                            listen: false)
-                                        .setSelectedIndex(context, 1);
-                                    Navigator.pop(context);
-                                  }
-                                } else {}
-                              },
+                          // Dialog Sementara
+                          if (_formKey.currentState!.validate()) {
+                            await customShowDialogIcon(
+                                context: context,
+                                iconDialog: FluentIcons.premium_16_regular,
+                                title: 'Selamat',
+                                desc: 'Kamu berhasil memanen tanaman kamu');
+                            if (context.mounted) {
+                              provider.refresh();
+                              Provider.of<TanamankuProvider>(context,
+                                      listen: false)
+                                  .setSelectedIndex(context, 1);
+                              Navigator.pop(context);
+                            }
+                          } else {}
+                        },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           backgroundColor: primary,

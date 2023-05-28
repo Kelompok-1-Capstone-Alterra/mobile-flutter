@@ -2,22 +2,17 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/tanamanku/screen/edit_progress_mingguan_screen.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/detail_progress_card/kondisi_tanaman_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/detail_progress_card/pemupukan_detail_card.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/progres_penyiraman_card.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/detail_progress_provider.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
-class DetailProgresScreen extends StatefulWidget {
-  const DetailProgresScreen({super.key});
+class DetailPanenScreen extends StatefulWidget {
+  const DetailPanenScreen({super.key});
 
   @override
-  State<DetailProgresScreen> createState() => _DetailProgresScreenState();
+  State<DetailPanenScreen> createState() => _DetailPanenScreenState();
 }
 
-class _DetailProgresScreenState extends State<DetailProgresScreen> {
+class _DetailPanenScreenState extends State<DetailPanenScreen> {
   @override
   Widget build(BuildContext context) {
     final provider =
@@ -111,11 +106,11 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Minggu ke 1',
+                          'Tanaman Panen',
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Text(
-                          '24-30 May 2023',
+                          '24 May 2023',
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
@@ -124,68 +119,10 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                         const SizedBox(
                           height: 22,
                         ),
-                        Text('Kondisi Tanaman',
-                            style: Theme.of(context).textTheme.labelLarge),
-                        const SizedBox(
-                          height: 14,
-                        ),
-                        const KondisiTanamanCard(title: 'Sangat Buruk'),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        const KondisiTanamanCard(title: 'Buruk'),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        const KondisiTanamanCard(title: 'Sehat'),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        const KondisiTanamanCard(title: 'Sangat Sehat'),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        const ProgresPenyiraman(),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        const PemupukanDetailCard(),
-                        const SizedBox(
-                          height: 28,
-                        ),
                         Text('Catatan Progres',
                             style: Theme.of(context).textTheme.labelLarge),
                         const Text(
-                            'Minggu ke 1 tanaman tomat saya sangat sehat dan segar. Minggu ke 1 tanaman tomat saya sangat sehat dan segar. Minggu ke 1 tanaman tomat saya sangat sehat dan segar.'),
-                        const SizedBox(
-                          height: 44,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            pushNewScreen(
-                              context,
-                              screen: EditProgressMingguanScreen(),
-                              withNavBar: true,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            backgroundColor: primary,
-                            minimumSize: const Size(double.infinity,
-                                0), // Mengatur minimumSize dengan double.infinity
-                          ),
-                          child: Text(
-                            'Edit progres mingguan',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .copyWith(
-                                  color: neutral[10],
-                                ),
-                          ),
-                        ),
+                            'Tanaman tomat saya sudah panen dan berbuah banyak '),
                       ],
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +13,14 @@ class StatistikPenanamanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: const Icon(
             FluentIcons.ios_arrow_ltr_24_filled,
           ),
         ),
-        title: Text(
+        title: AutoSizeText(
           'Statistik Penanaman',
           style: ThemeData().textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w600,
@@ -35,7 +37,7 @@ class StatistikPenanamanScreen extends StatelessWidget {
             ),
             child: Consumer<StatistikaPenanamanProvider>(
               builder: (context, statPenanamanProvider, _) => DropdownButton(
-                padding: const EdgeInsets.only(right: 19),
+                padding: const EdgeInsets.only(right: 5),
                 items: const [
                   DropdownMenuItem(
                     value: 'Semua',

@@ -5,8 +5,6 @@ import 'package:mobile_flutter/view/tanamanku/widgets/progress_section.dart';
 class TanamankuProvider with ChangeNotifier {
   int selectedIndex = 0;
 
-  bool fullDescription = false;
-
   final List<Widget> pages = [
     const OverviewSection(),
     const ProgressSection(),
@@ -17,10 +15,8 @@ class TanamankuProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void showFullDescription() {
-    fullDescription = true;
-    // fullDescription = !fullDescription;
-    notifyListeners();
+  void refresh() {
+    selectedIndex = 0;
   }
 
   String removeHtmlTags(String htmlString) {

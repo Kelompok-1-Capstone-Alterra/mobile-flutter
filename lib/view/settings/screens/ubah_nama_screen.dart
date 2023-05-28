@@ -18,7 +18,10 @@ class UbahNamaScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            provider.ubahNamaC.clear();
+            Navigator.pop(context);
+          },
           child: const Icon(
             FluentIcons.ios_arrow_ltr_24_filled,
           ),

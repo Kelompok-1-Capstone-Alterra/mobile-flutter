@@ -11,7 +11,7 @@ class WarningCuaca extends StatelessWidget {
     return Card(
       elevation: 15,
       shadowColor: Colors.black26,
-      color: error[100],
+      color: error[200],
       surfaceTintColor: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

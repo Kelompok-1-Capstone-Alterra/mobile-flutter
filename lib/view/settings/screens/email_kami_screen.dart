@@ -20,7 +20,12 @@ class EmailKamiScreen extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.only(left: 18.5),
           child: GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              provider.nomorHpC.clear();
+              provider.emailC.clear();
+              provider.catatanC.clear();
+              Navigator.pop(context);
+            },
             child: const Icon(
               FluentIcons.ios_arrow_ltr_24_filled,
             ),

@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_nama_tanaman_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,6 @@ class EditNamaTanamanScreen extends StatelessWidget {
     final provider =
         Provider.of<EditNamaTanamanProvider>(context, listen: false);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
           'Nama Tanaman Kamu',
@@ -31,7 +31,7 @@ class EditNamaTanamanScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.85,
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
           child: Form(
             key: _formKey,
@@ -54,9 +54,8 @@ class EditNamaTanamanScreen extends StatelessWidget {
                         maxLength: 18,
                         decoration: const InputDecoration(
                           hintText: 'Tulis nama tanamanmu disini',
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: neutral),
-                          ),
+                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(),
                         ),
                         validator: (value) => provider.validateName(value),
                       ),
@@ -64,8 +63,16 @@ class EditNamaTanamanScreen extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      await customShowDialogText(
+                          context: context,
+                          title: 'Nama tanaman',
+                          desc: 'Nama tanaman berhasil di edit');
+
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
                     } else {}
                   },
                   style: ElevatedButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 import 'package:mobile_flutter/utils/themes/theme.dart';
@@ -21,7 +22,9 @@ import 'package:mobile_flutter/view_model/setting_viewmodel/statistik_penanaman_
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_nama_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_progress.dart';
 import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/detail_progress_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_nama_tanaman_provider.dart';
@@ -109,6 +112,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ArtikelProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OverviewProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddPanenMatiProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EditProgresMingguanProvider(),
         ),
       ],
       child: MaterialApp(

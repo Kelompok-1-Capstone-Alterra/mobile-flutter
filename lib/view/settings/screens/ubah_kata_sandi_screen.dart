@@ -19,7 +19,11 @@ class UbahKataSandiScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            provider.ubahKataSandiC.clear();
+            provider.konfirmasiKataSandiC.clear();
+            Navigator.pop(context);
+          },
           child: const Icon(
             FluentIcons.ios_arrow_ltr_24_filled,
           ),
