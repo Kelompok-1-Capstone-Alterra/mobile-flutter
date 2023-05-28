@@ -17,7 +17,7 @@ import 'package:mobile_flutter/view_model/dashboard_viewmodel/tambahkan_tanaman_
 import 'package:mobile_flutter/view_model/home_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/masukan_saran_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/profile_provider.dart';
-import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/statistik_penanaman_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';

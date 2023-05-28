@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/email_kami_provider.dart';
-import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_provider.dart';
 import 'package:provider/provider.dart';
 
 class EmailKamiScreen extends StatelessWidget {
