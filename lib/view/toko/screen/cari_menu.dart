@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class ListAllProduk extends StatefulWidget {
   final List<BaseModel> allProducts;
@@ -117,9 +118,9 @@ class ListAllProdukState extends State<ListAllProduk> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: allProducts.length,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 6 / 8,
+                            childAspectRatio: 6 / size.height * 95,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,
                           ),
@@ -127,15 +128,14 @@ class ListAllProdukState extends State<ListAllProduk> {
                             BaseModel current = allProducts[index];
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Details(
+                                pushNewScreen(context,
+                                    screen: Details(
                                       data: current,
                                       isCameFromProduk: true,
                                     ),
-                                  ),
-                                );
+                                    withNavBar: false,
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 0),
@@ -210,7 +210,7 @@ class ListAllProdukState extends State<ListAllProduk> {
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                             .symmetric(
-                                                        vertical: 5.0),
+                                                        vertical: 3.0),
                                                     child: AutoSizeText(
                                                       "${current.review.toString()}RB dilihat",
                                                       style: Theme.of(context)

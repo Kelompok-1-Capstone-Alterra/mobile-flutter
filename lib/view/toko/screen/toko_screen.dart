@@ -11,6 +11,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TokoScreen extends StatefulWidget {
   const TokoScreen({super.key});
@@ -157,7 +158,7 @@ class _TokoScreenState extends State<TokoScreen> {
                                   Positioned.fill(
                                     child: Transform.scale(
                                       scale: 0.5,
-                                      child: Image.asset(
+                                      child: SvgPicture.asset(
                                         item.imageUrl,
                                         fit: BoxFit.contain,
                                       ),
@@ -204,10 +205,9 @@ class _TokoScreenState extends State<TokoScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: mainList.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 6 / 8,
+                      childAspectRatio: 6 / size.height * 95,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
                     ),
@@ -263,10 +263,6 @@ class _TokoScreenState extends State<TokoScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
                                             child: AutoSizeText(
                                               current.name,
                                               overflow: TextOverflow.ellipsis,
@@ -293,7 +289,7 @@ class _TokoScreenState extends State<TokoScreen> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      vertical: 5.0),
+                                                      vertical: 3.0),
                                               child: AutoSizeText(
                                                 "${current.review.toString()}RB dilihat",
                                                 style: Theme.of(context)

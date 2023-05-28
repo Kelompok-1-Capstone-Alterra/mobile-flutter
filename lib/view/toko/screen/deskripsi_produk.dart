@@ -112,7 +112,7 @@ class _DeskripsiState extends State<Deskripsi> {
                     ),
                   ),
                   SizedBox(
-                    height: size.width * 0.66,
+                    height: size.width * 0.73,
                     width: size.width,
                     child: ListView(
                       scrollDirection: Axis.horizontal,

@@ -118,9 +118,9 @@ class ListProdukState extends State<ListProduk> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: filteredProducts.length,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 6 / 8,
+                            childAspectRatio: 6 / size.height * 95,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,
                           ),
@@ -210,7 +210,7 @@ class ListProdukState extends State<ListProduk> {
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                             .symmetric(
-                                                        vertical: 5.0),
+                                                        vertical: 3.0),
                                                     child: AutoSizeText(
                                                       "${current.review.toString()}RB dilihat",
                                                       style: Theme.of(context)
