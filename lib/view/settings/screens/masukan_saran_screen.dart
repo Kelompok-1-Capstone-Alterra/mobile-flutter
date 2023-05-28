@@ -18,7 +18,10 @@ class MasukanSaranScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            provider.masukanSaranC.clear();
+            Navigator.pop(context);
+          },
           child: const Icon(
             FluentIcons.ios_arrow_ltr_24_filled,
           ),
@@ -37,8 +40,9 @@ class MasukanSaranScreen extends StatelessWidget {
           horizontal: 16,
         ),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.9,
+            height: MediaQuery.of(context).size.height * 0.85,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

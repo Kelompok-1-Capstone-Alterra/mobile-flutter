@@ -37,6 +37,9 @@ class SettingValidatorProvider with ChangeNotifier {
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return 'Bagian ini tidak boleh kosong';
+    } else if (value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')) ||
+        value.contains(RegExp(r'[a-z]'))) {
+      return 'Nomor harus terdiri dari angka';
     } else if (value.length < 10) {
       return 'Minimal 10 angka';
     }
@@ -63,7 +66,7 @@ class SettingValidatorProvider with ChangeNotifier {
     return null;
   }
 
-   String? validateMasukanSaran(String? value) {
+  String? validateMasukanSaran(String? value) {
     if (value == null || value.isEmpty) {
       return 'Bagian ini tidak boleh kosong';
     } else if (value.length < 4) {
