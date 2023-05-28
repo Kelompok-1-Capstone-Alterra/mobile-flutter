@@ -1,11 +1,13 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/pemupukan_card.dart';
+import 'package:mobile_flutter/view/tanamanku/screen/edit_progress_mingguan_screen.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/detail_progress_card/kondisi_tanaman_card.dart';
+import 'package:mobile_flutter/view/tanamanku/widgets/cards/detail_progress_card/pemupukan_detail_card.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/progres_penyiraman_card.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/detail_progress_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 class DetailProgresScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: FloatingActionButton.small(
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black12,
             highlightElevation: 0,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             shape: const CircleBorder(),
@@ -127,40 +129,19 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                         const SizedBox(
                           height: 14,
                         ),
-                        Card(
-                          margin: const EdgeInsets.all(0),
-                          elevation: 15,
-                          shadowColor: Colors.black26,
-                          color: success[100],
-                          surfaceTintColor: Colors.transparent,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  decoration: BoxDecoration(
-                                      color: primary[400],
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Icon(
-                                    FluentIcons.plant_grass_20_regular,
-                                    color: neutral[10],
-                                  ),
-                                ),
-                                const SizedBox(width: 36),
-                                AutoSizeText(
-                                  "Sangat Sehat",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                ),
-                              ],
-                            ),
-                          ),
+                        const KondisiTanamanCard(title: 'Sangat Buruk'),
+                        const SizedBox(
+                          height: 12,
                         ),
+                        const KondisiTanamanCard(title: 'Buruk'),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const KondisiTanamanCard(title: 'Sehat'),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const KondisiTanamanCard(title: 'Sangat Sehat'),
                         const SizedBox(
                           height: 12,
                         ),
@@ -168,11 +149,11 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                         const SizedBox(
                           height: 12,
                         ),
-                        const PemupukanCard(),
+                        const PemupukanDetailCard(),
                         const SizedBox(
                           height: 28,
                         ),
-                        Text('Progres',
+                        Text('Catatan Progres',
                             style: Theme.of(context).textTheme.labelLarge),
                         const Text(
                             'Minggu ke 1 tanaman tomat saya sangat sehat dan segar. Minggu ke 1 tanaman tomat saya sangat sehat dan segar. Minggu ke 1 tanaman tomat saya sangat sehat dan segar.'),
@@ -180,7 +161,15 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                           height: 44,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            pushNewScreen(
+                              context,
+                              screen: EditProgressMingguanScreen(),
+                              withNavBar: true,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino,
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             backgroundColor: primary,
