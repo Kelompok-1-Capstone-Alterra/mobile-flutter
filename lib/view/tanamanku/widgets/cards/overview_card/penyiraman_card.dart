@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
+import 'package:provider/provider.dart';
 
 class PenyiramanCard extends StatelessWidget {
   const PenyiramanCard({super.key});
@@ -26,41 +28,56 @@ class PenyiramanCard extends StatelessWidget {
                     'Penyiraman',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: [
-                        TextSpan(
-                          text: '0',
-                          style: Theme.of(context).textTheme.displayMedium,
-                        ),
-                        TextSpan(
-                          text: ' / ',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        TextSpan(
-                          text: '2',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        TextSpan(
-                          text: ' kali sehari',
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
-                    ),
-                  ),
+                  Consumer<OverviewProvider>(builder: (context, provider, _) {
+                    return RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: [
+                          TextSpan(
+                            text: provider.counterPenyiraman.toString(),
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                          TextSpan(
+                            text: ' / ',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          TextSpan(
+                            text: provider.batasPenyiraman.toString(),
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          TextSpan(
+                            text: ' kali sehari',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(primary),
-              ),
-              padding: const EdgeInsets.all(13),
-              icon: Icon(
-                FluentIcons.drop_16_regular,
-                color: neutral[10],
+            Consumer<OverviewProvider>(
+              builder: (context, provider, _) => IconButton(
+                onPressed:
+                    provider.counterPenyiraman == provider.batasPenyiraman
+                        ? null
+                        : () {
+                            provider.addPenyiraman();
+                          },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    provider.counterPenyiraman == provider.batasPenyiraman
+                        ? neutral[40]
+                        : primary,
+                  ),
+                ),
+                padding: const EdgeInsets.all(13),
+                icon: Icon(
+                  FluentIcons.drop_16_regular,
+                  color: provider.counterPenyiraman == provider.batasPenyiraman
+                      ? neutral[20]
+                      : neutral[10],
+                ),
               ),
             ),
           ],

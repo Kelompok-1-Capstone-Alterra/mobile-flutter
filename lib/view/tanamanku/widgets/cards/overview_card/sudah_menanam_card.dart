@@ -1,12 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
+import 'package:provider/provider.dart';
 
 class SudahMenanamCard extends StatelessWidget {
   const SudahMenanamCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<OverviewProvider>(context, listen: false);
     return Card(
       margin: const EdgeInsets.all(0),
       elevation: 15,
@@ -30,52 +33,24 @@ class SudahMenanamCard extends StatelessWidget {
             ),
             const SizedBox(width: 13),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    "Sudah Melakukan",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    minFontSize: 14,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  AutoSizeText(
-                    "Penanaman ?",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    minFontSize: 14,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ],
+              child: AutoSizeText(
+                "Sudah Melakukan Penanaman?",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                minFontSize: 14,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
-            Stack(
-              children: [
-                Container(
-                  width: 50.0,
-                  height: 50.0,
-                  padding: const EdgeInsets.all(15),
-                  decoration: const BoxDecoration(
-                    color: primary,
-                    shape: BoxShape.circle,
+            ElevatedButton(
+              onPressed: () {
+                provider.addSudahMenanam();
+              },
+              style: ButtonStyle(
+                  foregroundColor: MaterialStatePropertyAll(
+                    neutral[10],
                   ),
-                  child: Image.asset(
-                    'assets/icons/penanaman.png',
-                    color: neutral[10],
-                  ),
-                ),
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      splashColor: Colors.black12.withOpacity(0.05),
-                      onTap: () {},
-                    ),
-                  ),
-                ),
-              ],
+                  backgroundColor: const MaterialStatePropertyAll(primary)),
+              child: const Text('Sudah'),
             ),
           ],
         ),

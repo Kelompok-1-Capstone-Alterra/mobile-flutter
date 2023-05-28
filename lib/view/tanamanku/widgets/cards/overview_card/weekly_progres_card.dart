@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view/tanamanku/screen/add_progress_mingguan_screen.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class WeeklyProgressCard extends StatelessWidget {
   const WeeklyProgressCard({super.key});
@@ -34,7 +36,7 @@ class WeeklyProgressCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    "Weekly Progress",
+                    "Progres Mingguan",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   AutoSizeText(
@@ -47,7 +49,14 @@ class WeeklyProgressCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                pushNewScreen(
+                  context,
+                  screen: AddProgressMingguanScreen(),
+                  withNavBar: true,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
               style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(primary),
               ),

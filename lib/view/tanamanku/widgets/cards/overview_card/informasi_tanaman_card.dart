@@ -2,9 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view/informasi/informasi_cara_menanam_screen.dart';
 import 'package:mobile_flutter/view/informasi/informasi_penyiraman_screen.dart';
 import 'package:mobile_flutter/view/informasi/informasi_temperature_screen.dart';
-import 'package:mobile_flutter/view/informasi/lokasi_tanaman_screen.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 import '../../../../informasi/informasi_pemupukan_screen.dart';
 
@@ -76,11 +77,17 @@ class InformasiTanamanCard extends StatelessWidget {
             switch (type) {
               case InformasiType.caraMenanam:
                 {
-                  Navigator.push(
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const LokasiTanamanScreen(),
+                  //   ),
+                  // );
+                  pushNewScreen(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const LokasiTanamanScreen(),
-                    ),
+                    screen: const InformasiCaraMenanamScreen(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 }
                 break;
