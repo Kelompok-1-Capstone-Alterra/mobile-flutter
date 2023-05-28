@@ -77,7 +77,7 @@ class MyPlantGridviewWidget extends StatelessWidget {
                               screen: const DetailTanamanScreen(),
                               withNavBar: true,
                               pageTransitionAnimation:
-                                  PageTransitionAnimation.fade);
+                                  PageTransitionAnimation.cupertino);
 
                           // Navigator.push(
                           //   context,
