@@ -7,11 +7,10 @@ import 'package:mobile_flutter/view/settings/screens/q4_jawaban_screen.dart';
 import 'package:mobile_flutter/view/settings/widgets/item_pertanyaan_pusat_bantuan_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class PusatBantuanScreen extends StatelessWidget {
-  PusatBantuanScreen({super.key});
-
-  final TextEditingController faqSearchC = TextEditingController();
+  const PusatBantuanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +106,10 @@ class PusatBantuanScreen extends StatelessWidget {
                 height: 15,
               ),
               GestureDetector(
-                onTap: () => Navigator.push(
+                onTap: () => pushNewScreen(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const EmailKamiScreen(),
-                  ),
+                  screen: const EmailKamiScreen(),
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 ),
                 child: Row(
                   children: [
