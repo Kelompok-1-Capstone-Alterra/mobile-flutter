@@ -44,6 +44,7 @@ class EmailKamiScreen extends StatelessWidget {
         child: Form(
           key: provider.formKey,
           child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -132,8 +133,8 @@ class EmailKamiScreen extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.29,
-                    bottom: 36,
+                    top: MediaQuery.of(context).size.height * 0.13,
+                    bottom: 48,
                   ),
                   width: double.infinity,
                   height: 40,

@@ -36,7 +36,7 @@ class SettingValidatorProvider with ChangeNotifier {
 
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Bagian ini tidak boleh kosong';
+      return 'No Hp tidak boleh kosong';
     } else if (value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')) ||
         value.contains(RegExp(r'[a-z]'))) {
       return 'Nomor harus terdiri dari angka';
@@ -48,7 +48,7 @@ class SettingValidatorProvider with ChangeNotifier {
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Bagian ini tidak boleh kosong';
+      return 'Email tidak boleh kosong';
     }
     const emailRegex =
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
@@ -61,7 +61,7 @@ class SettingValidatorProvider with ChangeNotifier {
 
   String? validateCatatan(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Bagian ini tidak boleh kosong';
+      return 'Catatan tidak boleh kosong';
     }
     return null;
   }

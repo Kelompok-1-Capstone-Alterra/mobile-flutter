@@ -136,7 +136,7 @@ class SettingsScreen extends StatelessWidget {
 
                 // ? button logout
                 Container(
-                  padding: const EdgeInsets.only(bottom: 36),
+                  padding: const EdgeInsets.only(bottom: 48), //default: 36
                   width: double.infinity,
                   child: ElevatedButton(
                     style: const ButtonStyle(
