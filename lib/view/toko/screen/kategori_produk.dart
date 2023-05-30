@@ -70,7 +70,7 @@ class ListProdukState extends State<ListProduk> {
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
+                        vertical: 20, horizontal: 20),
                     filled: true,
                     fillColor: neutral[10],
                     prefixIcon: const Icon(Icons.search),
@@ -85,7 +85,8 @@ class ListProdukState extends State<ListProduk> {
                     hintStyle: Theme.of(context).textTheme.bodyLarge,
                     hintText: "Cari Produk disini...",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: neutral[100]!),
+                      borderSide: BorderSide(color: neutral[70]!),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),

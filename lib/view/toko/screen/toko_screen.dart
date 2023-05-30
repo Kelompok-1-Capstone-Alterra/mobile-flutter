@@ -50,23 +50,26 @@ class _TokoScreenState extends State<TokoScreen> {
                     backgroundColor: neutral[10],
                     surfaceTintColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2),
+                      borderRadius: BorderRadius.circular(10),
                       side: BorderSide(color: neutral[70]!),
                     ),
                     padding:
                         const EdgeInsets.all(16), // Ubah ukuran padding tombol
                   ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.search, color: neutral[70]),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "Cari Kebutuhan disini...",
-                          style: Theme.of(context).textTheme.bodyLarge,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      children: [
+                        Icon(Icons.search, color: neutral[70]),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Cari Kebutuhan disini...",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -77,7 +80,7 @@ class _TokoScreenState extends State<TokoScreen> {
                   children: [
                     CarouselSlider(
                       options: CarouselOptions(
-                        aspectRatio: 2,
+                        aspectRatio: 2.4,
                         autoPlay: true,
                         autoPlayInterval: const Duration(seconds: 5),
                         autoPlayAnimationDuration:
@@ -104,8 +107,8 @@ class _TokoScreenState extends State<TokoScreen> {
                           children: crousel.asMap().entries.map((entry) {
                             int index = entry.key;
                             return Container(
-                              width: 25.0,
-                              height: 7.0,
+                              width: 20.0,
+                              height: 6.0,
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 4.0),
                               decoration: BoxDecoration(
@@ -128,7 +131,7 @@ class _TokoScreenState extends State<TokoScreen> {
               //select kategory
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -147,8 +150,8 @@ class _TokoScreenState extends State<TokoScreen> {
                         child: Column(
                           children: [
                             Container(
-                              width: 70.0,
-                              height: 70.0,
+                              width: 65.0,
+                              height: 65.0,
                               decoration: BoxDecoration(
                                 color: primary[400],
                                 shape: BoxShape.circle,
@@ -323,6 +326,7 @@ class _TokoScreenState extends State<TokoScreen> {
             horizontal: 5,
           ),
           child: Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
               image: DecorationImage(

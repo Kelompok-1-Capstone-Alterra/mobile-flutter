@@ -1,12 +1,12 @@
-<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_2858_51448" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
-<path d="M10.5 16.5L13.5 17.5C13.5 17.5 21 16 22 16C23 16 23 17 22 18C21 19 17.5 22 14.5 22C11.5 22 9.5 20.5 7.5 20.5H2.5" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2.5 14.5C3.5 13.5 5.5 12 7.5 12C9.5 12 14.25 14 15 15C15.75 16 13.5 17.5 13.5 17.5" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M17.5 12.5C18.3284 12.5 19 11.8284 19 11C19 10.1716 18.3284 9.5 17.5 9.5C16.6716 9.5 16 10.1716 16 11C16 11.8284 16.6716 12.5 17.5 12.5Z" fill="white" stroke="white" stroke-width="3.33333"/>
-<path d="M11.5 9C12.3284 9 13 8.32843 13 7.5C13 6.67157 12.3284 6 11.5 6C10.6716 6 10 6.67157 10 7.5C10 8.32843 10.6716 9 11.5 9Z" fill="white" stroke="white" stroke-width="3.33333"/>
-<path d="M17.5 5C18.3284 5 19 4.32843 19 3.5C19 2.67157 18.3284 2 17.5 2C16.6716 2 16 2.67157 16 3.5C16 4.32843 16.6716 5 17.5 5Z" fill="white" stroke="white" stroke-width="3.33333"/>
+<svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_1_37" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+<path d="M9.5 15.5L12.5 16.5C12.5 16.5 20 15 21 15C22 15 22 16 21 17C20 18 16.5 21 13.5 21C10.5 21 8.5 19.5 6.5 19.5H1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1.5 13.5C2.5 12.5 4.5 11 6.5 11C8.5 11 13.25 13 14 14C14.75 15 12.5 16.5 12.5 16.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.5 11.5C17.3284 11.5 18 10.8284 18 10C18 9.17157 17.3284 8.5 16.5 8.5C15.6716 8.5 15 9.17157 15 10C15 10.8284 15.6716 11.5 16.5 11.5Z" fill="white" stroke="white" stroke-width="2"/>
+<path d="M10.5 8C11.3284 8 12 7.32843 12 6.5C12 5.67157 11.3284 5 10.5 5C9.67157 5 9 5.67157 9 6.5C9 7.32843 9.67157 8 10.5 8Z" fill="white" stroke="white" stroke-width="2"/>
+<path d="M16.5 4C17.3284 4 18 3.32843 18 2.5C18 1.67157 17.3284 1 16.5 1C15.6716 1 15 1.67157 15 2.5C15 3.32843 15.6716 4 16.5 4Z" fill="white" stroke="white" stroke-width="2"/>
 </mask>
-<g mask="url(#mask0_2858_51448)">
-<path d="M0.5 0H24.5V24H0.5V0Z" fill="white"/>
+<g mask="url(#mask0_1_37)">
+<path d="M-0.5 -1H23.5V23H-0.5V-1Z" fill="white"/>
 </g>
 </svg>
