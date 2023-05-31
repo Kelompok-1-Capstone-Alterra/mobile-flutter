@@ -106,7 +106,8 @@ class _DetailsState extends State<Details> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 2.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -187,7 +187,7 @@ class _TokoScreenState extends State<TokoScreen> {
               /// Spesial Untukmu
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

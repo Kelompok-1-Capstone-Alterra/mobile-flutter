@@ -68,7 +68,8 @@ class _DeskripsiState extends State<Deskripsi> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 2.0),
                     child: SizedBox(
                       width: size.width,
                       child: Column(
@@ -92,7 +93,7 @@ class _DeskripsiState extends State<Deskripsi> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                        horizontal: 20.0, vertical: 10.0),
                     child: SizedBox(
                       width: size.width,
                       child: Column(
