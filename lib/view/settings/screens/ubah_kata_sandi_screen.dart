@@ -2,7 +2,7 @@ import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 
-import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -43,16 +43,15 @@ class UbahKataSandiScreen extends StatelessWidget {
           child: Consumer<UbahKataSandiProvider>(
             builder: (context, ubahKataSandi, _) => SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Text(
-                      "Membuat kata sandi membantu Anda\n untuk menjaga keamanan akun",
-                      style: ThemeData().textTheme.titleMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
+                  Text(
+                    "Membuat kata sandi membantu Anda\nuntuk menjaga keamanan akun",
+                    style: ThemeData().textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                    textAlign: TextAlign.left,
                   ),
                   const SizedBox(
                     height: 24,

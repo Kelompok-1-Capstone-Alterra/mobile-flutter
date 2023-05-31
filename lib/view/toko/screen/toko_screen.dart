@@ -11,6 +11,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TokoScreen extends StatefulWidget {
   const TokoScreen({super.key});
@@ -49,23 +50,26 @@ class _TokoScreenState extends State<TokoScreen> {
                     backgroundColor: neutral[10],
                     surfaceTintColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2),
+                      borderRadius: BorderRadius.circular(10),
                       side: BorderSide(color: neutral[70]!),
                     ),
                     padding:
                         const EdgeInsets.all(16), // Ubah ukuran padding tombol
                   ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.search, color: neutral[70]),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          "Cari Kebutuhan disini...",
-                          style: Theme.of(context).textTheme.bodyLarge,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      children: [
+                        Icon(Icons.search, color: neutral[70]),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Cari Kebutuhan disini...",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -76,7 +80,7 @@ class _TokoScreenState extends State<TokoScreen> {
                   children: [
                     CarouselSlider(
                       options: CarouselOptions(
-                        aspectRatio: 2,
+                        aspectRatio: 2.4,
                         autoPlay: true,
                         autoPlayInterval: const Duration(seconds: 5),
                         autoPlayAnimationDuration:
@@ -103,8 +107,8 @@ class _TokoScreenState extends State<TokoScreen> {
                           children: crousel.asMap().entries.map((entry) {
                             int index = entry.key;
                             return Container(
-                              width: 25.0,
-                              height: 7.0,
+                              width: 20.0,
+                              height: 6.0,
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 4.0),
                               decoration: BoxDecoration(
@@ -127,7 +131,7 @@ class _TokoScreenState extends State<TokoScreen> {
               //select kategory
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -146,8 +150,8 @@ class _TokoScreenState extends State<TokoScreen> {
                         child: Column(
                           children: [
                             Container(
-                              width: 70.0,
-                              height: 70.0,
+                              width: 65.0,
+                              height: 65.0,
                               decoration: BoxDecoration(
                                 color: primary[400],
                                 shape: BoxShape.circle,
@@ -157,7 +161,7 @@ class _TokoScreenState extends State<TokoScreen> {
                                   Positioned.fill(
                                     child: Transform.scale(
                                       scale: 0.5,
-                                      child: Image.asset(
+                                      child: SvgPicture.asset(
                                         item.imageUrl,
                                         fit: BoxFit.contain,
                                       ),
@@ -183,7 +187,7 @@ class _TokoScreenState extends State<TokoScreen> {
               /// Spesial Untukmu
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -204,10 +208,9 @@ class _TokoScreenState extends State<TokoScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: mainList.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 6 / 8,
+                      childAspectRatio: 7 / size.height * 90,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
                     ),
@@ -263,10 +266,6 @@ class _TokoScreenState extends State<TokoScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
                                             child: AutoSizeText(
                                               current.name,
                                               overflow: TextOverflow.ellipsis,
@@ -290,17 +289,12 @@ class _TokoScreenState extends State<TokoScreen> {
                                                     .size
                                                     .width *
                                                 0.38,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 5.0),
-                                              child: AutoSizeText(
-                                                "${current.review.toString()}RB dilihat",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                                maxLines: 1,
-                                              ),
+                                            child: AutoSizeText(
+                                              "${current.review.toString()}RB dilihat",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                              maxLines: 1,
                                             ),
                                           ),
                                         ],
@@ -332,6 +326,7 @@ class _TokoScreenState extends State<TokoScreen> {
             horizontal: 5,
           ),
           child: Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
               image: DecorationImage(

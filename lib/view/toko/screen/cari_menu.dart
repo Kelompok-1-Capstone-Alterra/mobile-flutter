@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class ListAllProduk extends StatefulWidget {
   final List<BaseModel> allProducts;
@@ -67,7 +68,7 @@ class ListAllProdukState extends State<ListAllProduk> {
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
+                        vertical: 20, horizontal: 20),
                     filled: true,
                     fillColor: neutral[10],
                     prefixIcon: const Icon(Icons.search),
@@ -84,7 +85,8 @@ class ListAllProdukState extends State<ListAllProduk> {
                     hintStyle: Theme.of(context).textTheme.bodyLarge,
                     hintText: "Cari Produk disini...",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: neutral[100]!),
+                      borderSide: BorderSide(color: neutral[70]!),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -117,9 +119,9 @@ class ListAllProdukState extends State<ListAllProduk> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: allProducts.length,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 6 / 8,
+                            childAspectRatio: 7 / size.height * 90,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,
                           ),
@@ -127,15 +129,14 @@ class ListAllProdukState extends State<ListAllProduk> {
                             BaseModel current = allProducts[index];
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Details(
+                                pushNewScreen(context,
+                                    screen: Details(
                                       data: current,
                                       isCameFromProduk: true,
                                     ),
-                                  ),
-                                );
+                                    withNavBar: false,
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 0),
@@ -207,17 +208,12 @@ class ListAllProdukState extends State<ListAllProduk> {
                                                           .size
                                                           .width *
                                                       0.38,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 5.0),
-                                                    child: AutoSizeText(
-                                                      "${current.review.toString()}RB dilihat",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall,
-                                                      maxLines: 1,
-                                                    ),
+                                                  child: AutoSizeText(
+                                                    "${current.review.toString()}RB dilihat",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                    maxLines: 1,
                                                   ),
                                                 ),
                                               ],

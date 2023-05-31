@@ -1,7 +1,7 @@
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
-import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_nama_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -44,16 +44,15 @@ class UbahNamaScreen extends StatelessWidget {
           key: provider.formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Text(
-                    "Gunakan nama asli Anda untuk\n memudahkan verifikasi ",
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  "Gunakan nama asli Anda untuk\nmemudahkan verifikasi ",
+                  style: ThemeData().textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                  textAlign: TextAlign.left,
                 ),
                 const SizedBox(
                   height: 24,

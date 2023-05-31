@@ -70,7 +70,7 @@ class ListProdukState extends State<ListProduk> {
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
+                        vertical: 20, horizontal: 20),
                     filled: true,
                     fillColor: neutral[10],
                     prefixIcon: const Icon(Icons.search),
@@ -85,7 +85,8 @@ class ListProdukState extends State<ListProduk> {
                     hintStyle: Theme.of(context).textTheme.bodyLarge,
                     hintText: "Cari Produk disini...",
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: neutral[100]!),
+                      borderSide: BorderSide(color: neutral[70]!),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -118,9 +119,9 @@ class ListProdukState extends State<ListProduk> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: filteredProducts.length,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 6 / 8,
+                            childAspectRatio: 7 / size.height * 90,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,
                           ),
@@ -207,17 +208,12 @@ class ListProdukState extends State<ListProduk> {
                                                           .size
                                                           .width *
                                                       0.38,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 5.0),
-                                                    child: AutoSizeText(
-                                                      "${current.review.toString()}RB dilihat",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall,
-                                                      maxLines: 1,
-                                                    ),
+                                                  child: AutoSizeText(
+                                                    "${current.review.toString()}RB dilihat",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                    maxLines: 1,
                                                   ),
                                                 ),
                                               ],

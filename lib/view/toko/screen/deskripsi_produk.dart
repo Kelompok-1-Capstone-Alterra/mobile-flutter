@@ -68,7 +68,8 @@ class _DeskripsiState extends State<Deskripsi> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 2.0),
                     child: SizedBox(
                       width: size.width,
                       child: Column(
@@ -92,7 +93,7 @@ class _DeskripsiState extends State<Deskripsi> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                        horizontal: 20.0, vertical: 10.0),
                     child: SizedBox(
                       width: size.width,
                       child: Column(
@@ -112,7 +113,7 @@ class _DeskripsiState extends State<Deskripsi> {
                     ),
                   ),
                   SizedBox(
-                    height: size.width * 0.66,
+                    height: size.width * 0.70,
                     width: size.width,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -183,16 +184,12 @@ class _DeskripsiState extends State<Deskripsi> {
                                         ),
                                         SizedBox(
                                           width: size.width * 0.45,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5.0),
-                                            child: AutoSizeText(
-                                              "${current.review.toString()}RB dilihat",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                              maxLines: 1,
-                                            ),
+                                          child: AutoSizeText(
+                                            "${current.review.toString()}RB dilihat",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                            maxLines: 1,
                                           ),
                                         ),
                                       ],
