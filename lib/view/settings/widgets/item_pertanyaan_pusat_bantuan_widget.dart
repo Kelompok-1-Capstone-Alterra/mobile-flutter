@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class ItemPertanyaanPusatBantuanWidget extends StatelessWidget {
   const ItemPertanyaanPusatBantuanWidget({
@@ -12,11 +13,10 @@ class ItemPertanyaanPusatBantuanWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
+      onTap: () => pushNewScreen(
         context,
-        MaterialPageRoute(
-          builder: (context) => navigateTo!,
-        ),
+        screen: navigateTo!,
+        pageTransitionAnimation: PageTransitionAnimation.cupertino,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

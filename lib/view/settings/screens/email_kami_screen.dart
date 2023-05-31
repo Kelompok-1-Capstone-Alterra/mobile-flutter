@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_text_widget.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/email_kami_provider.dart';
-import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_viewmodel.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/setting_validator_provider.dart';
 import 'package:provider/provider.dart';
 
 class EmailKamiScreen extends StatelessWidget {
@@ -44,6 +44,7 @@ class EmailKamiScreen extends StatelessWidget {
         child: Form(
           key: provider.formKey,
           child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -66,6 +67,7 @@ class EmailKamiScreen extends StatelessWidget {
                       ),
                       CustomTextFormField(
                         controller: provider.nomorHpC,
+                        maxLength: 15,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         label: 'No. Handphone',
@@ -132,8 +134,8 @@ class EmailKamiScreen extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.29,
-                    bottom: 36,
+                    top: MediaQuery.of(context).size.height * 0.13,
+                    bottom: 48,
                   ),
                   width: double.infinity,
                   height: 40,
