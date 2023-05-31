@@ -79,7 +79,7 @@ class OverviewSection extends StatelessWidget {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text(
-                                    'Tanamanmu Sudah panen ?',
+                                    'Tanamanmu sudah panen?',
                                     style: ThemeData()
                                         .textTheme
                                         .headlineSmall!
@@ -101,6 +101,10 @@ class OverviewSection extends StatelessWidget {
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
+                                      style: ButtonStyle(
+                                        overlayColor: MaterialStatePropertyAll(
+                                            neutral.withOpacity(0.1)),
+                                      ),
                                       child: Text(
                                         'Batal',
                                         style: ThemeData()
@@ -119,11 +123,15 @@ class OverviewSection extends StatelessWidget {
                                         pushNewScreen(
                                           context,
                                           screen: AddPanenScreen(),
-                                          withNavBar: true,
+                                          withNavBar: false,
                                           pageTransitionAnimation:
                                               PageTransitionAnimation.cupertino,
                                         );
                                       },
+                                      style: ButtonStyle(
+                                        overlayColor: MaterialStatePropertyAll(
+                                            primary.withOpacity(0.1)),
+                                      ),
                                       child: Text(
                                         'Progres',
                                         style: ThemeData()
@@ -163,7 +171,7 @@ class OverviewSection extends StatelessWidget {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text(
-                                    'Tanamanmu mati ?',
+                                    'Tanamanmu mati?',
                                     style: ThemeData()
                                         .textTheme
                                         .headlineSmall!
@@ -185,6 +193,10 @@ class OverviewSection extends StatelessWidget {
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
+                                      style: ButtonStyle(
+                                        overlayColor: MaterialStatePropertyAll(
+                                            neutral.withOpacity(0.1)),
+                                      ),
                                       child: Text(
                                         'Batal',
                                         style: ThemeData()
@@ -203,11 +215,15 @@ class OverviewSection extends StatelessWidget {
                                         pushNewScreen(
                                           context,
                                           screen: AddProgresMatiScreen(),
-                                          withNavBar: true,
+                                          withNavBar: false,
                                           pageTransitionAnimation:
                                               PageTransitionAnimation.cupertino,
                                         );
                                       },
+                                      style: ButtonStyle(
+                                        overlayColor: MaterialStatePropertyAll(
+                                            primary.withOpacity(0.1)),
+                                      ),
                                       child: Text(
                                         'Isi Penyebab',
                                         style: ThemeData()
