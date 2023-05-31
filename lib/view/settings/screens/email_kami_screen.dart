@@ -67,6 +67,7 @@ class EmailKamiScreen extends StatelessWidget {
                       ),
                       CustomTextFormField(
                         controller: provider.nomorHpC,
+                        maxLength: 15,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         label: 'No. Handphone',

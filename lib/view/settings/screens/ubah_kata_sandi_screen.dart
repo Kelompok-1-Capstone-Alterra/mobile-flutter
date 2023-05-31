@@ -43,16 +43,15 @@ class UbahKataSandiScreen extends StatelessWidget {
           child: Consumer<UbahKataSandiProvider>(
             builder: (context, ubahKataSandi, _) => SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Text(
-                      "Membuat kata sandi membantu Anda\n untuk menjaga keamanan akun",
-                      style: ThemeData().textTheme.titleMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
+                  Text(
+                    "Membuat kata sandi membantu Anda\nuntuk menjaga keamanan akun",
+                    style: ThemeData().textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                    textAlign: TextAlign.left,
                   ),
                   const SizedBox(
                     height: 24,

@@ -44,16 +44,15 @@ class UbahNamaScreen extends StatelessWidget {
           key: provider.formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Text(
-                    "Gunakan nama asli Anda untuk\n memudahkan verifikasi ",
-                    style: ThemeData().textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  "Gunakan nama asli Anda untuk\nmemudahkan verifikasi ",
+                  style: ThemeData().textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                  textAlign: TextAlign.left,
                 ),
                 const SizedBox(
                   height: 24,

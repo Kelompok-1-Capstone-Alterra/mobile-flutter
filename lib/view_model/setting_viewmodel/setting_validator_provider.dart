@@ -62,15 +62,17 @@ class SettingValidatorProvider with ChangeNotifier {
   String? validateCatatan(String? value) {
     if (value == null || value.isEmpty) {
       return 'Catatan tidak boleh kosong';
+    } else if (value.length < 2) {
+      return "Minimal 2 karakter";
     }
     return null;
   }
 
   String? validateMasukanSaran(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Bagian ini tidak boleh kosong';
-    } else if (value.length < 4) {
-      return "Minimal 4 karakter";
+      return 'Saran tidak boleh kosong';
+    } else if (value.length < 2) {
+      return "Minimal 2 karakter";
     }
     return null;
   }
