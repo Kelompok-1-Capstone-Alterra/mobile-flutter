@@ -11,4 +11,11 @@ class LoginProvider extends ChangeNotifier {
     passwordObscureText = !passwordObscureText;
     notifyListeners();
   }
+
+  void controllerClear() {
+    emailController.clear();
+    passwordController.clear();
+    passwordObscureText = true;
+    notifyListeners();
+  }
 }
