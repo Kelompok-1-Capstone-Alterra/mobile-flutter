@@ -13,88 +13,90 @@ class ProgressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OverviewProvider>(builder: (context, provider, _) {
-      return Column(
-        children: [
-          provider.sudahMenanam
-              ? Column(
-                  children: [
-                    ProgressCard(
-                      title: 'Sudah Panen',
-                      date: '24 Mei 2023',
-                      type: TipeProgress.panen,
-                      onTap: () {
-                        pushNewScreen(
-                          context,
-                          screen: const DetailPanenScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    ProgressCard(
-                      title: 'Tanaman Mati',
-                      date: '24 May 2023',
-                      type: TipeProgress.mati,
-                      onTap: () {
-                        pushNewScreen(
-                          context,
-                          screen: const DetailMatiScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    ProgressCard(
-                      title: 'Minggu ke 2',
-                      date: '11 - 20 May 2023',
-                      type: TipeProgress.mingguan,
-                      onTap: () {
-                        pushNewScreen(
-                          context,
-                          screen: const DetailProgresScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    ProgressCard(
-                      title: 'Minggu ke 1',
-                      date: '01 - 07 May 2023',
-                      type: TipeProgress.mingguan,
-                      onTap: () {
-                        pushNewScreen(
-                          context,
-                          screen: const DetailProgresScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                  ],
-                )
-              : const NoProgressCard(),
-          const SizedBox(
-            height: 13,
-          ),
-        ],
-      );
-    });
+    return Consumer<OverviewProvider>(
+      builder: (context, provider, _) {
+        return Column(
+          children: [
+            provider.sudahMenanam
+                ? Column(
+                    children: [
+                      ProgressCard(
+                        title: 'Sudah Panen',
+                        date: '24 Mei 2023',
+                        type: TipeProgress.panen,
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: const DetailPanenScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 13,
+                      ),
+                      ProgressCard(
+                        title: 'Tanaman Mati',
+                        date: '24 May 2023',
+                        type: TipeProgress.mati,
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: const DetailMatiScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 13,
+                      ),
+                      ProgressCard(
+                        title: 'Minggu ke 2',
+                        date: '11 - 20 May 2023',
+                        type: TipeProgress.mingguan,
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: const DetailProgresScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 13,
+                      ),
+                      ProgressCard(
+                        title: 'Minggu ke 1',
+                        date: '01 - 07 May 2023',
+                        type: TipeProgress.mingguan,
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: const DetailProgresScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 13,
+                      ),
+                    ],
+                  )
+                : const NoProgressCard(),
+            const SizedBox(
+              height: 13,
+            ),
+          ],
+        );
+      },
+    );
   }
 }

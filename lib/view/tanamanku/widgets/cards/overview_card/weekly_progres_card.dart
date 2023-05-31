@@ -53,7 +53,7 @@ class WeeklyProgressCard extends StatelessWidget {
                 pushNewScreen(
                   context,
                   screen: AddProgressMingguanScreen(),
-                  withNavBar: true,
+                  withNavBar: false,
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
               },
