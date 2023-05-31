@@ -19,4 +19,12 @@ class ChangePasswordProvider with ChangeNotifier {
     confirmObscureText = !confirmObscureText;
     notifyListeners();
   }
+
+  void controllerClear() {
+    changePasswordController.clear();
+    confirmPasswordController.clear();
+    passwordObscureText = true;
+    confirmObscureText = true;
+    notifyListeners();
+  }
 }
