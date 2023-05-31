@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/settings/screens/detail_item_statistika_penanaman.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class ItemStatistikaPenanamanWidget extends StatelessWidget {
   const ItemStatistikaPenanamanWidget({
@@ -14,12 +15,14 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const DetailItemStatistikPenanaman(),
-        ),
-      ),
+      onTap: () {
+        pushNewScreen(
+          context,
+          screen: const DetailItemStatistikPenanaman(),
+          withNavBar: false,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+      },
       child: Card(
         elevation: 10,
         shadowColor: Colors.black26,

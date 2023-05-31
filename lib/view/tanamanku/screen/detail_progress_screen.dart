@@ -164,8 +164,8 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                           onPressed: () {
                             pushNewScreen(
                               context,
-                              screen: EditProgressMingguanScreen(),
-                              withNavBar: true,
+                              screen: const EditProgressMingguanScreen(),
+                              withNavBar: false,
                               pageTransitionAnimation:
                                   PageTransitionAnimation.cupertino,
                             );

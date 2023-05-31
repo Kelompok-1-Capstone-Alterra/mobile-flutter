@@ -36,107 +36,106 @@ class SettingsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.9,
+          height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () => pushNewScreen(
-                          context,
-                          screen: const ProfileScreen(),
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        ),
-                        title: Text(
-                          'Profil',
-                          style: ThemeData().textTheme.titleMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                        ),
-                        trailing: const Icon(
-                            FluentIcons.ios_chevron_right_20_regular),
+                Column(
+                  children: [
+                    ListTile(
+                      onTap: () => pushNewScreen(
+                        context,
+                        screen: const ProfileScreen(),
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
                       ),
-                      ListTile(
-                        onTap: () => pushNewScreen(
-                          context,
-                          screen: const StatistikPenanamanScreen(),
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        ),
-                        title: Text(
-                          'Statistik Penanaman',
-                          style: ThemeData().textTheme.titleMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                        ),
-                        trailing: const Icon(
-                            FluentIcons.ios_chevron_right_20_regular),
+                      title: Text(
+                        'Profil',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
                       ),
-                      ListTile(
-                        onTap: () => pushNewScreen(
-                          context,
-                          screen: const AboutScreen(),
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        ),
-                        title: Text(
-                          'Tentang Agriplan',
-                          style: ThemeData().textTheme.titleMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                        ),
-                        trailing: const Icon(
-                            FluentIcons.ios_chevron_right_20_regular),
+                      trailing:
+                          const Icon(FluentIcons.ios_chevron_right_20_regular),
+                    ),
+                    ListTile(
+                      onTap: () => pushNewScreen(
+                        context,
+                        screen: const StatistikPenanamanScreen(),
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
                       ),
-                      ListTile(
-                        onTap: () => pushNewScreen(
-                          context,
-                          screen: const PusatBantuanScreen(),
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        ),
-                        title: Text(
-                          'Pusat Bantuan',
-                          style: ThemeData().textTheme.titleMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                        ),
-                        trailing: const Icon(
-                            FluentIcons.ios_chevron_right_20_regular),
+                      title: Text(
+                        'Statistik Penanaman',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
                       ),
-                      ListTile(
-                        onTap: () => pushNewScreen(
-                          context,
-                          screen: const MasukanSaranScreen(),
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        ),
-                        title: Text(
-                          'Masukan & Saran',
-                          style: ThemeData().textTheme.titleMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                        ),
-                        trailing: const Icon(
-                            FluentIcons.ios_chevron_right_20_regular),
+                      trailing:
+                          const Icon(FluentIcons.ios_chevron_right_20_regular),
+                    ),
+                    ListTile(
+                      onTap: () => pushNewScreen(
+                        context,
+                        screen: const AboutScreen(),
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
                       ),
-                    ],
-                  ),
+                      title: Text(
+                        'Tentang Agriplan',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                      ),
+                      trailing:
+                          const Icon(FluentIcons.ios_chevron_right_20_regular),
+                    ),
+                    ListTile(
+                      onTap: () => pushNewScreen(
+                        context,
+                        screen: const PusatBantuanScreen(),
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      ),
+                      title: Text(
+                        'Pusat Bantuan',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                      ),
+                      trailing:
+                          const Icon(FluentIcons.ios_chevron_right_20_regular),
+                    ),
+                    ListTile(
+                      onTap: () => pushNewScreen(
+                        context,
+                        screen: const MasukanSaranScreen(),
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      ),
+                      title: Text(
+                        'Masukan & Saran',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                      ),
+                      trailing:
+                          const Icon(FluentIcons.ios_chevron_right_20_regular),
+                    ),
+                  ],
                 ),
 
                 // ? button logout
                 Container(
-                  padding: const EdgeInsets.only(bottom: 48), //default: 36
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.15),
                   width: double.infinity,
                   child: ElevatedButton(
                     style: const ButtonStyle(
