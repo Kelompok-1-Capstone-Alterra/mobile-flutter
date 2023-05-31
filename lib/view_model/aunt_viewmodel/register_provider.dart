@@ -12,4 +12,12 @@ class RegisterProvider extends ChangeNotifier {
     passwordObscureText = !passwordObscureText;
     notifyListeners();
   }
+
+  void controllerClear() {
+    namaController.clear();
+    emailController.clear();
+    passwordController.clear();
+    passwordObscureText = true;
+    notifyListeners();
+  }
 }
