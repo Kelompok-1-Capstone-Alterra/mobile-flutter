@@ -47,6 +47,8 @@ class ProfileScreen extends StatelessWidget {
                             'assets/images/ubah_profile.png',
                             width: 121,
                             height: 120,
+                            fit: BoxFit.cover,
+                            
                           ),
                         )
                       : SizedBox(

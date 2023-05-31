@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view/settings/screens/ubah_kata_sandi_screen.dart';
 import 'package:mobile_flutter/view/settings/screens/ubah_nama_screen.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 enum NavigateType { ubahNama, ubahKataSandi, none }
 
@@ -25,13 +26,12 @@ class ItemInfoPribadiWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         isTapable
-            ? Navigator.push(
+            ? pushNewScreen(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => navigateScreen == NavigateType.ubahNama
-                      ? const UbahNamaScreen()
-                      : const UbahKataSandiScreen(),
-                ),
+                screen: navigateScreen == NavigateType.ubahNama
+                    ? const UbahNamaScreen()
+                    : const UbahKataSandiScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
               )
             : '';
       },

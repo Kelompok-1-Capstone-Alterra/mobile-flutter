@@ -7,6 +7,7 @@ import 'package:mobile_flutter/view/settings/screens/statistik_penanaman_screen.
 import 'package:mobile_flutter/view/settings/widgets/logout_alert_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -45,12 +46,11 @@ class SettingsScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
-                        //  navigate to ubah profile
-                        onTap: () => Navigator.push(
+                        onTap: () => pushNewScreen(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const ProfileScreen(),
-                          ),
+                          screen: const ProfileScreen(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
                         ),
                         title: Text(
                           'Profil',
@@ -63,12 +63,11 @@ class SettingsScreen extends StatelessWidget {
                             FluentIcons.ios_chevron_right_20_regular),
                       ),
                       ListTile(
-                        onTap: () => Navigator.push(
+                        onTap: () => pushNewScreen(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const StatistikPenanamanScreen(),
-                          ),
+                          screen: const StatistikPenanamanScreen(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
                         ),
                         title: Text(
                           'Statistik Penanaman',
@@ -81,11 +80,11 @@ class SettingsScreen extends StatelessWidget {
                             FluentIcons.ios_chevron_right_20_regular),
                       ),
                       ListTile(
-                        onTap: () => Navigator.push(
+                        onTap: () => pushNewScreen(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const AboutScreen(),
-                          ),
+                          screen: const AboutScreen(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
                         ),
                         title: Text(
                           'Tentang Agriplan',
@@ -98,11 +97,11 @@ class SettingsScreen extends StatelessWidget {
                             FluentIcons.ios_chevron_right_20_regular),
                       ),
                       ListTile(
-                        onTap: () => Navigator.push(
+                        onTap: () => pushNewScreen(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => PusatBantuanScreen(),
-                          ),
+                          screen: const PusatBantuanScreen(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
                         ),
                         title: Text(
                           'Pusat Bantuan',
@@ -115,11 +114,11 @@ class SettingsScreen extends StatelessWidget {
                             FluentIcons.ios_chevron_right_20_regular),
                       ),
                       ListTile(
-                        onTap: () => Navigator.push(
+                        onTap: () => pushNewScreen(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const MasukanSaranScreen(),
-                          ),
+                          screen: const MasukanSaranScreen(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
                         ),
                         title: Text(
                           'Masukan & Saran',
@@ -137,7 +136,7 @@ class SettingsScreen extends StatelessWidget {
 
                 // ? button logout
                 Container(
-                  padding: const EdgeInsets.only(bottom: 36),
+                  padding: const EdgeInsets.only(bottom: 48), //default: 36
                   width: double.infinity,
                   child: ElevatedButton(
                     style: const ButtonStyle(
