@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_flutter/view/aunt/screen/register_screen.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
@@ -16,11 +17,19 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
   void _toRegister() {
     Provider.of<SharedPreferencesProvider>(context, listen: false)
         .completeOnboarding();
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const RegisterScreen(),
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const RegisterScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
       ),
-      (route) => false,
     );
   }
 
@@ -31,6 +40,7 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: OnBoardingSlider(
         finishButtonText: 'Buat Akun Baru',
@@ -61,23 +71,23 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
         background: [
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
-            child: Image.asset(
-              'assets/images/onboarding1.png',
-              height: 300,
+            child: SizedBox(
+              height: screenHeight * 0.4,
+              child: SvgPicture.asset('assets/svg/onboarding_1.svg'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
-            child: Image.asset(
-              'assets/images/onboarding2.png',
-              height: 300,
+            child: SizedBox(
+              height: screenHeight * 0.4,
+              child: SvgPicture.asset('assets/svg/onboarding_2.svg'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
-            child: Image.asset(
-              'assets/images/onboarding3.png',
-              height: 300,
+            child: SizedBox(
+              height: screenHeight * 0.4,
+              child: SvgPicture.asset('assets/svg/onboarding_3.svg'),
             ),
           ),
         ],
