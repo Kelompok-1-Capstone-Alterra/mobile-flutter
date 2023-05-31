@@ -10,32 +10,33 @@ class DetailArtikelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: FloatingActionButton.small(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            highlightElevation: 0,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            shape: const CircleBorder(),
-            disabledElevation: 0,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              FluentIcons.chevron_left_16_regular,
-              size: 30,
-              color: neutral[10],
-            ),
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: FloatingActionButton.small(
+          elevation: 0,
+          backgroundColor: Colors.black12,
+          highlightElevation: 0,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: const CircleBorder(),
+          disabledElevation: 0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            FluentIcons.chevron_left_16_regular,
+            size: 30,
+            color: neutral[10],
           ),
         ),
-        body: Consumer<ArtikelProvider>(
-          builder: (context, provider, _) {
-            return SingleChildScrollView(
-              child: Column(
+      ),
+      body: Consumer<ArtikelProvider>(
+        builder: (context, provider, _) {
+          return ListView(
+            shrinkWrap: true,
+            children: [
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,9 +76,9 @@ class DetailArtikelScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            );
-          },
-        ),
+            ],
+          );
+        },
       ),
     );
   }
