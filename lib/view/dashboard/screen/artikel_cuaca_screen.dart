@@ -45,67 +45,69 @@ const String _htmlData = r"""
 class _ArtikelCuacaScreenState extends State<ArtikelCuacaScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: FloatingActionButton.small(
-          heroTag: "fabArtikelCuaca",
-          elevation: 0,
-          backgroundColor: Colors.black12,
-          highlightElevation: 0,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: const CircleBorder(),
-          disabledElevation: 0,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            FluentIcons.chevron_left_16_regular,
-            size: 30,
-            color: neutral[10],
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: FloatingActionButton.small(
+            heroTag: "fabArtikelCuaca",
+            elevation: 0,
+            backgroundColor: Colors.black12,
+            highlightElevation: 0,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            shape: const CircleBorder(),
+            disabledElevation: 0,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              FluentIcons.chevron_left_16_regular,
+              size: 30,
+              color: neutral[10],
+            ),
           ),
         ),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Container(
-            color: Colors.red,
-            height: MediaQuery.of(context).size.height * 0.32,
-            child: Image.asset(
-              "assets/images/sample_tomat.png",
-              fit: BoxFit.cover,
+        body: ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              color: Colors.red,
+              height: MediaQuery.of(context).size.height * 0.32,
+              child: Image.asset(
+                "assets/images/sample_tomat.png",
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Peringatan Hujan",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Html(
-                  data: _htmlData,
-                  style: {
-                    'p': Style(
-                      textAlign: TextAlign.justify,
-                    ),
-                    '#': Style(
-                      margin: Margins.symmetric(horizontal: 0),
-                      padding: const EdgeInsets.only(bottom: 20),
-                    )
-                  },
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Peringatan Hujan",
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Html(
+                    data: _htmlData,
+                    style: {
+                      'p': Style(
+                        textAlign: TextAlign.justify,
+                      ),
+                      '#': Style(
+                        margin: Margins.symmetric(horizontal: 0),
+                        padding: const EdgeInsets.only(bottom: 20),
+                      )
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

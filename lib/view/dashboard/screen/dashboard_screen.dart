@@ -21,95 +21,97 @@ class DashboardScreen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 25),
-        child: FloatingActionButton(
-          heroTag: "fabDashboard",
-          elevation: 10,
-          backgroundColor: primary[300],
-          onPressed: () {
-            pushNewScreen(context,
-                screen: const PilihTambahTanamanScreen(),
-                withNavBar: false,
-                pageTransitionAnimation: PageTransitionAnimation.cupertino);
+    return SafeArea(
+      child: Scaffold(
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 25),
+          child: FloatingActionButton(
+            heroTag: "fabDashboard",
+            elevation: 10,
+            backgroundColor: primary[300],
+            onPressed: () {
+              pushNewScreen(context,
+                  screen: const PilihTambahTanamanScreen(),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino);
 
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const PilihTambahTanamanScreen(),
-            //   ),
-            // );
-          },
-          child: Icon(
-            Icons.add,
-            size: 30,
-            // weight: 3,
-            color: neutral[10],
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const PilihTambahTanamanScreen(),
+              //   ),
+              // );
+            },
+            child: Icon(
+              Icons.add,
+              size: 30,
+              // weight: 3,
+              color: neutral[10],
+            ),
           ),
         ),
-      ),
-      body: ListView(
-        // physics: BouncingScrollPhysics(),
-        children: [
-          // -----------header weather --------
-          WeatherWidget(screenWidth: screenWidth, horizontal: _horizontal),
+        body: ListView(
+          // physics: BouncingScrollPhysics(),
+          children: [
+            // -----------header weather --------
+            WeatherWidget(screenWidth: screenWidth, horizontal: _horizontal),
 
-          const SizedBox(
-            height: 15,
-          ),
+            const SizedBox(
+              height: 15,
+            ),
 
-          Consumer<PlantGridviewProvider>(builder: (_, provider, __) {
-            if (provider.data.isNotEmpty) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: _horizontal),
-                child: Row(
-                  children: [
-                    Text(
-                      "Tanamanku",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return const SizedBox();
-            }
-          }),
+            Consumer<PlantGridviewProvider>(builder: (_, provider, __) {
+              if (provider.data.isNotEmpty) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: _horizontal),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Tanamanku",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return const SizedBox();
+              }
+            }),
 
-          TanamankuDasboardWidget(
-              horizontal: _horizontal, screenWidth: screenWidth),
+            TanamankuDasboardWidget(
+                horizontal: _horizontal, screenWidth: screenWidth),
 
-          // Consumer<DashboardProvider>(builder: (context, provider, child) {
-          //   if (provider.isTanamankuEmpty) {
-          //     // ----------------- card punya tanaman --------------------------
-          //     return TanamankuDasboardWidget(
-          //         horizontal: _horizontal, screenWidth: screenWidth);
-          //   } else {
-          //     // ----------------- card kamu belum punya tanaman --------------------------
-          //     return NoPlantCardWidget(horizontal: _horizontal);
-          //   }
-          // }),
+            // Consumer<DashboardProvider>(builder: (context, provider, child) {
+            //   if (provider.isTanamankuEmpty) {
+            //     // ----------------- card punya tanaman --------------------------
+            //     return TanamankuDasboardWidget(
+            //         horizontal: _horizontal, screenWidth: screenWidth);
+            //   } else {
+            //     // ----------------- card kamu belum punya tanaman --------------------------
+            //     return NoPlantCardWidget(horizontal: _horizontal);
+            //   }
+            // }),
 
-          // ------------- artikel trending ------------------
-          TitleSections(horizontal: _horizontal, title: "Artikel Trending"),
+            // ------------- artikel trending ------------------
+            TitleSections(horizontal: _horizontal, title: "Artikel Trending"),
 
-          // ------------- artikel trending ------------------
-          ArtikelWidget(horizontal: _horizontal),
+            // ------------- artikel trending ------------------
+            ArtikelWidget(horizontal: _horizontal),
 
-          const SizedBox(
-            height: 15,
-          ),
-          // ------------- artikel trending ------------------
-          TitleSections(horizontal: _horizontal, title: "Produk"),
+            const SizedBox(
+              height: 15,
+            ),
+            // ------------- artikel trending ------------------
+            TitleSections(horizontal: _horizontal, title: "Produk"),
 
-          ProductWidget(horizontal: _horizontal),
+            ProductWidget(horizontal: _horizontal),
 
-          SizedBox(
-            height: screenHeight * 0.025,
-          ),
-        ],
+            SizedBox(
+              height: screenHeight * 0.025,
+            ),
+          ],
+        ),
       ),
     );
   }
