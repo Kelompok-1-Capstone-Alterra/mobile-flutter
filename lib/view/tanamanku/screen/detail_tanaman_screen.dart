@@ -51,131 +51,127 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
         ),
         body: Consumer<TanamankuProvider>(
           builder: (context, provider, _) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/images/sample_tomat.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Tomat',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  pushNewScreen(
-                                    context,
-                                    screen: EditNamaTanamanScreen(),
-                                    withNavBar: false,
-                                    pageTransitionAnimation:
-                                        PageTransitionAnimation.cupertino,
-                                  );
-                                },
-                                icon: const Icon(FluentIcons.edit_16_regular))
-                          ],
-                        ),
-                        Text(
-                          'Solanum lycopersicum',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall!
-                              .copyWith(color: neutral[40]),
-                        ),
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                provider.setSelectedIndex(context, 0);
+            return ListView(
+              children: [
+                Image.asset(
+                  'assets/images/sample_tomat.png',
+                  fit: BoxFit.cover,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Tomat',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                pushNewScreen(
+                                  context,
+                                  screen: EditNamaTanamanScreen(),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
                               },
-                              child: Container(
-                                height: 25,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.5,
-                                  vertical: 2.5,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: provider.selectedIndex == 0
-                                      ? success[500]
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Overview',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: provider.selectedIndex == 0
-                                              ? neutral[10]
-                                              : primary[500],
-                                        ),
-                                  ),
+                              icon: const Icon(FluentIcons.edit_16_regular))
+                        ],
+                      ),
+                      Text(
+                        'Solanum lycopersicum',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .copyWith(color: neutral[40]),
+                      ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              provider.setSelectedIndex(context, 0);
+                            },
+                            child: Container(
+                              height: 25,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.5,
+                                vertical: 2.5,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: provider.selectedIndex == 0
+                                    ? success[500]
+                                    : Colors.transparent,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Overview',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                        color: provider.selectedIndex == 0
+                                            ? neutral[10]
+                                            : primary[500],
+                                      ),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                provider.setSelectedIndex(context, 1);
-                              },
-                              child: Container(
-                                height: 25,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.5,
-                                  vertical: 2.5,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: provider.selectedIndex == 1
-                                      ? primary[500]
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Progress',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          color: provider.selectedIndex == 1
-                                              ? neutral[10]
-                                              : success[500],
-                                        ),
-                                  ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              provider.setSelectedIndex(context, 1);
+                            },
+                            child: Container(
+                              height: 25,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.5,
+                                vertical: 2.5,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: provider.selectedIndex == 1
+                                    ? primary[500]
+                                    : Colors.transparent,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Progress',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                        color: provider.selectedIndex == 1
+                                            ? neutral[10]
+                                            : success[500],
+                                      ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        provider.selectedIndex == 0
-                            ? const OverviewSection()
-                            : const ProgressSection(),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      provider.selectedIndex == 0
+                          ? const OverviewSection()
+                          : const ProgressSection(),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),
