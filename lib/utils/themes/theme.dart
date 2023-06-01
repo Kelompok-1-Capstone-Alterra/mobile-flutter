@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 
@@ -14,6 +15,8 @@ final ThemeData agriplantLight = ThemeData(
     surfaceTintColor: Colors.transparent,
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
+    systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.white, statusBarBrightness: Brightness.light),
   ),
 
   textSelectionTheme: const TextSelectionThemeData(

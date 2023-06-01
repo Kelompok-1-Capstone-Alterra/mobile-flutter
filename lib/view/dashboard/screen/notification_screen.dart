@@ -32,7 +32,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
       ),
       body: ListView(
-        children: [
+        children: const [
           NotficationListTileWidget(
               plantTitle: "Tomat", description: "Kamu melupakan penyiraman"),
           NotficationListTileWidget(
@@ -56,8 +56,8 @@ class NotficationListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      shape: LinearBorder.bottom(side: BorderSide(color: Colors.black26)),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      shape: LinearBorder.bottom(side: const BorderSide(color: Colors.black26)),
       onTap: () {},
       splashColor: primary[400]!.withOpacity(0.15),
       tileColor: primary[100],

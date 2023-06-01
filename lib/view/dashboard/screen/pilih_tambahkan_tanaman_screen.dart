@@ -33,11 +33,14 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-          title: Text(
+          // leadingWidth: screenWidth * 0.1,
+          title: AutoSizeText(
             "Tambahkan Tanaman",
-            style: Theme.of(context).textTheme.titleLarge,
+            maxFontSize: 22,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           leading: IconButton(
+            padding: const EdgeInsets.all(5),
             onPressed: () {
               Navigator.pop(context);
               context.read<TambahkanTanamanProvider>().clearSearch();
