@@ -59,12 +59,9 @@ class _DeskripsiState extends State<Deskripsi> {
       ),
       body: Stack(
         children: [
-          SizedBox(
-            width: size.width,
-            height: size.height,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
+          ListView(
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -206,7 +203,7 @@ class _DeskripsiState extends State<Deskripsi> {
                   const SizedBox(height: 65),
                 ],
               ),
-            ),
+            ],
           ),
           Positioned(
             left: 0,
