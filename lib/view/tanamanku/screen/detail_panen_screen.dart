@@ -42,92 +42,88 @@ class _DetailPanenScreenState extends State<DetailPanenScreen> {
         ),
         body: Consumer<DetailProgressProvider>(
           builder: (context, provider, _) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
+            return ListView(
+              children: [
+                Stack(
+                  children: [
+                    CarouselSlider(
+                      items: provider.imageList
+                          .map(
+                            (item) => Image.asset(
+                              item['image_path'],
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          )
+                          .toList(),
+                      carouselController: provider.carouselController,
+                      options: CarouselOptions(
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        height: 300,
+                        aspectRatio: 2,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          provider.setCurrentIndex(index);
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:
+                            provider.imageList.asMap().entries.map((entry) {
+                          return GestureDetector(
+                            onTap: () => provider.carouselController
+                                .animateToPage(entry.key),
+                            child: Container(
+                              width: 7,
+                              height: 7,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 3.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3.5),
+                                color: provider.currentIndex == entry.key
+                                    ? primary
+                                    : neutral[20],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CarouselSlider(
-                        items: provider.imageList
-                            .map(
-                              (item) => Image.asset(
-                                item['image_path'],
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                              ),
-                            )
-                            .toList(),
-                        carouselController: provider.carouselController,
-                        options: CarouselOptions(
-                          scrollPhysics: const BouncingScrollPhysics(),
-                          height: 300,
-                          aspectRatio: 2,
-                          viewportFraction: 1,
-                          onPageChanged: (index, reason) {
-                            provider.setCurrentIndex(index);
-                          },
-                        ),
+                      Text(
+                        'Tanaman Panen',
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      Positioned(
-                        bottom: 10,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:
-                              provider.imageList.asMap().entries.map((entry) {
-                            return GestureDetector(
-                              onTap: () => provider.carouselController
-                                  .animateToPage(entry.key),
-                              child: Container(
-                                width: 7,
-                                height: 7,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 3.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3.5),
-                                  color: provider.currentIndex == entry.key
-                                      ? primary
-                                      : neutral[20],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
+                      Text(
+                        '24 May 2023',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .copyWith(color: neutral[40]),
                       ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      Text('Catatan Progres',
+                          style: Theme.of(context).textTheme.labelLarge),
+                      const Text(
+                          'Tanaman tomat saya sudah panen dan berbuah banyak '),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tanaman Panen',
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        Text(
-                          '24 May 2023',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall!
-                              .copyWith(color: neutral[40]),
-                        ),
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        Text('Catatan Progres',
-                            style: Theme.of(context).textTheme.labelLarge),
-                        const Text(
-                            'Tanaman tomat saya sudah panen dan berbuah banyak '),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),
