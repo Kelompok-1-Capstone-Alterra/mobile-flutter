@@ -76,60 +76,57 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         return true;
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: provider.formKey,
-              child: Consumer<ForgotPasswordProvider>(
-                  builder: (context, forgotPassword, _) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      'Jangan Khawatir!',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(fontSize: 24),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Text(
-                      'Silahkan masukan email yang terdaftar untuk mengubah kata sandi',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    CustomTextFormField(
-                      controller: provider.emailController,
-                      textInputAction: TextInputAction.done,
-                      label: 'Email',
-                      hint: 'Masukan emailmu',
-                      validator: (value) =>
-                          validatorProvider.validateEmail(value),
-                    ),
-                    const SizedBox(
-                      height: 48.0,
-                    ),
-                    CustomMaterialButton(
-                      onPressed: () => _submit(context),
-                      minWidth:
-                          BouncingScrollSimulation.maxSpringTransferVelocity,
-                      text: 'Ubah Kata Sandi',
-                    ),
-                  ],
-                );
-              }),
-            ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: provider.formKey,
+            child: Consumer<ForgotPasswordProvider>(
+                builder: (context, forgotPassword, _) {
+              return ListView(
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    'Jangan Khawatir!',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    'Silahkan masukan email yang terdaftar untuk mengubah kata sandi',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 14),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  CustomTextFormField(
+                    controller: provider.emailController,
+                    textInputAction: TextInputAction.done,
+                    label: 'Email',
+                    hint: 'Masukan emailmu',
+                    validator: (value) =>
+                        validatorProvider.validateEmail(value),
+                  ),
+                  const SizedBox(
+                    height: 48.0,
+                  ),
+                  CustomMaterialButton(
+                    onPressed: () => _submit(context),
+                    minWidth:
+                        BouncingScrollSimulation.maxSpringTransferVelocity,
+                    text: 'Ubah Kata Sandi',
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),

@@ -85,123 +85,115 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<ValidatorProvider>(context, listen: false);
     final provider = Provider.of<LoginProvider>(context, listen: false);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: provider.formKey,
-            child: Consumer<LoginProvider>(builder: (context, login, _) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 50,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: provider.formKey,
+          child: Consumer<LoginProvider>(builder: (context, login, _) {
+            return ListView(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Text(
+                  'Selamat datang kembali!',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(fontSize: 24),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'Silahkan masukan data informasi kamu yang sudah terdaftar',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontSize: 14),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                CustomTextFormField(
+                  controller: login.emailController,
+                  textInputAction: TextInputAction.next,
+                  label: 'Email',
+                  hint: 'Masukan emailmu',
+                  validator: (value) => validatorProvider.validateEmail(value),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                CustomTextFormField(
+                  controller: login.passwordController,
+                  textInputAction: TextInputAction.done,
+                  maxLength: 20,
+                  maxLines: 1,
+                  label: 'Kata Sandi',
+                  hint: 'Masukan kata sandimu',
+                  validator: (value) =>
+                      validatorProvider.validatePassword(value),
+                  obscureText: login.passwordObscureText,
+                  suffixIcon: IconButton(
+                    icon: Icon(login.passwordObscureText
+                        ? FluentIcons.eye_off_16_regular
+                        : FluentIcons.eye_16_regular),
+                    onPressed: () => login.passwordObscureTextStatus(),
                   ),
-                  Text(
-                    'Selamat datang kembali!',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(fontSize: 24),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'Silahkan masukan data informasi kamu yang sudah terdaftar',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontSize: 14),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  CustomTextFormField(
-                    controller: login.emailController,
-                    textInputAction: TextInputAction.next,
-                    label: 'Email',
-                    hint: 'Masukan emailmu',
-                    validator: (value) =>
-                        validatorProvider.validateEmail(value),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextFormField(
-                    controller: login.passwordController,
-                    textInputAction: TextInputAction.done,
-                    maxLength: 20,
-                    maxLines: 1,
-                    label: 'Kata Sandi',
-                    hint: 'Masukan kata sandimu',
-                    validator: (value) =>
-                        validatorProvider.validatePassword(value),
-                    obscureText: login.passwordObscureText,
-                    suffixIcon: IconButton(
-                      icon: Icon(login.passwordObscureText
-                          ? FluentIcons.eye_off_16_regular
-                          : FluentIcons.eye_16_regular),
-                      onPressed: () => login.passwordObscureTextStatus(),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () => _toForgotPassword(context),
-                        child: Text(
-                          'Lupa kata sandi?',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontSize: 12),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 48.0,
-                  ),
-                  CustomMaterialButton(
-                    onPressed: () => _login(context),
-                    minWidth:
-                        BouncingScrollSimulation.maxSpringTransferVelocity,
-                    text: 'Login',
-                  ),
-                  const SizedBox(
-                    height: 24.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Belum punya akun?',
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => _toForgotPassword(context),
+                      child: Text(
+                        'Lupa kata sandi?',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
                             .copyWith(fontSize: 12),
                       ),
-                      const SizedBox(
-                        width: 4.0,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 48.0,
+                ),
+                CustomMaterialButton(
+                  onPressed: () => _login(context),
+                  minWidth: BouncingScrollSimulation.maxSpringTransferVelocity,
+                  text: 'Login',
+                ),
+                const SizedBox(
+                  height: 24.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Belum punya akun?',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 12),
+                    ),
+                    const SizedBox(
+                      width: 4.0,
+                    ),
+                    InkWell(
+                      onTap: () => _toRegister(context),
+                      child: Text(
+                        'Buat Akun',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
-                      InkWell(
-                        onTap: () => _toRegister(context),
-                        child: Text(
-                          'Buat Akun',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }),
-          ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );
