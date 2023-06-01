@@ -210,7 +210,7 @@ class _TokoScreenState extends State<TokoScreen> {
                     itemCount: mainList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 7 / size.height * 90,
+                      childAspectRatio: 7 / size.height * 80,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
                     ),
@@ -284,17 +284,21 @@ class _TokoScreenState extends State<TokoScreen> {
                                               child: ReuseablePrice(
                                                 price: current.price,
                                               )),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
-                                            child: AutoSizeText(
-                                              "${current.review.toString()}RB dilihat",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                              maxLines: 1,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.38,
+                                              child: AutoSizeText(
+                                                "${current.review.toString()}RB dilihat",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                                maxLines: 1,
+                                              ),
                                             ),
                                           ),
                                         ],
