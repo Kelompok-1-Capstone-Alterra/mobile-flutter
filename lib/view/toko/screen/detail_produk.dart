@@ -58,12 +58,9 @@ class _DetailsState extends State<Details> {
       ),
       body: Stack(
         children: [
-          SizedBox(
-            width: size.width,
-            height: size.height,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
+          ListView(
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
@@ -190,7 +187,7 @@ class _DetailsState extends State<Details> {
                   ),
                 ],
               ),
-            ),
+            ],
           ),
           Positioned(
             left: 0,

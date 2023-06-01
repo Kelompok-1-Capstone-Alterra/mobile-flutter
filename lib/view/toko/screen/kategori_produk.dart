@@ -58,7 +58,7 @@ class ListProdukState extends State<ListProduk> {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
                   controller: searchController,
                   onChanged: (search) {
@@ -102,10 +102,14 @@ class ListProdukState extends State<ListProduk> {
                               width: 200,
                               height: 200,
                             ),
-                            Text(
-                              'Sepertinya produk yang kamu cari belum tersedia dietalase',
-                              style: Theme.of(context).textTheme.titleSmall,
-                              textAlign: TextAlign.center,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: Text(
+                                'Sepertinya produk yang kamu cari belum tersedia dietalase',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),
@@ -121,7 +125,7 @@ class ListProdukState extends State<ListProduk> {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 7 / size.height * 90,
+                            childAspectRatio: 7 / size.height * 85,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,
                           ),
@@ -203,17 +207,22 @@ class ListProdukState extends State<ListProduk> {
                                                     child: ReuseablePrice(
                                                       price: current.price,
                                                     )),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.38,
-                                                  child: AutoSizeText(
-                                                    "${current.review.toString()}RB dilihat",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall,
-                                                    maxLines: 1,
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 3),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.38,
+                                                    child: AutoSizeText(
+                                                      "${current.review.toString()}RB dilihat",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall,
+                                                      maxLines: 1,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
