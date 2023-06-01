@@ -15,6 +15,7 @@ class EditNamaTanamanScreen extends StatelessWidget {
     final provider =
         Provider.of<EditNamaTanamanProvider>(context, listen: false);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Nama Tanaman Kamu',
