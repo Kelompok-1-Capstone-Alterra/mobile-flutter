@@ -16,7 +16,7 @@ final ThemeData agriplantLight = ThemeData(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
+      // statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
     ),
   ),
