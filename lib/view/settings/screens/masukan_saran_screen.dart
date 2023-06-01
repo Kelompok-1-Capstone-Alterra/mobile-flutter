@@ -16,6 +16,7 @@ class MasukanSaranScreen extends StatelessWidget {
     final validatorProvider =
         Provider.of<SettingValidatorProvider>(context, listen: false);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
@@ -34,20 +35,18 @@ class MasukanSaranScreen extends StatelessWidget {
               ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 16,
-        ),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.85,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Form(
-                  key: provider.formKey,
+      body: Stack(
+        children: [
+          Form(
+            key: provider.formKey,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
                   child: Column(
                     children: [
                       Image.asset(
@@ -80,42 +79,51 @@ class MasukanSaranScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (provider.formKey.currentState!.validate()) {
-                        await customShowDialogText(
-                          context: context,
-                          title: 'Masukan & Saran',
-                          desc: 'Masukan yang kamu berikan telah kami rekam.',
-                        );
-                        if (context.mounted) {
-                          provider.masukanSaranC.clear();
-
-                          Navigator.pop(context);
-                        }
-                      }
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                        primary,
-                      ),
-                    ),
-                    child: Text(
-                      'Kirim',
-                      style: ThemeData().textTheme.labelLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: neutral[10],
-                          ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                bottom: 48,
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (provider.formKey.currentState!.validate()) {
+                    await customShowDialogText(
+                      context: context,
+                      title: 'Masukan & Saran',
+                      desc: 'Masukan yang kamu berikan telah kami rekam.',
+                    );
+                    if (context.mounted) {
+                      provider.masukanSaranC.clear();
+
+                      Navigator.pop(context);
+                    }
+                  }
+                },
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                    primary,
+                  ),
+                ),
+                child: Text(
+                  'Kirim',
+                  style: ThemeData().textTheme.labelLarge!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: neutral[10],
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

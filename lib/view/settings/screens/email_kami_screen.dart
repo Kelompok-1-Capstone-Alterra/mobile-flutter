@@ -16,6 +16,7 @@ class EmailKamiScreen extends StatelessWidget {
     final validatorProvider =
         Provider.of<SettingValidatorProvider>(context, listen: false);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 18.5),
@@ -39,28 +40,28 @@ class EmailKamiScreen extends StatelessWidget {
               ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Form(
-          key: provider.formKey,
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    top: 8,
+      body: Stack(
+        children: [
+          Form(
+            key: provider.formKey,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pastikan Anda melengkapi data\ndibawah ini, agar segera menerima\nbalasan terkait keluhan Anda',
+                        'Pastikan Anda melengkapi data\ndibawah ini, agar segera menerima balasan terkait keluhan Anda',
                         style: ThemeData().textTheme.titleMedium!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                       ),
                       const SizedBox(
                         height: 24,
@@ -132,49 +133,53 @@ class EmailKamiScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.13,
-                    bottom: 48,
-                  ),
-                  width: double.infinity,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (provider.formKey.currentState!.validate()) {
-                        await customShowDialogText(
-                          context: context,
-                          title: 'Pusat Bantuan',
-                          desc: 'Pertanyaan yang kamu ajukan telah kami rekam.',
-                        );
-
-                        if (context.mounted) {
-                          provider.nomorHpC.clear();
-                          provider.emailC.clear();
-                          provider.catatanC.clear();
-                          Navigator.pop(context);
-                        }
-                      }
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                        primary,
-                      ),
-                    ),
-                    child: Text(
-                      'Kirim',
-                      style: ThemeData().textTheme.labelLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: neutral[10],
-                          ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                bottom: 48,
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (provider.formKey.currentState!.validate()) {
+                    await customShowDialogText(
+                      context: context,
+                      title: 'Pusat Bantuan',
+                      desc: 'Pertanyaan yang kamu ajukan telah kami rekam.',
+                    );
+
+                    if (context.mounted) {
+                      provider.nomorHpC.clear();
+                      provider.emailC.clear();
+                      provider.catatanC.clear();
+                      Navigator.pop(context);
+                    }
+                  }
+                },
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                    primary,
+                  ),
+                ),
+                child: Text(
+                  'Kirim',
+                  style: ThemeData().textTheme.labelLarge!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: neutral[10],
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
