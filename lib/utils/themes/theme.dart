@@ -16,7 +16,9 @@ final ThemeData agriplantLight = ThemeData(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
     systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.white, statusBarBrightness: Brightness.light),
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   ),
 
   textSelectionTheme: const TextSelectionThemeData(
