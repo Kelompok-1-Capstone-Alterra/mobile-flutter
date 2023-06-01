@@ -93,94 +93,91 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         return true;
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: provider.formKey,
-              child: Consumer<ChangePasswordProvider>(
-                  builder: (context, ubahKataSandi, _) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 50,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: provider.formKey,
+            child: Consumer<ChangePasswordProvider>(
+                builder: (context, ubahKataSandi, _) {
+              return ListView(
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    'Ubah Kata Sandi',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    'Silahkan masukan kata sandi baru untuk melanjutkan',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 14),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  CustomTextFormField(
+                    controller: provider.changePasswordController,
+                    textInputAction: TextInputAction.next,
+                    maxLines: 1,
+                    maxLength: 20,
+                    label: 'Kata Sandi Baru',
+                    hint: 'Masukan kata sandi baru',
+                    validator: (value) =>
+                        validatorProvider.validatePassword(value),
+                    obscureText: ubahKataSandi.passwordObscureText,
+                    suffixIcon: IconButton(
+                      icon: Icon(ubahKataSandi.passwordObscureText
+                          ? FluentIcons.eye_off_16_regular
+                          : FluentIcons.eye_16_regular),
+                      onPressed: () => ubahKataSandi.sandiObscureTextStatus(),
                     ),
-                    Text(
-                      'Ubah Kata Sandi',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CustomTextFormField(
+                    controller: provider.confirmPasswordController,
+                    textInputAction: TextInputAction.done,
+                    maxLines: 1,
+                    maxLength: 20,
+                    label: 'Konfirmasi Kata Sandi Baru',
+                    hint: 'Masukan konfirmasi kata sandi baru',
+                    validator: (value) =>
+                        validatorProvider.validateComfrimPassword(
+                      value,
+                      provider.confirmPasswordController.text,
+                      provider.changePasswordController.text,
                     ),
-                    const SizedBox(
-                      height: 16,
+                    obscureText: ubahKataSandi.confirmObscureText,
+                    suffixIcon: IconButton(
+                      icon: Icon(ubahKataSandi.confirmObscureText
+                          ? FluentIcons.eye_off_16_regular
+                          : FluentIcons.eye_16_regular),
+                      onPressed: () =>
+                          ubahKataSandi.konfirmasiObscureTextStatus(),
                     ),
-                    Text(
-                      'Silahkan masukan kata sandi baru untuk melanjutkan',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    CustomTextFormField(
-                      controller: provider.changePasswordController,
-                      textInputAction: TextInputAction.next,
-                      maxLines: 1,
-                      maxLength: 20,
-                      label: 'Kata Sandi Baru',
-                      hint: 'Masukan kata sandi baru',
-                      validator: (value) =>
-                          validatorProvider.validatePassword(value),
-                      obscureText: ubahKataSandi.passwordObscureText,
-                      suffixIcon: IconButton(
-                        icon: Icon(ubahKataSandi.passwordObscureText
-                            ? FluentIcons.eye_off_16_regular
-                            : FluentIcons.eye_16_regular),
-                        onPressed: () => ubahKataSandi.sandiObscureTextStatus(),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    CustomTextFormField(
-                      controller: provider.confirmPasswordController,
-                      textInputAction: TextInputAction.done,
-                      maxLines: 1,
-                      maxLength: 20,
-                      label: 'Konfirmasi Kata Sandi Baru',
-                      hint: 'Masukan konfirmasi kata sandi baru',
-                      validator: (value) =>
-                          validatorProvider.validateComfrimPassword(
-                        value,
-                        provider.confirmPasswordController.text,
-                        provider.changePasswordController.text,
-                      ),
-                      obscureText: ubahKataSandi.confirmObscureText,
-                      suffixIcon: IconButton(
-                        icon: Icon(ubahKataSandi.confirmObscureText
-                            ? FluentIcons.eye_off_16_regular
-                            : FluentIcons.eye_16_regular),
-                        onPressed: () =>
-                            ubahKataSandi.konfirmasiObscureTextStatus(),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 48.0,
-                    ),
-                    CustomMaterialButton(
-                      onPressed: () => _submit(),
-                      minWidth:
-                          BouncingScrollSimulation.maxSpringTransferVelocity,
-                      text: 'Ubah Kata Sandi',
-                    ),
-                  ],
-                );
-              }),
-            ),
+                  ),
+                  const SizedBox(
+                    height: 48.0,
+                  ),
+                  CustomMaterialButton(
+                    onPressed: () => _submit(),
+                    minWidth:
+                        BouncingScrollSimulation.maxSpringTransferVelocity,
+                    text: 'Ubah Kata Sandi',
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),
