@@ -210,7 +210,7 @@ class _TokoScreenState extends State<TokoScreen> {
                     itemCount: mainList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 7 / size.height * 85,
+                      childAspectRatio: 7 / size.height * 80,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
                     ),
