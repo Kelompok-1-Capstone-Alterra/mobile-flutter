@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobile_flutter/view/informasi/youtube_player_screen.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -80,156 +81,218 @@ String _htmlData = ('''
 
 class _InformasiCaraMenanamScreenState
     extends State<InformasiCaraMenanamScreen> {
+  YoutubePlayerController? _controller;
+  bool _isPlayerReady = false;
+
+  void listener() {
+    if (_isPlayerReady && mounted && !_controller!.value.isFullScreen) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: "WOpnA9pyno4",
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        enableCaption: false,
+      ),
+    )..addListener(listener);
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: FloatingActionButton.small(
-          elevation: 0,
-          backgroundColor: Colors.black12,
-          highlightElevation: 0,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: const CircleBorder(),
-          disabledElevation: 0,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            FluentIcons.chevron_left_16_regular,
-            size: 30,
-            color: neutral[10],
-          ),
-        ),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Container(
-                  color: Colors.amber,
-                  child: Image.network(
-                    YoutubePlayer.getThumbnail(videoId: "WOpnA9pyno4"),
-                    fit: BoxFit.fitWidth,
-                    errorBuilder: (context, error, stackTrace) => Center(
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.vertical,
-                        children: [
-                          const Icon(Icons.wifi_off),
-                          Text(
-                            "connection eror",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  pushNewScreen(
-                    context,
-                    screen: const YoutubePlayerScreen(ytKey: "WOpnA9pyno4"),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(10),
-                  shape: const CircleBorder(),
-                  // backgroundColor: nicepurple.withOpacity(0.5),
-                  backgroundColor: Colors.black12,
-                ),
-                child: const Icon(
-                  FluentIcons.video_clip_20_regular,
-                  size: 45,
-                  color: Colors.white,
-                ),
-              ),
+    return YoutubePlayerBuilder(
+        // onExitFullScreen: () {
+        //   // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
+        //   SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+        // },
+
+        onEnterFullScreen: () {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]);
+        },
+        onExitFullScreen: () {
+          SystemChrome.setEnabledSystemUIMode(
+            SystemUiMode.manual,
+            overlays: [
+              SystemUiOverlay.bottom,
+              SystemUiOverlay.top,
             ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+          );
+
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+          ]);
+        },
+        player: YoutubePlayer(
+          controller: _controller!,
+          onReady: () {
+            _isPlayerReady = true;
+          },
+        ),
+        builder: (context, player) {
+          return Scaffold(
+            floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: FloatingActionButton.small(
+                elevation: 0,
+                backgroundColor: Colors.black12,
+                highlightElevation: 0,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: const CircleBorder(),
+                disabledElevation: 0,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  FluentIcons.chevron_left_16_regular,
+                  size: 30,
+                  color: neutral[10],
+                ),
+              ),
             ),
-            child: Wrap(
-              direction: Axis.vertical,
+            body: ListView(
+              shrinkWrap: true,
               children: [
-                Text(
-                  'Cara menanam',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                // Stack(
+                //   alignment: Alignment.center,
+                //   children: [
+                //     AspectRatio(
+                //       aspectRatio: 16 / 9,
+                //       child: Container(
+                //         color: Colors.amber,
+                //         child: Image.network(
+                //           YoutubePlayer.getThumbnail(videoId: "WOpnA9pyno4"),
+                //           fit: BoxFit.fitWidth,
+                //           errorBuilder: (context, error, stackTrace) => Center(
+                //             child: Wrap(
+                //               crossAxisAlignment: WrapCrossAlignment.center,
+                //               direction: Axis.vertical,
+                //               children: [
+                //                 const Icon(Icons.wifi_off),
+                //                 Text(
+                //                   "connection eror",
+                //                   style: Theme.of(context).textTheme.bodySmall,
+                //                 )
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     TextButton(
+                //       onPressed: () {
+                //         pushNewScreen(
+                //           context,
+                //           screen: const YoutubePlayerScreen(ytKey: "WOpnA9pyno4"),
+                //           withNavBar: false, // OPTIONAL VALUE. True by default.
+                //           pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                //         );
+                //       },
+                //       style: TextButton.styleFrom(
+                //         padding: const EdgeInsets.all(10),
+                //         shape: const CircleBorder(),
+                //         // backgroundColor: nicepurple.withOpacity(0.5),
+                //         backgroundColor: Colors.black12,
+                //       ),
+                //       child: const Icon(
+                //         FluentIcons.video_clip_20_regular,
+                //         size: 45,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                player,
+                const SizedBox(
+                  height: 10,
                 ),
-                Text(
-                  'dengan pot',
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(color: neutral[40]),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Alat dan Bahan",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  "1. Tanah Subur",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  "2. Bibit Tomat",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  "3. Pupuk",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Wrap(
+                    direction: Axis.vertical,
+                    children: [
+                      Text(
+                        'Cara menanam',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      Text(
+                        'dengan pot',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!
+                            .copyWith(color: neutral[40]),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                Text(
-                  "Cara Menanam",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                Html(
-                  data: _htmlData,
-                  style: {
-                    'p': Style(
-                      textAlign: TextAlign.justify,
-                    ),
-                    '#': Style(margin: Margins.symmetric(horizontal: 0))
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Alat dan Bahan",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        "1. Tanah Subur",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      Text(
+                        "2. Bibit Tomat",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      Text(
+                        "3. Pupuk",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Cara Menanam",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Html(
+                        data: _htmlData,
+                        style: {
+                          'p': Style(
+                            textAlign: TextAlign.justify,
+                          ),
+                          '#': Style(margin: Margins.symmetric(horizontal: 0))
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }
