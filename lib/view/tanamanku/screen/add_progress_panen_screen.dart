@@ -120,7 +120,7 @@ class AddPanenScreen extends StatelessWidget {
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         filled: true,
-                        counterStyle: TextStyle(color: neutral),
+                        counterStyle: const TextStyle(color: neutral),
                         fillColor: neutral[10],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),

@@ -2,8 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:mobile_flutter/view/informasi/youtube_player_screen.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+// import 'package:mobile_flutter/view/informasi/youtube_player_screen.dart';
+// import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../utils/themes/custom_color.dart';
