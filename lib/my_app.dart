@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
@@ -121,6 +122,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => EditProgresMingguanProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetWeatherProvider(),
         ),
       ],
       child: MaterialApp(

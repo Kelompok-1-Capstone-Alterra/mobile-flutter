@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/dashboard/screen/pilih_tambahkan_tanaman_screen.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
@@ -10,11 +12,21 @@ import '../widget/product_widget.dart';
 import '../widget/tanamanku_dashboard_widget.dart';
 import '../widget/weather_widget.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
   final double _horizontal = 20;
-  // final double _vertical = 10;
+
+  @override
+  void initState() {
+    context.read<GetWeatherProvider>().getWeatherData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +67,25 @@ class DashboardScreen extends StatelessWidget {
           // physics: BouncingScrollPhysics(),
           children: [
             // -----------header weather --------
-            WeatherWidget(screenWidth: screenWidth, horizontal: _horizontal),
+            // WeatherWidget(screenWidth: screenWidth, horizontal: _horizontal),
+            Consumer<GetWeatherProvider>(
+              builder: (context, providerWeather, _) {
+                if (providerWeather.state == MyState.initial) {
+                  return const SizedBox.shrink();
+                } else if (providerWeather.state == MyState.loading) {
+                  return const WeatherWidgetLoading();
+                } else if (providerWeather.state == MyState.loaded) {
+                  return WeatherWidget(
+                    screenWidth: screenWidth,
+                    horizontal: _horizontal,
+                    weatherData: providerWeather.currentWeather!,
+                    userName: "Junan LMAO",
+                  );
+                } else {
+                  return const WeatherWidgetFailed();
+                }
+              },
+            ),
 
             const SizedBox(
               height: 15,
