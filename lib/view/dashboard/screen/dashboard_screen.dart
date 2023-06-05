@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/dashboard/screen/pilih_tambahkan_tanaman_screen.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
-import '../../../view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
 import '../widget/artikel_trending_widget.dart';
 import '../widget/product_widget.dart';
 import '../widget/tanamanku_dashboard_widget.dart';
@@ -25,6 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     context.read<GetWeatherProvider>().getWeatherData();
+    context.read<GetMyPlantsProvider>().getMyPlantsData();
     super.initState();
   }
 
@@ -91,21 +93,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
               height: 15,
             ),
 
-            Consumer<PlantGridviewProvider>(builder: (_, provider, __) {
-              if (provider.data.isNotEmpty) {
+            Consumer<GetMyPlantsProvider>(builder: (_, provider, __) {
+              if (provider.state == MyState.loading) {
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: _horizontal),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Tanamanku",
-                        style: Theme.of(context).textTheme.titleMedium,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: _horizontal, vertical: 10),
+                  child: UnconstrainedBox(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          color: neutral[20]!,
+                          height: 10,
+                          width: screenWidth * 0.2,
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                 );
+              } else if (provider.state == MyState.loaded) {
+                if (provider.myPlants.isNotEmpty) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: _horizontal),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Tanamanku",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
               } else {
-                return const SizedBox();
+                return const SizedBox.shrink();
               }
             }),
 

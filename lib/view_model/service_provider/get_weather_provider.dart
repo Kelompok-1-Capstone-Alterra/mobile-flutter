@@ -7,8 +7,8 @@ import '../../services/service_location.dart';
 import '../../services/services_restapi_impl.dart';
 
 class GetWeatherProvider extends ChangeNotifier {
-  final service = ServicesRestApiImpl();
   final serviceLocation = ServiceLocations();
+  final service = ServicesRestApiImpl();
 
   MyState state = MyState.loading;
 
@@ -63,6 +63,7 @@ class GetWeatherProvider extends ChangeNotifier {
       }
     } else {
       state = MyState.failed;
+      notifyListeners();
       // print("eror mas bro");
     }
   }

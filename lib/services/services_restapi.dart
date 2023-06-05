@@ -1,3 +1,5 @@
+import 'package:mobile_flutter/models/plants_response_model.dart';
+
 import '../models/weather_response_model.dart';
 
 abstract class ServicesRestApi {
@@ -6,4 +8,6 @@ abstract class ServicesRestApi {
   // ------ explore and monitoring ------------
   Future<WeatherResponseModel?> getWeather(
       {required double latitude, required double longitude});
+
+  Future<List<PlantsResponseModel>> getMyPlants();
 }

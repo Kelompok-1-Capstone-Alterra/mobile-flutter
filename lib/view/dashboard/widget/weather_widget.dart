@@ -247,7 +247,12 @@ class WeatherWidgetFailed extends StatelessWidget {
               onPressed: () {
                 context.read<GetWeatherProvider>().getWeatherData();
               },
-              child: const Text("Try Again"))
+              child: Text(
+                "Try Again?",
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: neutral[70]!,
+                    ),
+              ))
         ],
       ),
     );
