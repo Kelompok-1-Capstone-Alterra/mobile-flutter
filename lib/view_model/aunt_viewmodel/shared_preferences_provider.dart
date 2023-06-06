@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../services/services_restapi_impl.dart';
 
 class SharedPreferencesProvider with ChangeNotifier {
   bool _isFirstTime = true;
@@ -36,8 +39,14 @@ class SharedPreferencesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login() async {
+  final Dio dio = Dio();
+
+  Future<void> login({required String email, required String password}) async {
+    final String token =
+        await ServicesRestApiImpl().loginEndpoint(email, password);
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+    dio.options.headers['Authorization'] = 'Bearer $token';
     prefs.setBool('isLoggedIn', true);
     _isLoggedIn = true;
     notifyListeners();
@@ -47,6 +56,24 @@ class SharedPreferencesProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLoggedIn', false);
     _isLoggedIn = false;
+    bool? token = await prefs.remove('token');
+    if (token == true) {
+      token = null;
+    }
+    dio.options.headers['Authorization'] = '$token';
+    print(dio.options.headers['Authorization']);
     notifyListeners();
+  }
+
+  Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    if (token == null) {
+      _isLoading = true;
+    }
+    _isLoading = false;
+    dio.options.headers['Authorization'] = 'Bearer $token';
+    print(dio.options.headers['Authorization']);
+    return dio.options.headers['Authorization'];
   }
 }

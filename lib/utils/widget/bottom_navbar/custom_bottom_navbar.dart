@@ -4,6 +4,8 @@ import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../view_model/aunt_viewmodel/shared_preferences_provider.dart';
+
 class CustomBottomNavbar extends StatefulWidget {
   const CustomBottomNavbar({
     super.key,
@@ -16,6 +18,12 @@ class CustomBottomNavbar extends StatefulWidget {
 class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   @override
   Widget build(BuildContext context) {
+    //cek token
+    final provider =
+        Provider.of<SharedPreferencesProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      provider.getToken();
+    });
     return PersistentTabView(
       context,
       controller: context.read<CustomNavbarProvider>().controller,

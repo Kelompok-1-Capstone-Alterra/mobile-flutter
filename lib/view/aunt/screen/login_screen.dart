@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/aunt/screen/forgot_password_screen.dart';
 import 'package:mobile_flutter/view/aunt/screen/register_screen.dart';
 import 'package:mobile_flutter/view/aunt/widget/custom_materialbutton.dart';
@@ -9,6 +10,9 @@ import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_prov
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/animation_pageroutebuilder/custom_animation_pageroutebuilder.dart';
+import '../../../utils/widget/snack_bar/snack_bar_widget.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -17,80 +21,51 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool visible = false;
   void _login(BuildContext context) async {
     final provider = Provider.of<LoginProvider>(context, listen: false);
+    final String email = provider.emailController.text.trim();
+    final String password = provider.passwordController.text.trim();
+
     if (provider.formKey.currentState!.validate()) {
+      provider.setIsError(false);
       // Proses login jika validasi sukses
-      await Provider.of<SharedPreferencesProvider>(context, listen: false)
-          .login();
-      if (context.mounted) {
-        provider.controllerClear();
+      try {
+        provider.setIsVisible(true);
+        await Future.delayed(const Duration(seconds: 1));
+        if (context.mounted) {
+          await Provider.of<SharedPreferencesProvider>(context, listen: false)
+              .login(email: email, password: password);
+          provider.controllerClear();
+          provider.setIsError(false);
+        }
+      } catch (e) {
+        provider.setIsVisible(false);
+        provider.setIsError(true);
+        if (e.toString() == 'Exception: Email atau kata sandi salah.') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(text: 'Email atau kata sandi salah.'),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(text: 'Terjadi kesalahan saat login.'),
+          );
+        }
       }
     }
-  }
-
-  void _toRegister(BuildContext context) {
-    final provider = Provider.of<LoginProvider>(context, listen: false);
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const RegisterScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1, 0);
-          const end = Offset(0, 0);
-          const curve = Curves.ease;
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          final animatedOffset = animation.drive(tween);
-
-          return SlideTransition(
-            position: animatedOffset,
-            child: child,
-          );
-        },
-      ),
-    );
-    provider.controllerClear();
-  }
-
-  void _toForgotPassword(BuildContext context) {
-    final provider = Provider.of<LoginProvider>(context, listen: false);
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const ForgotPasswordScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1, 0);
-          const end = Offset(0, 0);
-          const curve = Curves.ease;
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          final animatedOffset = animation.drive(tween);
-
-          return SlideTransition(
-            position: animatedOffset,
-            child: child,
-          );
-        },
-      ),
-    );
-    provider.controllerClear();
   }
 
   @override
   Widget build(BuildContext context) {
     final validatorProvider =
         Provider.of<ValidatorProvider>(context, listen: false);
-    final provider = Provider.of<LoginProvider>(context, listen: false);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: provider.formKey,
-          child: Consumer<LoginProvider>(builder: (context, login, _) {
-            return ListView(
+        child: Consumer<LoginProvider>(builder: (context, login, _) {
+          return Form(
+            key: login.formKey,
+            child: ListView(
               children: [
                 const SizedBox(
                   height: 50,
@@ -116,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 40,
                 ),
                 CustomTextFormField(
+                  isError: login.isError,
                   controller: login.emailController,
                   textInputAction: TextInputAction.next,
                   label: 'Email',
@@ -126,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 16,
                 ),
                 CustomTextFormField(
+                  isError: login.isError,
                   controller: login.passwordController,
                   textInputAction: TextInputAction.done,
                   maxLength: 20,
@@ -146,7 +123,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => _toForgotPassword(context),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          CustomAnimatedPageRoute(
+                            page: const ForgotPasswordScreen(),
+                            begins: const Offset(1, 0),
+                          ),
+                        );
+                        login.controllerClear();
+                      },
                       child: Text(
                         'Lupa kata sandi?',
                         style: Theme.of(context)
@@ -160,11 +146,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 48.0,
                 ),
-                CustomMaterialButton(
-                  onPressed: () => _login(context),
-                  minWidth: BouncingScrollSimulation.maxSpringTransferVelocity,
-                  text: 'Login',
-                ),
+                login.visibled == false
+                    ? CustomMaterialButton(
+                        onPressed: () => _login(context),
+                        minWidth:
+                            BouncingScrollSimulation.maxSpringTransferVelocity,
+                        text: 'Login',
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(
+                          color: primary,
+                        ),
+                      ),
                 const SizedBox(
                   height: 24.0,
                 ),
@@ -182,7 +175,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 4.0,
                     ),
                     InkWell(
-                      onTap: () => _toRegister(context),
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          CustomAnimatedPageRoute(
+                            page: const RegisterScreen(),
+                            begins: const Offset(1, 0),
+                          ),
+                        );
+                        login.controllerClear();
+                      },
                       child: Text(
                         'Buat Akun',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -192,9 +194,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ],
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

@@ -1,12 +1,17 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/models/user_model.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
+import 'package:mobile_flutter/utils/widget/snack_bar/snack_bar_widget.dart';
 import 'package:mobile_flutter/view/aunt/widget/custom_materialbutton.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/view/home/screen/home_screen.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/register_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../services/services_restapi_impl.dart';
+import '../../../utils/animation_pageroutebuilder/custom_animation_pageroutebuilder.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,58 +23,68 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   void _register(BuildContext context) async {
     final provider = Provider.of<RegisterProvider>(context, listen: false);
+    final user = User(
+      name: provider.namaController.text.trim(),
+      email: provider.emailController.text.trim(),
+      password: provider.passwordController.text.trim(),
+    );
     if (provider.formKey.currentState!.validate()) {
-      await customShowDialogIcon(
-        context: context,
-        iconDialog: FluentIcons.checkmark_circle_16_regular,
-        title: 'Akun berhasil dibuat',
-        desc:
-            'Selamat! Akunmu berhasil dibuat silahkan login untuk melanjutkan',
-      );
-      if (context.mounted) {
-        _toLogin(context);
-        provider.controllerClear();
+      try {
+        provider.setIsError(false);
+        provider.setIsEmailError(false);
+        await ServicesRestApiImpl().registerEndpoint(user);
+        // Registrasi berhasil, lakukan tindakan lain yang diperlukan
+        if (context.mounted) {
+          await customShowDialogIcon(
+            context: context,
+            iconDialog: FluentIcons.checkmark_circle_16_regular,
+            title: 'Akun berhasil dibuat',
+            desc:
+                'Selamat! Akunmu berhasil dibuat silahkan login untuk melanjutkan',
+          );
+          _toLogin();
+          provider.controllerClear();
+        }
+      } catch (e) {
+        // Jika email sudah terdaftar
+        if (e.toString() == 'Exception: Email sudah terdaftar.') {
+          provider.setIsEmailError(true);
+          provider.setIsError(false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(text: 'Email sudah terdaftar.'),
+          );
+        } else {
+          provider.setIsEmailError(true);
+          provider.setIsError(true);
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(text: 'Terjadi kesalahan saat mendaftar.'),
+          );
+        }
       }
     }
   }
 
-  void _toLogin(BuildContext context) {
-    final provider = Provider.of<RegisterProvider>(context, listen: false);
+  void _toLogin() {
     Navigator.pushReplacement(
       context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const HomeScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1, 0);
-          const end = Offset(0, 0);
-          const curve = Curves.ease;
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          final animatedOffset = animation.drive(tween);
-
-          return SlideTransition(
-            position: animatedOffset,
-            child: child,
-          );
-        },
+      CustomAnimatedPageRoute(
+        page: const HomeScreen(),
+        begins: const Offset(1, 0),
       ),
     );
-    provider.controllerClear();
   }
 
   @override
   Widget build(BuildContext context) {
     final validatorProvider =
         Provider.of<ValidatorProvider>(context, listen: false);
-    final provider = Provider.of<RegisterProvider>(context, listen: false);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: provider.formKey,
-          child: Consumer<RegisterProvider>(builder: (context, register, _) {
-            return ListView(
+        child: Consumer<RegisterProvider>(builder: (context, register, _) {
+          return Form(
+            key: register.formKey,
+            child: ListView(
               children: [
                 const SizedBox(
                   height: 50,
@@ -94,6 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 40,
                 ),
                 CustomTextFormField(
+                  isError: register.isError,
                   controller: register.namaController,
                   textInputAction: TextInputAction.next,
                   maxLength: 30,
@@ -105,6 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 16,
                 ),
                 CustomTextFormField(
+                  isError: register.isEmailError,
                   controller: register.emailController,
                   textInputAction: TextInputAction.next,
                   label: 'Email',
@@ -115,6 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 16,
                 ),
                 CustomTextFormField(
+                  isError: register.isError,
                   controller: register.passwordController,
                   textInputAction: TextInputAction.done,
                   maxLines: 1,
@@ -156,7 +174,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: 4.0,
                     ),
                     InkWell(
-                      onTap: () => _toLogin(context),
+                      onTap: () {
+                        _toLogin();
+                        register.controllerClear();
+                      },
                       child: Text(
                         'Login',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -166,9 +187,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ],
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

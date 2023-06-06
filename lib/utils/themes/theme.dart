@@ -21,6 +21,13 @@ final ThemeData agriplantLight = ThemeData(
     ),
   ),
 
+  colorScheme: ColorScheme.fromSeed(seedColor: primary),
+
+  dialogTheme: const DialogTheme(
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.transparent,
+  ),
+
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: primaryswatch,
     selectionColor: primaryswatch,
