@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/models/plants_response_model.dart';
+import 'package:mobile_flutter/models/article_response_model.dart';
 
 import '../../services/services_restapi_impl.dart';
 import '../../utils/state/finite_state.dart';
 
-class GetMyPlantsProvider extends ChangeNotifier {
+class GetTrendingArticleProvider extends ChangeNotifier {
   final service = ServicesRestApiImpl();
   MyState state = MyState.loading;
-  List<PlantsResponseModel> myPlants = [];
+  List<ArticleResponseModel> artikelTrending = [];
 
-  void getMyPlantsData() async {
+  void getTrendingArticleData() async {
     if (state == MyState.loaded || state == MyState.failed) {
       state = MyState.loading;
       notifyListeners();
     }
+
     try {
-      myPlants.clear();
-      final response = await service.getMyPlants();
-      myPlants = response;
+      artikelTrending.clear();
+      final response = await service.getTrendingArticle();
+      artikelTrending = response;
 
       state = MyState.loaded;
       notifyListeners();

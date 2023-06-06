@@ -22,7 +22,11 @@ class ArtikelTerbaruWidget extends StatelessWidget {
       itemCount: 4,
       itemBuilder: (context, index) => Stack(
         children: [
-          const ArtikelCardWidget(),
+          const ArtikelCardWidget(
+              title: "Perubahan cuaca ekstream, pastikan tanaman tetap sehat",
+              hours: 1,
+              image:
+                  "https://jagadtani.com/uploads/news/2021/05/memahami-masalah-petani-indonesia-66007b034185e8f.jpg"),
           Positioned.fill(
             child: Material(
               color: Colors.transparent,

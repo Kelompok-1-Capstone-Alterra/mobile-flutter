@@ -32,11 +32,10 @@ class GetWeatherProvider extends ChangeNotifier {
 
   void getWeatherData() async {
     //ini untuk dapatin lokasi serta handler service location
-    if (state == MyState.failed) {
+    if (state == MyState.loaded || state == MyState.failed) {
       state = MyState.loading;
       notifyListeners();
     }
-
     final location = await serviceLocation.getUserLocation().then((value) {
       if (value == null) {
         state = MyState.failed;

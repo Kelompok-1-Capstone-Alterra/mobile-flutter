@@ -21,7 +21,7 @@ class ProductWidget extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (context, index) => Stack(
                 children: [
-                  const ProductCardWidget(),
+                  const ProductCardWidgetloading(),
                   Positioned.fill(
                     child: Material(
                       color: Colors.transparent,

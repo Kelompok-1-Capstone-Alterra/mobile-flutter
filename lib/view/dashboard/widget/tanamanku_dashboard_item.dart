@@ -53,8 +53,9 @@ class TanamankuDasboardItem extends StatelessWidget {
                       ),
                     );
                   },
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.image_not_supported_outlined),
+                  errorBuilder: (context, error, stackTrace) => Container(
+                      color: neutral[20],
+                      child: const Icon(Icons.image_not_supported_outlined)),
                 ),
               ),
             ),
@@ -138,7 +139,7 @@ class TanamankuDashboardItemLoading extends StatelessWidget {
                         color: neutral[20]!,
                         borderRadius: BorderRadius.circular(10)),
                     height: 10,
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
                   ),
                 ),
                 const SizedBox(
@@ -152,7 +153,7 @@ class TanamankuDashboardItemLoading extends StatelessWidget {
                         color: neutral[20]!,
                         borderRadius: BorderRadius.circular(10)),
                     height: 10,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.4,
                   ),
                 ),
               ],
