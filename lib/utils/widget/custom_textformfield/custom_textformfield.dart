@@ -15,8 +15,9 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final int? maxLines;
   final Widget? icon;
+  bool isError;
 
-  const CustomTextFormField({
+  CustomTextFormField({
     super.key,
     required this.textInputAction,
     this.label,
@@ -31,6 +32,7 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType,
     this.maxLines,
     this.icon,
+    this.isError = false,
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   late final FocusNode _focusNode;
   late bool _isFocused = false;
-  late bool _isError = false;
+  // late bool _isError = false;
 
   @override
   void initState() {
@@ -76,7 +78,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: _isError
+              color: widget.isError
                   ? error
                   : _isFocused
                       ? primary
@@ -90,10 +92,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
         disabledBorder: Theme.of(context).inputDecorationTheme.disabledBorder,
         border: Theme.of(context).inputDecorationTheme.border,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: widget.isError
+                ? error
+                : _isFocused
+                    ? primary
+                    : neutral,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: _isError ? error : primary,
-            width: 2.0,
+            color: widget.isError ? error : primary,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -102,12 +113,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: widget.suffixIcon,
+        suffixIconColor: widget.isError ? error : neutral,
         icon: widget.icon,
       ),
       validator: widget.validator != null
           ? (value) {
               setState(() {
-                _isError = widget.validator!(value) != null;
+                widget.isError = widget.validator!(value) != null;
               });
               return widget.validator!(value);
             }
