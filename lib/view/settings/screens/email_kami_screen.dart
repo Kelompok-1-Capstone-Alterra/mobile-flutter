@@ -15,8 +15,9 @@ class EmailKamiScreen extends StatelessWidget {
     final provider = Provider.of<EmailKamiProvider>(context, listen: false);
     final validatorProvider =
         Provider.of<SettingValidatorProvider>(context, listen: false);
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 18.5),
@@ -40,6 +41,50 @@ class EmailKamiScreen extends StatelessWidget {
               ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: keyboardIsOpened
+          ? null
+          : Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                bottom: 48,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (provider.formKey.currentState!.validate()) {
+                      await customShowDialogText(
+                        context: context,
+                        title: 'Pusat Bantuan',
+                        desc: 'Pertanyaan yang kamu ajukan telah kami rekam.',
+                      );
+
+                      if (context.mounted) {
+                        provider.nomorHpC.clear();
+                        provider.emailC.clear();
+                        provider.catatanC.clear();
+                        Navigator.pop(context);
+                      }
+                    }
+                  },
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      primary,
+                    ),
+                  ),
+                  child: Text(
+                    'Kirim',
+                    style: ThemeData().textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: neutral[10],
+                        ),
+                  ),
+                ),
+              ),
+            ),
       body: Stack(
         children: [
           Form(
@@ -132,49 +177,6 @@ class EmailKamiScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 48,
-              ),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (provider.formKey.currentState!.validate()) {
-                    await customShowDialogText(
-                      context: context,
-                      title: 'Pusat Bantuan',
-                      desc: 'Pertanyaan yang kamu ajukan telah kami rekam.',
-                    );
-
-                    if (context.mounted) {
-                      provider.nomorHpC.clear();
-                      provider.emailC.clear();
-                      provider.catatanC.clear();
-                      Navigator.pop(context);
-                    }
-                  }
-                },
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                    primary,
-                  ),
-                ),
-                child: Text(
-                  'Kirim',
-                  style: ThemeData().textTheme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: neutral[10],
-                      ),
                 ),
               ),
             ),

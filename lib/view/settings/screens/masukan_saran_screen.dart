@@ -15,8 +15,9 @@ class MasukanSaranScreen extends StatelessWidget {
     final provider = Provider.of<MasukanSaranProvider>(context, listen: false);
     final validatorProvider =
         Provider.of<SettingValidatorProvider>(context, listen: false);
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
@@ -35,95 +36,92 @@ class MasukanSaranScreen extends StatelessWidget {
               ),
         ),
       ),
-      body: Stack(
-        children: [
-          Form(
-            key: provider.formKey,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 16,
-                  ),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/masukan_saran.png',
-                        width: double.infinity,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Silahkan masukan dan saran kamu\ndisini',
-                        style: ThemeData().textTheme.titleMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CustomTextFormField(
-                        controller: provider.masukanSaranC,
-                        textInputAction: TextInputAction.done,
-                        maxLength: 255,
-                        maxLines: 5,
-                        hint: 'Masukkan saran anda',
-                        validator: (value) =>
-                            validatorProvider.validateMasukanSaran(value),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Padding(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: keyboardIsOpened
+          ? null
+          : Padding(
               padding: const EdgeInsets.only(
                 left: 16,
                 right: 16,
                 bottom: 48,
               ),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (provider.formKey.currentState!.validate()) {
-                    await customShowDialogText(
-                      context: context,
-                      title: 'Masukan & Saran',
-                      desc: 'Masukan yang kamu berikan telah kami rekam.',
-                    );
-                    if (context.mounted) {
-                      provider.masukanSaranC.clear();
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (provider.formKey.currentState!.validate()) {
+                      await customShowDialogText(
+                        context: context,
+                        title: 'Masukan & Saran',
+                        desc: 'Masukan yang kamu berikan telah kami rekam.',
+                      );
+                      if (context.mounted) {
+                        provider.masukanSaranC.clear();
 
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
                     }
-                  }
-                },
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                    primary,
+                  },
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      primary,
+                    ),
                   ),
-                ),
-                child: Text(
-                  'Kirim',
-                  style: ThemeData().textTheme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: neutral[10],
-                      ),
+                  child: Text(
+                    'Kirim',
+                    style: ThemeData().textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: neutral[10],
+                        ),
+                  ),
                 ),
               ),
             ),
+      body: Form(
+        key: provider.formKey,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/masukan_saran.png',
+                    width: double.infinity,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Silahkan masukan dan saran kamu\ndisini',
+                    style: ThemeData().textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomTextFormField(
+                    controller: provider.masukanSaranC,
+                    textInputAction: TextInputAction.done,
+                    maxLength: 255,
+                    maxLines: 5,
+                    hint: 'Masukkan saran anda',
+                    validator: (value) =>
+                        validatorProvider.validateMasukanSaran(value),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
