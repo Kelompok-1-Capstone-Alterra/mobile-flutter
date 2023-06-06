@@ -5,9 +5,13 @@ import 'package:mobile_flutter/view/aunt/screen/forgot_password_screen.dart';
 import 'package:mobile_flutter/view/aunt/widget/custom_materialbutton.dart';
 import 'package:mobile_flutter/utils/widget/custom_textformfield/custom_textformfield.dart';
 import 'package:mobile_flutter/view/home/screen/home_screen.dart';
-import 'package:mobile_flutter/view_model/aunt_viewmodel/change_password_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/validator_aunt_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../services/services_restapi_impl.dart';
+import '../../../utils/animation_pageroutebuilder/custom_animation_pageroutebuilder.dart';
+import '../../../utils/widget/snack_bar/snack_bar_widget.dart';
+import '../../../view_model/aunt_viewmodel/forgot_password_provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -17,44 +21,51 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   void _submit() async {
     final provider =
-        Provider.of<ChangePasswordProvider>(context, listen: false);
-    if (provider.formKey.currentState!.validate()) {
-      await customShowDialogIcon(
-        context: context,
-        iconDialog: FluentIcons.checkmark_circle_16_regular,
-        title: 'Kata sandi diubah',
-        desc: 'Selamat! kata sandimu akunmu telah berhasil diubah',
+        Provider.of<ForgotPasswordProvider>(context, listen: false);
+    final String changePassword = provider.changePasswordController.text.trim();
+    final String confirmPassword =
+        provider.confirmPasswordController.text.trim();
+    if (changePassword.isEmpty && confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        customSnackBar(text: 'Field tidak boleh kosong.'),
       );
-      if (context.mounted) {
-        _toLogin(context);
-        provider.controllerClear();
+    }
+    if (formKey.currentState!.validate()) {
+      provider.setIsError(false);
+      try {
+        await ServicesRestApiImpl()
+            .resetPasswordEndpoint(provider.userId, confirmPassword);
+        if (context.mounted) {
+          await customShowDialogIcon(
+            context: context,
+            iconDialog: FluentIcons.checkmark_circle_16_regular,
+            title: 'Kata sandi diubah',
+            desc: 'Selamat! kata sandimu akunmu telah berhasil diubah',
+          );
+          _toLogin();
+          provider.controllerClear();
+        }
+      } catch (e) {
+        provider.setIsError(true);
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar(text: 'Terjadi kesalahan.'),
+        );
       }
     }
   }
 
-  void _toLogin(BuildContext context) {
+  void _toLogin() {
     final provider =
-        Provider.of<ChangePasswordProvider>(context, listen: false);
+        Provider.of<ForgotPasswordProvider>(context, listen: false);
     Navigator.pushReplacement(
       context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const HomeScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(-1, 0);
-          const end = Offset(0, 0);
-          const curve = Curves.ease;
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          final animatedOffset = animation.drive(tween);
-
-          return SlideTransition(
-            position: animatedOffset,
-            child: child,
-          );
-        },
+      CustomAnimatedPageRoute(
+        page: const HomeScreen(),
+        begins: const Offset(-1, 0),
       ),
     );
     provider.controllerClear();
@@ -65,28 +76,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     final validatorProvider =
         Provider.of<ValidatorProvider>(context, listen: false);
     final provider =
-        Provider.of<ChangePasswordProvider>(context, listen: false);
+        Provider.of<ForgotPasswordProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushReplacement(
           context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const ForgotPasswordScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              const begin = Offset(-1, 0);
-              const end = Offset(0, 0);
-              const curve = Curves.ease;
-              final tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              final animatedOffset = animation.drive(tween);
-
-              return SlideTransition(
-                position: animatedOffset,
-                child: child,
-              );
-            },
+          CustomAnimatedPageRoute(
+            page: const ForgotPasswordScreen(),
+            begins: const Offset(-1, 0),
           ),
         );
         provider.controllerClear();
@@ -96,8 +93,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            key: provider.formKey,
-            child: Consumer<ChangePasswordProvider>(
+            key: formKey,
+            child: Consumer<ForgotPasswordProvider>(
                 builder: (context, ubahKataSandi, _) {
               return ListView(
                 children: [
@@ -125,7 +122,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     height: 40,
                   ),
                   CustomTextFormField(
-                    controller: provider.changePasswordController,
+                    isError: ubahKataSandi.isError,
+                    controller: ubahKataSandi.changePasswordController,
                     textInputAction: TextInputAction.next,
                     maxLines: 1,
                     maxLength: 20,
@@ -145,7 +143,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     height: 16,
                   ),
                   CustomTextFormField(
-                    controller: provider.confirmPasswordController,
+                    isError: ubahKataSandi.isError,
+                    controller: ubahKataSandi.confirmPasswordController,
                     textInputAction: TextInputAction.done,
                     maxLines: 1,
                     maxLength: 20,
