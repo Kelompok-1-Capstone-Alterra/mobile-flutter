@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/routes.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
@@ -73,11 +74,21 @@ class MyPlantGridviewWidget extends StatelessWidget {
                               selectStatus: provider.data[index].isSelected,
                               indexSelected: index);
                         } else {
-                          pushNewScreen(context,
-                              screen: const DetailTanamanScreen(),
-                              withNavBar: true,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino);
+                          // pushNewScreen(context,
+                          //     screen: const DetailTanamanScreen(),
+                          //     withNavBar: true,
+                          //     pageTransitionAnimation:
+                          //         PageTransitionAnimation.cupertino);
+
+                          pushNewScreenWithRouteSettings(
+                            context,
+                            settings: const RouteSettings(
+                                name: Routes.detailTanamankuPage),
+                            screen: const DetailTanamanScreen(idTanaman: 2),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
 
                           // Navigator.push(
                           //   context,

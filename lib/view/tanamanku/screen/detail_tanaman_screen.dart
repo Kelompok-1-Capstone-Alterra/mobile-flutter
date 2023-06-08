@@ -12,7 +12,8 @@ import 'package:provider/provider.dart';
 // enum TabPreview { overview, progress }
 
 class DetailTanamanScreen extends StatefulWidget {
-  const DetailTanamanScreen({super.key});
+  final int idTanaman;
+  const DetailTanamanScreen({super.key, this.idTanaman = 0});
 
   @override
   State<DetailTanamanScreen> createState() => _DetailTanamanScreenState();
