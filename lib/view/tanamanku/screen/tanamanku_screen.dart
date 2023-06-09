@@ -1,10 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/empty_myplant_widget.dart';
 import '../widgets/myplant_gridview_widget.dart';
 
 class TanamankuScreen extends StatelessWidget {
@@ -19,9 +18,11 @@ class TanamankuScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:
-          Consumer<PlantGridviewProvider>(builder: (_, providers, __) {
+          Consumer<GetMyPlantsProvider>(builder: (_, providers, __) {
+        //-------- atur floating acction button hapus dibawah appear
+
         if (providers.selectedIndexCard.isEmpty) {
-          return Container();
+          return const SizedBox.shrink();
         } else {
           return Padding(
             padding: const EdgeInsets.only(bottom: 30),
@@ -71,7 +72,8 @@ class TanamankuScreen extends StatelessWidget {
                                 horizontal: 20, vertical: 10),
                           ),
                           onPressed: () {
-                            providers.deleteAllSelected();
+                            deleteComfirmDialog(context);
+                            // providers.deleteAllSelected();
                           },
                           child: Text(
                             "Hapus",
@@ -96,9 +98,11 @@ class TanamankuScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         actions: [
-          Consumer<PlantGridviewProvider>(builder: (_, provide, __) {
-            if (provide.data.isEmpty) {
-              return Container();
+          // ---------atur icon sampah jadi tulisan batalkan
+
+          Consumer<GetMyPlantsProvider>(builder: (_, provide, __) {
+            if (provide.myPlants.isEmpty) {
+              return const SizedBox.shrink();
             }
 
             if (provide.isDeleteMode == true) {
@@ -111,7 +115,7 @@ class TanamankuScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    context.read<PlantGridviewProvider>().cancelAllSelected();
+                    context.read<GetMyPlantsProvider>().cancelAllSelected();
                   },
                   child: Text(
                     "Batalkan",
@@ -127,7 +131,7 @@ class TanamankuScreen extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10.0),
               child: IconButton(
                 onPressed: () {
-                  context.read<PlantGridviewProvider>().deleteModeOnClick();
+                  context.read<GetMyPlantsProvider>().deleteModeOnClick();
                 },
                 icon: const Icon(
                   FluentIcons.delete_16_regular,
@@ -137,13 +141,19 @@ class TanamankuScreen extends StatelessWidget {
           })
         ],
       ),
+
+      //
       body: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            Consumer<PlantGridviewProvider>(builder: (_, provider, __) {
+            //
+            // ngatur tulisan counter tanamanku atau
+            // jadi tulisan pilih tanaman yang mau di hapus
+
+            Consumer<GetMyPlantsProvider>(builder: (_, provider, __) {
               if (provider.isDeleteMode == false) {
                 return Wrap(
                   children: [
@@ -151,7 +161,7 @@ class TanamankuScreen extends StatelessWidget {
                       'Total Tanaman : ',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
-                    Text(provider.data.length.toString(),
+                    Text(provider.myPlants.length.toString(),
                         style: Theme.of(context).textTheme.titleSmall),
                   ],
                 );
@@ -167,33 +177,40 @@ class TanamankuScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                Consumer<PlantGridviewProvider>(
-                  builder: (_, provide, __) {
-                    if (provide.data.isEmpty) {
-                      return const EmptyMyPlantWidget();
-                    } else if (provide.isDeleteMode == true) {
+                //
+                //-------------- ini ngatur text field pencarian muncul atau kaga
+                Consumer<GetMyPlantsProvider>(
+                  builder: (_, providerMyPlants, __) {
+                    // if (providerMyPlants.myPlants.isEmpty) {
+                    //   return const EmptyMyPlantWidget();
+                    // }
+
+                    //kalau tanaman nya kosong
+                    if (providerMyPlants.isDeleteMode == true ||
+                        providerMyPlants.myPlants.isEmpty) {
                       return Container();
                     } else {
                       return TextField(
+                        controller: context
+                            .read<GetMyPlantsProvider>()
+                            .searchFieldController,
                         // textAlign: TextAlign.justify,
                         textAlignVertical: TextAlignVertical.center,
 
                         onSubmitted: (value) {
-                          // context.read<TambahkanTanamanProvider>().search();
+                          context.read<GetMyPlantsProvider>().search();
                         },
-
                         textInputAction: TextInputAction.search,
                         maxLength: 30,
-                        // controller:
-                        //     context.read<TambahkanTanamanProvider>().searchField,
-
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                             splashRadius: 5,
                             splashColor: Colors.black.withOpacity(0.01),
                             highlightColor: Colors.black.withOpacity(0.05),
                             onPressed: () {
-                              // context.read<TambahkanTanamanProvider>().clearSearch();
+                              context
+                                  .read<GetMyPlantsProvider>()
+                                  .clearSearchField();
                             },
                             icon: const Icon(
                               Icons.close,
@@ -216,60 +233,74 @@ class TanamankuScreen extends StatelessWidget {
                               .disabledBorder,
                         ),
                       );
-                      //  TextField(
-                      //   maxLength: 30,
-
-                      //   decoration: InputDecoration(
-
-                      //     hintText: 'Cari Tanamanku',
-                      //     prefixIcon: const Icon(
-                      //       FluentIcons.search_16_regular,
-                      //     ),
-                      //     focusColor:
-                      //         Theme.of(context).inputDecorationTheme.focusColor,
-                      //     focusedBorder: Theme.of(context)
-                      //         .inputDecorationTheme
-                      //         .focusedBorder,
-                      //     border: Theme.of(context).inputDecorationTheme.border,
-                      //     disabledBorder: Theme.of(context)
-                      //         .inputDecorationTheme
-                      //         .disabledBorder,
-                      //   ),
-
-                      //   // InputDecoration(
-                      //   //   focusColor: primary,
-                      //   //   focusedBorder: OutlineInputBorder(
-                      //   //     borderRadius: BorderRadius.circular(10),
-                      //   //     borderSide: const BorderSide(
-                      //   //       color: primary,
-                      //   //     ),
-                      //   //   ),
-                      //   //   prefixIcon: const Icon(
-                      //   //     FluentIcons.search_16_regular,
-                      //   //   ),
-                      //   //   border: OutlineInputBorder(
-                      //   //     borderRadius: BorderRadius.circular(10),
-                      //   //   ),
-                      //   //   hintText: 'Cari Tanamanku',
-                      //   //   disabledBorder: OutlineInputBorder(
-                      //   //     borderRadius: BorderRadius.circular(10),
-                      //   //     borderSide: const BorderSide(
-                      //   //       color: Colors.black,
-                      //   //     ),
-                      //   //   ),
-                      //   // ),
-                      // );
                     }
                   },
                 ),
                 const SizedBox(
                   height: 14,
                 ),
+
+                //
+                // --------------ini widget gridview tanamanya
                 const MyPlantGridviewWidget(),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<dynamic> deleteComfirmDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Apa kamu yakin\nmenghapus tanaman\nini ?',
+          style: ThemeData().textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 24,
+              ),
+        ),
+        content: Text(
+          'Jika kamu yakin menghapus tanaman ini. Data yang tersimpan akan ikut terhapus ',
+          style: ThemeData().textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: ButtonStyle(
+              overlayColor: MaterialStatePropertyAll(neutral.withOpacity(0.1)),
+            ),
+            child: Text(
+              'Batal',
+              style: ThemeData().textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: neutral[40],
+                  ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: ButtonStyle(
+              overlayColor: MaterialStatePropertyAll(primary.withOpacity(0.1)),
+            ),
+            child: Text(
+              'Ya, Hapus',
+              style: ThemeData().textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: primary,
+                  ),
+            ),
+          ),
+        ],
       ),
     );
   }

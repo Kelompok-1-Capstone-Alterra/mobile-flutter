@@ -42,6 +42,9 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
           leading: IconButton(
             padding: const EdgeInsets.all(5),
             onPressed: () {
+              //
+              // ini untuk back dan clear lagi search nya
+              //
               Navigator.pop(context);
               context.read<TambahkanTanamanProvider>().clearSearch();
             },
@@ -77,6 +80,9 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                     splashColor: Colors.black.withOpacity(0.01),
                     highlightColor: Colors.black.withOpacity(0.05),
                     onPressed: () {
+                      //
+                      // clear text field kalau pencet icon X
+
                       context.read<TambahkanTanamanProvider>().clearSearch();
                     },
                     icon: const Icon(
@@ -101,6 +107,9 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
             const SizedBox(height: 10),
             Consumer<TambahkanTanamanProvider>(
               builder: (context, provider, _) {
+                //
+                // kalau data query di text field nya kosong tapi data list ga kosong
+
                 if ((provider.searchQuery == "" ||
                         provider.searchField.text.toLowerCase().isEmpty) &&
                     provider.data.isNotEmpty) {
@@ -119,9 +128,10 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return Stack(
                         children: [
-                          CardMyPlantWidget(
-                            data: provider.data[index],
-                          ),
+                          const CardMyPlantWidgetLoading(),
+                          // CardMyPlantWidget(
+                          //   data: provider.data[index],
+                          // ),
                           Positioned.fill(
                             child: Material(
                               color: Colors.transparent,
@@ -150,6 +160,9 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                       );
                     },
                   );
+
+                  //
+                  // kalau data di bagian show data tidak kosong
                 } else if (provider.showData.isNotEmpty) {
                   return GridView.builder(
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -166,9 +179,10 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return Stack(
                         children: [
-                          CardMyPlantWidget(
-                            data: provider.showData[index],
-                          ),
+                          const CardMyPlantWidgetLoading(),
+                          // CardMyPlantWidget(
+                          //   data: provider.showData[index],
+                          // ),
                           Positioned.fill(
                             child: Material(
                               color: Colors.transparent,
@@ -184,7 +198,11 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                       );
                     },
                   );
-                } else if (provider.showData.isEmpty) {
+
+                  //
+                  // kalau data di showData kosong
+                } else if (provider.showData.isEmpty &&
+                    provider.data.isNotEmpty) {
                   return SizedBox(
                     height: screenHeight * 0.65,
                     child: Row(
@@ -247,8 +265,26 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                     ),
                   );
                 } else {
-                  return const Center(
-                    child: Text("No data"),
+                  return SizedBox(
+                    height: 110,
+                    child: Card(
+                      margin: const EdgeInsets.all(0),
+                      elevation: 15,
+                      shadowColor: Colors.black26,
+                      // shadowColor: const Color.fromARGB(40, 0, 0, 0),
+                      color: Colors.white,
+                      surfaceTintColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15),
+                        child: Center(
+                          child: Text(
+                            "Data tanaman belum tersedia",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 }
               },

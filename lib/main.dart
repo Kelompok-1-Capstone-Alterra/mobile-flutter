@@ -7,13 +7,8 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  Provider.debugCheckInvalidValueType = null;
-
   HttpOverrides.global = HttpOverriding();
-
-  // await Future.delayed(const Duration(seconds: 3));
-  // FlutterNativeSplash.remove();
+  Provider.debugCheckInvalidValueType = null;
 
   runApp(const MyApp());
 }

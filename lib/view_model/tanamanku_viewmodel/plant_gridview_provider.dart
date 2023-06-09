@@ -5,43 +5,7 @@ class PlantGridviewProvider extends ChangeNotifier {
   bool isDeleteMode = false;
   List<int> selectedIndexCard = [];
   List<CardMyPlantModel> dataSelected = [];
-  List<CardMyPlantModel> data = [
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum',
-      plantName: 'Tomat',
-    ),
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'Cabai',
-    ),
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'Pisang',
-    ),
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'Anggur',
-    ),
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'Wortel',
-    ),
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'Bawang Merah',
-    ),
-    CardMyPlantModel(
-      picture: 'assets/images/sample_tomat.png',
-      latinName: 'Solanum lycopersicum asdasda asdasda asdasdas',
-      plantName: 'Bawang Putih',
-    ),
-  ];
+  List<CardMyPlantModel> data = [];
 
   onSelectedCard({required bool selectStatus, required int indexSelected}) {
     if (selectStatus == false) {
