@@ -50,8 +50,7 @@ class ArtikelWidget extends StatelessWidget {
                 ArtikelCardWidget(
                     title: provider.artikelTrending[index].title!,
                     hours: provider.artikelTrending[index].hours!,
-                    image:
-                        "https://jagadtani.com/uploads/news/2021/05/memahami-masalah-petani-indonesia-66007b034185e8f.jpg"),
+                    image: provider.artikelTrending[index].picture!),
                 Positioned.fill(
                   child: Material(
                     color: Colors.transparent,
@@ -90,7 +89,7 @@ class ArtikelWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                   child: Center(
                     child: Text(
-                      "Article is empty",
+                      "Artikel belum tersedia",
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),

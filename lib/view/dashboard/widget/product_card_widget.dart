@@ -1,13 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/converter/convert_price.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../utils/app_constant.dart';
 import '../../../utils/themes/custom_color.dart';
 
 class ProductCardWidget extends StatelessWidget {
   const ProductCardWidget({
     super.key,
+    required this.image,
+    required this.title,
+    required this.price,
   });
+
+  final String image;
+  final String title;
+  final int price;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +33,30 @@ class ProductCardWidget extends StatelessWidget {
         children: [
           SizedBox(
             width: 150,
-            child: Image.asset(
-              "assets/images/sample_tomat.png",
+            child: Image.network(
+              "${AppConstant.imgUrl}$image",
+              // image,
               fit: BoxFit.cover,
+              alignment: Alignment.center,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Shimmer.fromColors(
+                  baseColor: neutral[30]!,
+                  highlightColor: neutral[20]!,
+                  child: Container(
+                    width: 130,
+                    height: 105,
+                    color: neutral[20]!,
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) => Container(
+                  width: 130,
+                  height: 105,
+                  color: neutral[20],
+                  child: const Icon(Icons.image_not_supported_outlined)),
             ),
           ),
           Padding(
@@ -37,7 +67,7 @@ class ProductCardWidget extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: AutoSizeText(
-                    "Benih Sayuran Sawi",
+                    title.isEmpty ? "-" : title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     minFontSize: 13,
@@ -50,7 +80,7 @@ class ProductCardWidget extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: AutoSizeText(
-                    "Rp 55.000",
+                    convertPrice2(price),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
@@ -85,10 +115,13 @@ class ProductCardWidgetloading extends StatelessWidget {
             highlightColor: neutral[20]!,
             child: Container(
               width: 130,
-              height: 100,
+              height: 105,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               decoration: BoxDecoration(
-                  color: neutral[20]!, borderRadius: BorderRadius.circular(10)),
+                  color: neutral[20]!,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10))),
             ),
           ),
           const SizedBox(
@@ -121,7 +154,7 @@ class ProductCardWidgetloading extends StatelessWidget {
                         color: neutral[20]!,
                         borderRadius: BorderRadius.circular(10)),
                     height: 10,
-                    width: 70,
+                    width: 80,
                   ),
                 ),
               ],

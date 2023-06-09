@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
@@ -133,6 +134,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => GetTrendingArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetAllProductsProvider(),
         ),
       ],
       child: MaterialApp(

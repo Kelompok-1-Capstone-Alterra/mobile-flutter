@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../app_constant.dart';
 import '../../themes/custom_color.dart';
 
 class ArtikelCardWidget extends StatelessWidget {
@@ -39,8 +40,8 @@ class ArtikelCardWidget extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Image.network(
-                  // "${AppConstant.imgUrl}$image",
-                  image,
+                  "${AppConstant.imgUrl}$image",
+                  // image,
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                   loadingBuilder: (context, child, loadingProgress) {

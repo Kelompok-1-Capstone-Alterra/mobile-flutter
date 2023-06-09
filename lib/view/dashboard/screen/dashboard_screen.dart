@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/dashboard/screen/pilih_tambahkan_tanaman_screen.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
@@ -28,6 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     context.read<GetWeatherProvider>().getWeatherData();
     context.read<GetMyPlantsProvider>().getMyPlantsData();
     context.read<GetTrendingArticleProvider>().getTrendingArticleData();
+    context.read<GetAllProductsProvider>().getAllProductsData();
   }
 
   @override
@@ -35,6 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     context.read<GetWeatherProvider>().getWeatherData();
     context.read<GetMyPlantsProvider>().getMyPlantsData();
     context.read<GetTrendingArticleProvider>().getTrendingArticleData();
+    context.read<GetAllProductsProvider>().getAllProductsData();
     super.initState();
   }
 

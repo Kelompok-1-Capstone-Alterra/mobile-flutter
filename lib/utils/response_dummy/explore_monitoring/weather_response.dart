@@ -1,6 +1,6 @@
 final weatherResponse = {
-  "city": "jakarta",
-  "label": "hujan",
-  "label_id": 1,
+  "city": "Jakarta, Indonesia",
+  "label": "Mendung",
+  "label_id": 2,
   "temperature": 27
 };
