@@ -2,7 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mobile_flutter/models/weather_response_model.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../utils/themes/custom_color.dart';
 import '../../settings/screens/settings_screen.dart';
@@ -14,10 +18,14 @@ class WeatherWidget extends StatelessWidget {
     super.key,
     required this.screenWidth,
     required double horizontal,
+    required this.weatherData,
+    required this.userName,
   }) : _horizontal = horizontal;
 
+  final WeatherResponseModel weatherData;
   final double screenWidth;
   final double _horizontal;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,11 @@ class WeatherWidget extends StatelessWidget {
         SizedBox(
           width: screenWidth,
           height: 210,
-          child: SvgPicture.asset("assets/svg/Type=31.svg", fit: BoxFit.cover),
+          child: SvgPicture.asset(
+              context
+                  .read<GetWeatherProvider>()
+                  .weatherSvg[weatherData.labelId! - 1],
+              fit: BoxFit.cover),
         ),
         Positioned.fill(
           child: Container(
@@ -76,7 +88,7 @@ class WeatherWidget extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: screenWidth * 0.5,
-                          child: AutoSizeText("Hi, Juna darendra",
+                          child: AutoSizeText("Hi, $userName",
                               maxLines: 2,
                               minFontSize: 16,
                               overflow: TextOverflow.ellipsis,
@@ -101,7 +113,7 @@ class WeatherWidget extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   minFontSize: 13,
-                                  "Jakarta, Indonesia",
+                                  weatherData.city!,
                                   style: Theme.of(context).textTheme.bodySmall),
                             ),
                           ],
@@ -149,7 +161,7 @@ class WeatherWidget extends StatelessWidget {
                   direction: Axis.vertical,
                   children: [
                     AutoSizeText(
-                      "32°C",
+                      "${weatherData.temperature!.round()}°C",
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(
@@ -159,7 +171,9 @@ class WeatherWidget extends StatelessWidget {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Icon(
-                          FluentIcons.weather_sunny_16_regular,
+                          context
+                              .read<GetWeatherProvider>()
+                              .weatherIcon[weatherData.labelId! - 1],
                           size: 25,
                           color: neutral[10],
                         ),
@@ -167,8 +181,8 @@ class WeatherWidget extends StatelessWidget {
                           width: 4,
                         ),
                         AutoSizeText(
-                          "Cerah",
-                          minFontSize: 16,
+                          weatherData.label!,
+                          minFontSize: 15,
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall!
@@ -183,6 +197,64 @@ class WeatherWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class WeatherWidgetLoading extends StatelessWidget {
+  const WeatherWidgetLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: neutral[30]!,
+      highlightColor: neutral[20]!,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 210,
+        color: neutral[20]!,
+      ),
+    );
+  }
+}
+
+class WeatherWidgetFailed extends StatelessWidget {
+  const WeatherWidgetFailed({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 210,
+      color: neutral[20]!,
+      alignment: AlignmentDirectional.center,
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        direction: Axis.vertical,
+        children: [
+          Icon(
+            Icons.sentiment_dissatisfied_outlined,
+            size: 30,
+            color: neutral[40]!,
+          ),
+          Text(
+            "Something went wrong",
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: neutral[50]!,
+                ),
+          ),
+          TextButton(
+              onPressed: () {
+                context.read<GetWeatherProvider>().getWeatherData();
+              },
+              child: Text(
+                "Try Again?",
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: neutral[70]!,
+                    ),
+              ))
+        ],
+      ),
     );
   }
 }

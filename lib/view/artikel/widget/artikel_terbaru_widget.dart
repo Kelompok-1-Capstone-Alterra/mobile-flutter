@@ -22,7 +22,11 @@ class ArtikelTerbaruWidget extends StatelessWidget {
       itemCount: 4,
       itemBuilder: (context, index) => Stack(
         children: [
-          const ArtikelCardWidget(),
+          const ArtikelCardWidget(
+              title: "Perubahan cuaca ekstream, pastikan tanaman tetap sehat",
+              hours: 1,
+              image:
+                  "https://imtpi.or.id/wp-content/uploads/2016/09/post8.jpg"),
           Positioned.fill(
             child: Material(
               color: Colors.transparent,
