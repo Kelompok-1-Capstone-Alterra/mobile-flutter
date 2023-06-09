@@ -45,12 +45,14 @@ class SettingsScreen extends StatelessWidget {
                 Column(
                   children: [
                     ListTile(
-                      onTap: () => pushNewScreen(
-                        context,
-                        screen: const ProfileScreen(),
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      ),
+                      onTap: () {
+                        pushNewScreen(
+                          context,
+                          screen: const ProfileScreen(),
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
                       title: Text(
                         'Profil',
                         style: ThemeData().textTheme.titleMedium!.copyWith(

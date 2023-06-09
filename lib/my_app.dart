@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/routes.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/get_profile_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
@@ -119,6 +120,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => EditProgresMingguanProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetProfileProvider(),
         ),
       ],
       child: MaterialApp(
