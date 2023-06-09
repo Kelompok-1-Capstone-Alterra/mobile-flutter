@@ -10,6 +10,7 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 // import 'package:shimmer/shimmer.dart';
 
+import '../../../utils/widget/bottom_navbar/custom_navbar_provider.dart';
 import '../widget/artikel_trending_widget.dart';
 import '../widget/product_widget.dart';
 import '../widget/tanamanku_dashboard_widget.dart';
@@ -94,7 +95,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       screenWidth: screenWidth,
                       horizontal: _horizontal,
                       weatherData: providerWeather.currentWeather!,
-                      userName: "Junan LMAO",
+                      userName: "Jhon Cena",
                     );
                   } else {
                     return const WeatherWidgetFailed();
@@ -165,7 +166,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               // }),
 
               // ------------- artikel trending ------------------
-              TitleSections(horizontal: _horizontal, title: "Artikel Trending"),
+              TitleSections(
+                horizontal: _horizontal,
+                title: "Artikel Trending",
+                onTap: () {
+                  context.read<CustomNavbarProvider>().controller.jumpToTab(2);
+                },
+              ),
 
               // ------------- artikel trending ------------------
               ArtikelWidget(horizontal: _horizontal),
@@ -174,7 +181,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 height: 15,
               ),
               // ------------- artikel trending ------------------
-              TitleSections(horizontal: _horizontal, title: "Produk"),
+              TitleSections(
+                horizontal: _horizontal,
+                title: "Produk",
+                onTap: () {
+                  context.read<CustomNavbarProvider>().controller.jumpToTab(3);
+                },
+              ),
 
               ProductWidget(horizontal: _horizontal),
 
@@ -194,10 +207,11 @@ class TitleSections extends StatelessWidget {
     super.key,
     required double horizontal,
     required this.title,
+    required this.onTap,
   }) : _horizontal = horizontal;
   final String title;
   final double _horizontal;
-
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -213,7 +227,7 @@ class TitleSections extends StatelessWidget {
             style: ButtonStyle(
               overlayColor: MaterialStatePropertyAll(primary.withOpacity(0.1)),
             ),
-            onPressed: () {},
+            onPressed: onTap,
             child: Text(
               "Lihat Semua",
               style: Theme.of(context)

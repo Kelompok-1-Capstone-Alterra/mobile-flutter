@@ -3,6 +3,8 @@ import 'package:mobile_flutter/view_model/service_provider/get_all_products_prov
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
+import 'package:mobile_flutter/utils/routes.dart';
+import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
@@ -10,7 +12,6 @@ import 'package:mobile_flutter/utils/themes/theme.dart';
 import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider.dart';
 import 'package:mobile_flutter/view/splash/splash_screen.dart';
 import 'package:mobile_flutter/view_model/artikel_viewmodel/artikel_provider.dart';
-import 'package:mobile_flutter/view_model/aunt_viewmodel/change_password_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/forgot_password_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/login_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/register_provider.dart';
@@ -106,9 +107,6 @@ class MyApp extends StatelessWidget {
           create: (context) => CarouselProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => ChangePasswordProvider(),
-        ),
-        ChangeNotifierProvider(
           create: (context) => SettingValidatorProvider(),
         ),
         ChangeNotifierProvider(
@@ -144,6 +142,10 @@ class MyApp extends StatelessWidget {
         title: 'Agriplan - App',
         theme: agriplantLight,
         home: const SplashScreen(),
+        routes: {
+          Routes.detailTanamankuPage: (BuildContext context) =>
+              const DetailTanamanScreen(),
+        },
       ),
     );
   }

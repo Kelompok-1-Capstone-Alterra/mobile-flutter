@@ -26,7 +26,7 @@ class ArtikelTerbaruWidget extends StatelessWidget {
               title: "Perubahan cuaca ekstream, pastikan tanaman tetap sehat",
               hours: 1,
               image:
-                  "https://jagadtani.com/uploads/news/2021/05/memahami-masalah-petani-indonesia-66007b034185e8f.jpg"),
+                  "https://imtpi.or.id/wp-content/uploads/2016/09/post8.jpg"),
           Positioned.fill(
             child: Material(
               color: Colors.transparent,
