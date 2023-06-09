@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\src\flutter
-FLUTTER_APPLICATION_PATH=D:\AlterraFlutter\mobile_flutter
+FLUTTER_ROOT=D:\Coding\sdk\flutter
+FLUTTER_APPLICATION_PATH=E:\studi independent\tugas\capstone_project\mobile-flutter
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
