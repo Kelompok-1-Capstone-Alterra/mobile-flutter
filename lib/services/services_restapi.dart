@@ -13,6 +13,8 @@ abstract class ServicesRestApi {
       {required double latitude, required double longitude});
 
   Future<List<PlantsResponseModel>> getMyPlants();
+  Future<List<PlantsResponseModel>> getAvailablePlants();
+
   Future<void> deleteMyPlants(List<int> myPlantIds);
 
   Future<List<ArticleResponseModel>> getTrendingArticle();
@@ -21,10 +23,7 @@ abstract class ServicesRestApi {
   Future<void> registerEndpoint(User user);
 
   //-------- Login Endpoint ---------
-  Future<String> loginEndpoint(
-    String email,
-    String password,
-  );
+  Future<String> loginEndpoint(String email, String password);
   //-------- Check Email Endpoint ---------
   Future<int> checkEmailValidEndpoint(String email);
   //-------- Reset Password Endpoint ---------
