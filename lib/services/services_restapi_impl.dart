@@ -11,6 +11,7 @@ import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants
 
 import '../models/all_product_response_model.dart';
 import '../utils/response_dummy/explore_monitoring/article_trending_response.dart';
+import '../utils/response_dummy/explore_monitoring/available_plants_response.dart';
 import '../utils/response_dummy/explore_monitoring/weather_response.dart';
 
 import '../models/user_model.dart';
@@ -78,6 +79,32 @@ class ServicesRestApiImpl extends ServicesRestApi {
       }
 
       return plantsData;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<PlantsResponseModel>> getAvailablePlants() async {
+    try {
+      List<PlantsResponseModel> availablePlants = [];
+      //
+      // final response = await _dio.get(
+      //   '/auth/plants',
+      // );
+      // final model = PlantsResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+        //
+      );
+
+      for (var json in availablePlantsResponse) {
+        availablePlants.add(PlantsResponseModel.fromJson(json));
+      }
+
+      return availablePlants;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
