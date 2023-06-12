@@ -1,13 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/widget/myplant_card_item/myplant_card_widget.dart';
-import '../../../view_model/dashboard_viewmodel/tambahkan_tanaman_provider.dart';
-import '../../informasi/informasi_tanaman_screen.dart';
+import '../widget/add_plant_gridview_widget.dart';
 
 class PilihTambahTanamanScreen extends StatefulWidget {
   const PilihTambahTanamanScreen({super.key});
@@ -22,8 +18,7 @@ const double _horizontalPadding = 20;
 class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
   @override
   void initState() {
-    context.read<TambahkanTanamanProvider>().showData =
-        List.from(context.read<TambahkanTanamanProvider>().data);
+    context.read<GetAvailablePlantsProvider>().getAvailablePlantsData();
     super.initState();
   }
 
@@ -46,7 +41,7 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
               // ini untuk back dan clear lagi search nya
               //
               Navigator.pop(context);
-              context.read<TambahkanTanamanProvider>().clearSearch();
+              context.read<GetAvailablePlantsProvider>().clearSearch();
             },
             icon: const Icon(
               FluentIcons.chevron_left_16_regular,
@@ -66,13 +61,22 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                 textAlignVertical: TextAlignVertical.center,
 
                 onSubmitted: (value) {
-                  context.read<TambahkanTanamanProvider>().search();
+                  //cuma bisa search kalau availble plants kaga kosong
+                  if (context
+                      .read<GetAvailablePlantsProvider>()
+                      .availablePlants
+                      .isNotEmpty) {
+                    context
+                        .read<GetAvailablePlantsProvider>()
+                        .searchAvailablePlants();
+                  }
                 },
 
                 textInputAction: TextInputAction.search,
                 maxLength: 30,
-                controller:
-                    context.read<TambahkanTanamanProvider>().searchField,
+                controller: context
+                    .read<GetAvailablePlantsProvider>()
+                    .searchFieldController,
 
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
@@ -83,7 +87,7 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                       //
                       // clear text field kalau pencet icon X
 
-                      context.read<TambahkanTanamanProvider>().clearSearch();
+                      context.read<GetAvailablePlantsProvider>().clearSearch();
                     },
                     icon: const Icon(
                       Icons.close,
@@ -105,190 +109,8 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            Consumer<TambahkanTanamanProvider>(
-              builder: (context, provider, _) {
-                //
-                // kalau data query di text field nya kosong tapi data list ga kosong
-
-                if ((provider.searchQuery == "" ||
-                        provider.searchField.text.toLowerCase().isEmpty) &&
-                    provider.data.isNotEmpty) {
-                  return GridView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 6 / 7,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemCount: provider.showData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Stack(
-                        children: [
-                          const CardMyPlantWidgetLoading(),
-                          // CardMyPlantWidget(
-                          //   data: provider.data[index],
-                          // ),
-                          Positioned.fill(
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                overlayColor: MaterialStatePropertyAll(
-                                    Colors.black.withOpacity(0.1)),
-                                borderRadius: BorderRadius.circular(10),
-                                onTap: () {
-                                  pushNewScreen(context,
-                                      screen: const InformasiTanamanScreen(),
-                                      pageTransitionAnimation:
-                                          PageTransitionAnimation.cupertino,
-                                      withNavBar: true);
-
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           InformasiTanamanScreen(),
-                                  //     ));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      );
-                    },
-                  );
-
-                  //
-                  // kalau data di bagian show data tidak kosong
-                } else if (provider.showData.isNotEmpty) {
-                  return GridView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 6 / 7,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemCount: provider.showData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Stack(
-                        children: [
-                          const CardMyPlantWidgetLoading(),
-                          // CardMyPlantWidget(
-                          //   data: provider.showData[index],
-                          // ),
-                          Positioned.fill(
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                overlayColor: MaterialStatePropertyAll(
-                                    Colors.black.withOpacity(0.1)),
-                                borderRadius: BorderRadius.circular(10),
-                                onTap: () {},
-                              ),
-                            ),
-                          )
-                        ],
-                      );
-                    },
-                  );
-
-                  //
-                  // kalau data di showData kosong
-                } else if (provider.showData.isEmpty &&
-                    provider.data.isNotEmpty) {
-                  return SizedBox(
-                    height: screenHeight * 0.65,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: screenHeight * 0.3,
-                              child: SvgPicture.asset(
-                                  "assets/svg/tambah_tanaman_empty.svg",
-                                  fit: BoxFit.cover),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              width: screenWidth * 0.8,
-                              child: AutoSizeText(
-                                "Sepertinya tanaman '${provider.searchField.text}' belum terdaftar",
-                                minFontSize: 14,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            SizedBox(
-                              width: screenWidth * 0.8,
-                              child: RichText(
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                      text: "Ingin tanamanmu ditambahkan?",
-                                    ),
-                                    TextSpan(
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                      text: " klik disini",
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                } else {
-                  return SizedBox(
-                    height: 110,
-                    child: Card(
-                      margin: const EdgeInsets.all(0),
-                      elevation: 15,
-                      shadowColor: Colors.black26,
-                      // shadowColor: const Color.fromARGB(40, 0, 0, 0),
-                      color: Colors.white,
-                      surfaceTintColor: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15),
-                        child: Center(
-                          child: Text(
-                            "Data tanaman belum tersedia",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              },
-            ),
+            AddPlantGridview(
+                screenHeight: screenHeight, screenWidth: screenWidth),
             const SizedBox(height: 10),
           ],
         ),

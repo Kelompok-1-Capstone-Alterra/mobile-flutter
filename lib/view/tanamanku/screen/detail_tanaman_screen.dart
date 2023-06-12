@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class DetailTanamanScreen extends StatefulWidget {
   final int idTanaman;
-  const DetailTanamanScreen({super.key, this.idTanaman = 0});
+  const DetailTanamanScreen({super.key, required this.idTanaman});
 
   @override
   State<DetailTanamanScreen> createState() => _DetailTanamanScreenState();

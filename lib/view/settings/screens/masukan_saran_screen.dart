@@ -38,7 +38,7 @@ class MasukanSaranScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: keyboardIsOpened
-          ? null
+          ? const SizedBox.shrink()
           : Padding(
               padding: const EdgeInsets.only(
                 left: 16,

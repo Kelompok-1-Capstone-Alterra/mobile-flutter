@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_plant_details.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_plant_location_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_planting_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:mobile_flutter/utils/routes.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
@@ -134,6 +138,18 @@ class MyApp extends StatelessWidget {
           create: (context) => GetTrendingArticleProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => GetPlantingArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetAvailablePlantsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetPlantDetailsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetPlantLocationProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => GetAllProductsProvider(),
         ),
       ],
@@ -143,8 +159,8 @@ class MyApp extends StatelessWidget {
         theme: agriplantLight,
         home: const SplashScreen(),
         routes: {
-          Routes.detailTanamankuPage: (BuildContext context) =>
-              const DetailTanamanScreen(),
+          // Routes.detailTanamankuPage: (BuildContext context) =>
+          //     const DetailTanamanScreen(),
         },
       ),
     );

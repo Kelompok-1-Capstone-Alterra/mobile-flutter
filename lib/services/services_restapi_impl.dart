@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
+import 'package:mobile_flutter/models/location_plant_response_model.dart';
+import 'package:mobile_flutter/models/plant_details_reponse_model.dart';
+import 'package:mobile_flutter/models/planting_article_response_model.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'dart:math';
@@ -8,10 +11,14 @@ import 'package:mobile_flutter/services/services_restapi.dart';
 import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/all_products_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/plant_details_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/planting_article_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/search_plants_response.dart';
 
 import '../models/all_product_response_model.dart';
 import '../utils/response_dummy/explore_monitoring/article_trending_response.dart';
 import '../utils/response_dummy/explore_monitoring/available_plants_response.dart';
+import '../utils/response_dummy/explore_monitoring/location_plant_response.dart';
 import '../utils/response_dummy/explore_monitoring/weather_response.dart';
 
 import '../models/user_model.dart';
@@ -111,6 +118,74 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
+  Future<List<PlantsResponseModel>> getSearchAvailablePlants(
+      String name) async {
+    try {
+      List<PlantsResponseModel> searchResult = [];
+
+      // final response = await _dio.get(
+      //   '/auth/plants/search?name=$name',
+      // );
+      // final model = PlantsResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(const Duration(seconds: 2));
+
+      for (var json in searchAvailablePlantsResponse) {
+        searchResult.add(PlantsResponseModel.fromJson(json));
+      }
+
+      return searchResult;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<PlantDetailsResponseModel> getPlantDetails(int plantId) async {
+    try {
+      //
+      // final response = await _dio.get(
+      //   '/auth/plants/:plant_id'
+      // );
+      // final model = PlantDetailsResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+      );
+
+      final details = PlantDetailsResponseModel.fromJson(plantDetailsResponse);
+      return details;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<LocationPlantResponseModel>> getPlantLocation(int plantId) async {
+    try {
+      List<LocationPlantResponseModel> plantLocation = [];
+
+      // final response = await _dio.get(
+      //   '/auth/plants/search?name=$name',
+      // );
+      // final model = PlantsResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(const Duration(seconds: 2));
+
+      for (var json in locationPlantResponse) {
+        plantLocation.add(LocationPlantResponseModel.fromJson(json));
+      }
+
+      return plantLocation;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
   Future<List<ArticleResponseModel>> getTrendingArticle() async {
     try {
       List<ArticleResponseModel> articleData = [];
@@ -131,6 +206,30 @@ class ServicesRestApiImpl extends ServicesRestApi {
       }
 
       return articleData;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<PlantingArticleResponseModel> getPlantingArticle(
+      int plantId, String location) async {
+    try {
+      //
+      // final response = await _dio.get(
+      //   '/auth/auth/articles/planting/:plant_id/:location',
+      // );
+      // final model = ArticleResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+        //
+      );
+
+      final response =
+          PlantingArticleResponseModel.fromJson(plantingArticleResponse);
+      return response;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
