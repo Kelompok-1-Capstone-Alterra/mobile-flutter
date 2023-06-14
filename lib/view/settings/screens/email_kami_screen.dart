@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +46,7 @@ class EmailKamiScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: keyboardIsOpened
-          ? null
+          ? const SizedBox.shrink()
           : Padding(
               padding: const EdgeInsets.only(
                 left: 16,
@@ -52,9 +55,15 @@ class EmailKamiScreen extends StatelessWidget {
               ),
               child: SizedBox(
                 width: double.infinity,
+                height: 40,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (provider.formKey.currentState!.validate()) {
+                      await provider.sendComplaintEmails(
+                        provider.nomorHpC.text,
+                        provider.emailC.text,
+                        provider.catatanC.text,
+                      );
                       await customShowDialogText(
                         context: context,
                         title: 'Pusat Bantuan',
@@ -74,13 +83,33 @@ class EmailKamiScreen extends StatelessWidget {
                       primary,
                     ),
                   ),
-                  child: Text(
-                    'Kirim',
-                    style: ThemeData().textTheme.labelLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: neutral[10],
-                        ),
+                  child: Consumer<EmailKamiProvider>(
+                    builder: (context, provider, _) {
+                      final state = provider.state;
+                      if (state == MyState.initial) {
+                        return Text(
+                          'Kirim',
+                          style: ThemeData().textTheme.labelLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: neutral[10],
+                              ),
+                        );
+                      } else if (state == MyState.loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return Text(
+                          'Kirim',
+                          style: ThemeData().textTheme.labelLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: neutral[10],
+                              ),
+                        );
+                      }
+                    },
                   ),
                 ),
               ),

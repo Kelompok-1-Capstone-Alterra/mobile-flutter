@@ -296,15 +296,19 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
-    final dio = Dio();
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      _dio.options.headers['Authorization'] = 'Bearer $token';
+
       Map data = {
         "phone": phone,
         "email": email,
         "message": message,
       };
-      final response =
-          await dio.put('https://34.128.85.215:8080/users/helps', data: data);
+
+      final response = await _dio.post('/auth/users/helps', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
