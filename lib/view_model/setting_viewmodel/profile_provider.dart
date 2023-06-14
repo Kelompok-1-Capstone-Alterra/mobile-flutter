@@ -27,9 +27,10 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadImage() async {
+  Future<void> upImage() async {
     try {
-      await serviceRestApiImpl.putImage(selectedImage!);
+      final pic = await serviceRestApiImpl.uploadProfilePic(selectedImage!);
+      await serviceRestApiImpl.updateProfilePic(pic);
 
       notifyListeners();
     } catch (e) {

@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 121,
                           height: 120,
                           child: Image.network(
-                              AppConstant.baseUrl + profile.picture!),
+                              '${AppConstant.imgUrl}${profile.picture!}'),
                         );
                       }
                     } else {
@@ -127,7 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: TextButton(
                   onPressed: () async {
                     await provider.selectImage();
-                    await provider.uploadImage();
+                    await provider.upImage();
+                    await context.read<GetProfileProvider>().getUserProfile();
                   },
                   child: Text(
                     'Ubah Foto Profil',

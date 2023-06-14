@@ -317,23 +317,40 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
-  Future<void> putImage(File file) async {
+  Future<String> uploadProfilePic(File file) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      _dio.options.headers['Authorization'] = 'Bearer $token';
-      // String fileName = file.path.split('/').last;
+      String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap(
         {
-          "picture": await MultipartFile.fromFile(
+          "pictures": await MultipartFile.fromFile(
             file.path,
-            // filename: fileName,
+            filename: fileName,
           ),
         },
       );
 
+      final response = await _dio.post('/pictures', data: formData);
+      final image = response.data["urls"][0];
+      print(response.statusCode);
+      print(image);
+      return image;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> updateProfilePic(String pic) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      _dio.options.headers['Authorization'] = 'Bearer $token';
+
+      Map data = {'picture': pic};
+
       final response =
-          await _dio.put('/auth/users/profiles/pictures', data: formData);
+          await _dio.put('/auth/users/profiles/pictures', data: data);
+
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());

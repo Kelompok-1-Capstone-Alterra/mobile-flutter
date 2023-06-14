@@ -36,7 +36,9 @@ abstract class ServicesRestApi {
   );
   Future<ProfileModel> getProfile();
 
-  Future<void> putImage(File file);
+  Future<String> uploadProfilePic(File file);
+
+  Future<void> updateProfilePic(String pic);
 
   Future<void> changeName(String newName);
 
