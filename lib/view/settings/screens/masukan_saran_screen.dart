@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +53,8 @@ class MasukanSaranScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (provider.formKey.currentState!.validate()) {
+                      await provider
+                          .sendSuggestion(provider.masukanSaranC.text);
                       await customShowDialogText(
                         context: context,
                         title: 'Masukan & Saran',
@@ -67,13 +72,33 @@ class MasukanSaranScreen extends StatelessWidget {
                       primary,
                     ),
                   ),
-                  child: Text(
-                    'Kirim',
-                    style: ThemeData().textTheme.labelLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: neutral[10],
-                        ),
+                  child: Consumer<MasukanSaranProvider>(
+                    builder: (context, masukanSaranProvider, _) {
+                      final state = masukanSaranProvider.state;
+                      if (state == MyState.initial) {
+                        return Text(
+                          'Kirim',
+                          style: ThemeData().textTheme.labelLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: neutral[10],
+                              ),
+                        );
+                      } else if (state == MyState.loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return Text(
+                          'Kirim',
+                          style: ThemeData().textTheme.labelLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: neutral[10],
+                              ),
+                        );
+                      }
+                    },
                   ),
                 ),
               ),

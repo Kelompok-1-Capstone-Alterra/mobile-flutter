@@ -208,6 +208,18 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
+  @override
+  Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
+    try {
+      await _dio.put(
+        '/users/$userId/password',
+        data: {'password': newPassword},
+      );
+    } catch (error) {
+      throw Exception(e);
+    }
+  }
+
   // ------------------------------------- ------------- --------------------------------
   // ---------------------------------------- settings ----------------------------------
   // ------------------------------------- ------------- --------------------------------
@@ -283,18 +295,6 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
-  Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
-    try {
-      await _dio.put(
-        '/users/$userId/password',
-        data: {'password': newPassword},
-      );
-    } catch (error) {
-      throw Exception(e);
-    }
-  }
-
-  @override
   Future<void> sendComplaintEmails(phone, email, message) async {
     final dio = Dio();
     try {
@@ -313,13 +313,17 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<void> sendSuggestion(String message) async {
-    final dio = Dio();
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      _dio.options.headers['Authorization'] = 'Bearer $token';
+
       Map data = {
         "message": message,
       };
-      final response =
-          await dio.put('https://34.128.85.215:8080/users/helps', data: data);
+
+      final response = await _dio.post('/auth/users/suggestions', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
