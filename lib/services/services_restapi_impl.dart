@@ -233,8 +233,11 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
+
       _dio.options.headers['Authorization'] = 'Bearer $token';
+
       Map name = {'name': newName};
+
       final response = await _dio.put('/auth/users/profiles/name', data: name);
       print(response.statusCode);
     } on DioError catch (e) {
@@ -247,8 +250,11 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
+
       _dio.options.headers['Authorization'] = 'Bearer $token';
-      Map password = {"password": newPassword};
+
+      Map password = {'password': newPassword};
+
       final response =
           await _dio.put('/auth/users/profiles/password', data: password);
       print(response.statusCode);

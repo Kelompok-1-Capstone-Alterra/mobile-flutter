@@ -26,6 +26,7 @@ class UbahKataSandiProvider with ChangeNotifier {
   Future<void> changePassword(String newPassword) async {
     state = MyState.loading;
     notifyListeners();
+
     await serviceRestApiImpl.changePassword(newPassword);
     state = MyState.loaded;
     notifyListeners();
