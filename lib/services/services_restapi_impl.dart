@@ -191,6 +191,28 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
+  Future<int> checkEmailValidEndpoint(String email) async {
+    try {
+      final response = await _dio.get(
+        '/users/emails/check',
+        data: {'email': email},
+      );
+
+      final int userId = response.data['user_id'];
+      return userId;
+    } catch (e) {
+      if (e is DioError && e.response?.statusCode == 404) {
+        throw Exception('Email tidak terdaftar.');
+      }
+      throw Exception('Terjadi kesalahan.');
+    }
+  }
+
+  // ------------------------------------- ------------- --------------------------------
+  // ---------------------------------------- settings ----------------------------------
+  // ------------------------------------- ------------- --------------------------------
+
+  @override
   Future<ProfileModel> getProfile() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -212,7 +234,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       _dio.options.headers['Authorization'] = 'Bearer $token';
-      Map name = {"name": newName};
+      Map name = {'name': newName};
       final response = await _dio.put('/auth/users/profiles/name', data: name);
       print(response.statusCode);
     } on DioError catch (e) {
@@ -232,24 +254,6 @@ class ServicesRestApiImpl extends ServicesRestApi {
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
-    }
-  }
-
-  @override
-  Future<int> checkEmailValidEndpoint(String email) async {
-    try {
-      final response = await _dio.get(
-        '/users/emails/check',
-        data: {'email': email},
-      );
-
-      final int userId = response.data['user_id'];
-      return userId;
-    } catch (e) {
-      if (e is DioError && e.response?.statusCode == 404) {
-        throw Exception('Email tidak terdaftar.');
-      }
-      throw Exception('Terjadi kesalahan.');
     }
   }
 
