@@ -1,3 +1,4 @@
+import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/settings/widgets/item_info_pribadi_widget.dart';
@@ -6,6 +7,7 @@ import 'package:mobile_flutter/view_model/setting_viewmodel/profile_provider.dar
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -54,15 +56,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     final state = getProfileProvider.state;
                     final profile = getProfileProvider.profile;
                     if (state == MyState.initial) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          height: 121,
+                          width: 120,
+                          color: neutral[20]!,
+                        ),
                       );
                     } else if (state == MyState.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          height: 121,
+                          width: 120,
+                          color: neutral[20]!,
+                        ),
                       );
                     } else if (state == MyState.loaded) {
-                      if (profile.picture == null) {
+                      if (profile.picture == '') {
                         return SizedBox(
                           width: 121,
                           height: 120,
@@ -77,27 +91,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return SizedBox(
                           width: 121,
                           height: 120,
-                          child: Image.network(profile.picture!),
+                          child: Image.network(
+                              AppConstant.baseUrl + profile.picture!),
                         );
                       }
                     } else {
-                      return SizedBox(
-                        width: 121,
-                        height: 120,
-                        child: Image.asset(
-                          'assets/images/ubah_profile.png',
-                          width: 121,
-                          height: 120,
-                          fit: BoxFit.cover,
+                      return Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          height: 121,
+                          width: 120,
+                          color: neutral[20]!,
                         ),
                       );
+                      // return SizedBox(
+                      //   width: 121,
+                      //   height: 120,
+                      //   child: Image.asset(
+                      //     'assets/images/ubah_profile.png',
+                      //     width: 121,
+                      //     height: 120,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // );
                     }
-                    //
-                    // Image.file(
-                    //   File(provider.selectedImage!.path),
-                    // ),
-                    //         ),
-                    // );
                   },
                 ),
               ),
@@ -166,11 +184,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 15),
 
                         // ? Item kata sandi
-                        ItemInfoPribadiWidget(
+                        const ItemInfoPribadiWidget(
                           title: 'Kata Sandi',
                           desc: '*********',
                           navigateScreen: NavigateType.ubahKataSandi,
-                          defaultValue: profile.password!,
+                          defaultValue: '',
                         ),
                       ],
                     );

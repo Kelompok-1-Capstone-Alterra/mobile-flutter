@@ -13,6 +13,7 @@ class GetProfileProvider with ChangeNotifier {
     try {
       state = MyState.loading;
       final response = await serviceRestApiImpl.getProfile();
+
       notifyListeners();
 
       profile = response;

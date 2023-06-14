@@ -6,48 +6,42 @@ ProfileModel profileModelFromJson(String str) =>
 String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 
 class ProfileModel {
-  String? name;
   String? email;
-  String? password;
+  int? id;
+  String? name;
   String? picture;
-  String? id;
 
   ProfileModel({
-    this.name,
     this.email,
-    this.password,
-    this.picture,
     this.id,
+    this.name,
+    this.picture,
   });
 
   ProfileModel copyWith({
-    String? name,
     String? email,
-    String? password,
+    int? id,
+    String? name,
     String? picture,
-    String? id,
   }) =>
       ProfileModel(
-        name: name ?? this.name,
         email: email ?? this.email,
-        password: password ?? this.password,
-        picture: picture ?? this.picture,
         id: id ?? this.id,
+        name: name ?? this.name,
+        picture: picture ?? this.picture,
       );
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-        name: json["name"],
         email: json["email"],
-        password: json["password"],
-        picture: json["picture"],
         id: json["id"],
+        name: json["name"],
+        picture: json["picture"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
         "email": email,
-        "password": password,
-        "picture": picture,
         "id": id,
+        "name": name,
+        "picture": picture,
       };
 }

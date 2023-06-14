@@ -10,6 +10,7 @@ import 'package:mobile_flutter/services/services_restapi.dart';
 import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/all_products_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/all_product_response_model.dart';
 import '../utils/response_dummy/explore_monitoring/article_trending_response.dart';
 import '../utils/response_dummy/explore_monitoring/weather_response.dart';
@@ -170,19 +171,6 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
-  Future<ProfileModel> getProfile() async {
-    final dio = Dio();
-    try {
-      final response = await dio.get(
-          'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/users/1');
-      final profile = ProfileModel.fromJson(response.data);
-      return profile;
-    } on DioError catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  @override
   Future<String> loginEndpoint(String email, String password) async {
     try {
       // Lakukan permintaan POST ke endpoint login
@@ -203,14 +191,29 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
-  Future<void> changeName(newName) async {
-    final dio = Dio();
-
+  Future<ProfileModel> getProfile() async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      _dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await _dio.get('/auth/users/profiles');
+      final profile = ProfileModel.fromJson(response.data['data']);
+      print(response.statusCode);
+      print(response.data['data']);
+      return profile;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> changeName(newName) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      _dio.options.headers['Authorization'] = 'Bearer $token';
       Map name = {"name": newName};
-      final response = await dio.put(
-          'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/users/1',
-          data: name);
+      final response = await _dio.put('/auth/users/profiles/name', data: name);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -219,13 +222,13 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<void> changePassword(newPassword) async {
-    final dio = Dio();
-
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      _dio.options.headers['Authorization'] = 'Bearer $token';
       Map password = {"password": newPassword};
-      final response = await dio.put(
-          'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/users/1',
-          data: password);
+      final response =
+          await _dio.put('/auth/users/profiles/password', data: password);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -315,22 +318,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<void> putImage(File file) async {
-    final dio = Dio();
-
     try {
-      String fileName = file.path.split('/').last;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      _dio.options.headers['Authorization'] = 'Bearer $token';
+      // String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap(
         {
           "picture": await MultipartFile.fromFile(
             file.path,
-            filename: fileName,
+            // filename: fileName,
           ),
         },
       );
 
-      final response = await dio.put(
-          'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/users/1',
-          data: formData);
+      final response =
+          await _dio.put('/auth/users/profiles/pictures', data: formData);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
