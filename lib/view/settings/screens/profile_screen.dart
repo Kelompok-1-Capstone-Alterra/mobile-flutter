@@ -26,6 +26,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProfileProvider>(context, listen: false);
+    final getProfileProvider =
+        Provider.of<GetProfileProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -128,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onPressed: () async {
                     await provider.selectImage();
                     await provider.upImage();
-                    await context.read<GetProfileProvider>().getUserProfile();
+                    await getProfileProvider.getUserProfile();
                   },
                   child: Text(
                     'Ubah Foto Profil',
