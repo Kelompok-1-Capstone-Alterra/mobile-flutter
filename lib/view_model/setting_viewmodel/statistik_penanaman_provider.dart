@@ -1,44 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/view/settings/widgets/item_statistika_penanaman_widget.dart';
-import 'package:mobile_flutter/view/settings/widgets/label_mati_widget.dart';
-import 'package:mobile_flutter/view/settings/widgets/label_panen_widget.dart';
+import 'package:mobile_flutter/models/plant_stats_model.dart';
+import 'package:mobile_flutter/services/services_restapi_impl.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 
 class StatistikaPenanamanProvider with ChangeNotifier {
-  String selectedFilter = 'Semua';
+  final serviceRestApiImpl = ServicesRestApiImpl();
+  String selectedFilter = '';
+
+  List<PlantStatsModel> allItems = [];
+  List<PlantStatsModel> get harvestItems =>
+      allItems.where((item) => item.status == 'harvest').toList();
+  List<PlantStatsModel> get deadItems =>
+      allItems.where((item) => item.status == 'dead').toList();
+
+  MyState state = MyState.initial;
 
   void setFilter(String value) {
+    state = MyState.loading;
+    notifyListeners();
     selectedFilter = value;
+    state = MyState.loaded;
     notifyListeners();
   }
 
-  // All items
-  List<ItemStatistikaPenanamanWidget> items = [
-    const ItemStatistikaPenanamanWidget(
-      label: LabelPanenWidget(),
-      kondisiTanaman: 'Panen',
-    ),
-    const ItemStatistikaPenanamanWidget(
-      label: LabelMatiWidget(),
-      kondisiTanaman: 'Mati',
-    ),
-    const ItemStatistikaPenanamanWidget(
-      label: LabelPanenWidget(),
-      kondisiTanaman: 'Panen',
-    ),
-    const ItemStatistikaPenanamanWidget(
-      label: LabelMatiWidget(),
-      kondisiTanaman: 'Mati',
-    ),
-  ];
+  Future<void> getAllPlantStats() async {
+    try {
+      state = MyState.loading;
+      final response = await serviceRestApiImpl.getPlantStats(selectedFilter);
+      notifyListeners();
 
-  // items = semua
-  List<ItemStatistikaPenanamanWidget> get semuaItems => items;
-
-  // items = panen
-  List<ItemStatistikaPenanamanWidget> get panenItems =>
-      items.where((item) => item.kondisiTanaman == 'Panen').toList();
-
-  // items = mati
-  List<ItemStatistikaPenanamanWidget> get matiItems =>
-      items.where((item) => item.kondisiTanaman == 'Mati').toList();
+      allItems = response;
+      state = MyState.loaded;
+      notifyListeners();
+    } catch (e) {
+      state = MyState.failed;
+      notifyListeners();
+    }
+  }
 }
