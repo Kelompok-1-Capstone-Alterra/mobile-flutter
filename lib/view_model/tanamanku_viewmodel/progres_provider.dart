@@ -10,7 +10,10 @@ class ProgresProvider with ChangeNotifier {
 
   Future<void> getProgres(int idTanaman) async {
     try {
-      state = MyState.loading;
+      if (state == MyState.loaded || state == MyState.failed) {
+        state = MyState.loading;
+        notifyListeners();
+      }
 
       final response = await services.getProgres(idTanaman);
       weeklyProgressList = response;

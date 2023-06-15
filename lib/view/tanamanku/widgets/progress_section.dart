@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
+import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_mati_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_panen_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_progress_screen.dart';
@@ -21,8 +22,9 @@ class _ProgressSectionState extends State<ProgressSection> {
   @override
   void initState() {
     super.initState();
-
-    context.read<ProgresProvider>().getProgres(widget.idTanaman);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProgresProvider>().getProgres(widget.idTanaman);
+    });
   }
 
   @override
@@ -117,8 +119,37 @@ class _ProgressSectionState extends State<ProgressSection> {
             ],
           );
         } else {
-          return const Center(
-            child: Text("eror di else"),
+          return Center(
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              direction: Axis.vertical,
+              children: [
+                Icon(
+                  Icons.error,
+                  size: 40,
+                  color: neutral[40]!,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Terjadi kesalahan.",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: neutral[50]!,
+                      ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      provider.getProgres(widget.idTanaman);
+                    },
+                    child: Text(
+                      "Coba Lagi?",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: neutral[70]!,
+                          ),
+                    ))
+              ],
+            ),
           );
         }
       },

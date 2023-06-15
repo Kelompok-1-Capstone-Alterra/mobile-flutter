@@ -219,7 +219,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
           .getToken();
 
       final response = await _dioWithInterceptor.get(
-        '/auth/users/plants/$idTanaman/progress',
+        '/auth/users/plants/$idTanaman/progresss',
         options: Options(
           headers: {
             'Authorization': token,
