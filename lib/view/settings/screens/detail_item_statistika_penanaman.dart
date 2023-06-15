@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/models/plant_stats_model.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_mati_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_panen_screen.dart';
@@ -8,7 +9,13 @@ import 'package:mobile_flutter/view/tanamanku/widgets/cards/progress_card/progre
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class DetailItemStatistikPenanaman extends StatelessWidget {
-  const DetailItemStatistikPenanaman({super.key});
+  const DetailItemStatistikPenanaman({
+    super.key,
+    required this.index,
+    required this.plantStatsModel,
+  });
+  final int index;
+  final PlantStatsModel plantStatsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +58,11 @@ class DetailItemStatistikPenanaman extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Tomat',
+                      plantStatsModel.name ?? 'Tomat',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     Text(
-                      'Solanum lycopersicum',
+                      plantStatsModel.latin ?? 'Solanum lycopersicum',
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!

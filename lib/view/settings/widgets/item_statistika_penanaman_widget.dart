@@ -19,7 +19,8 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
       onTap: () {
         pushNewScreen(
           context,
-          screen: const DetailItemStatistikPenanaman(),
+          screen: DetailItemStatistikPenanaman(
+              index: index, plantStatsModel: plantStatsModel),
           withNavBar: false,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
