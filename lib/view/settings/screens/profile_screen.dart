@@ -94,7 +94,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 121,
                           height: 120,
                           child: Image.network(
-                              '${AppConstant.imgUrl}${profile.picture!}'),
+                            '${AppConstant.imgUrl}${profile.picture!}',
+                            errorBuilder: (context, error, stackTrace) =>
+                                SizedBox(
+                              width: 121,
+                              height: 120,
+                              child: Image.asset(
+                                'assets/images/ubah_profile.png',
+                                width: 121,
+                                height: 120,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         );
                       }
                     } else {
