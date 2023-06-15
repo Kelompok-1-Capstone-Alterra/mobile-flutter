@@ -1,5 +1,7 @@
 import 'package:mobile_flutter/models/all_product_response_model.dart';
+import 'package:mobile_flutter/models/my_plant_name_response_model.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
+import 'package:mobile_flutter/models/progres_response_model.dart';
 
 import '../models/article_response_model.dart';
 import '../models/weather_response_model.dart';
@@ -31,4 +33,8 @@ abstract class ServicesRestApi {
     int userId,
     String newPassword,
   );
+
+  // Explore Monitoring Fauzi
+  Future<MyPlantNameResponseModel> getMyPlantName(int idTanaman);
+  Future<List<ProgresResponseModel>> getProgres(int idTanaman);
 }
