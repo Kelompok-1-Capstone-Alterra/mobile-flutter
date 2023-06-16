@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/converter/convert_date.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_mati_screen.dart';
@@ -60,6 +61,20 @@ class _ProgressSectionState extends State<ProgressSection> {
                   ? Column(
                       children:
                           provider.weeklyProgressList.reversed.map((progress) {
+                        final String fromMonth = formatDateMMM(progress.from!);
+
+                        final String toMonth = formatDateMMM(progress.to!);
+
+                        String fromFormat = '';
+
+                        if (fromMonth == toMonth) {
+                          fromFormat = formatDatedd(progress.from!);
+                        } else {
+                          fromFormat = formatDateddMMM(progress.to!);
+                        }
+
+                        final String toFormat =
+                            formatDateddMMMyyyy(progress.to!);
                         return Column(
                           children: [
                             ProgressCard(
@@ -71,10 +86,10 @@ class _ProgressSectionState extends State<ProgressSection> {
                                           ? 'Tanaman Mati'
                                           : '',
                               date: progress.status == 'planting'
-                                  ? '${progress.from} - ${progress.to}'
+                                  ? '$fromFormat - $toFormat'
                                   : progress.status == 'harvest' ||
                                           progress.status == 'dead'
-                                      ? '${progress.from}'
+                                      ? '$formatDatedd(progress.from!)'
                                       : 'null',
                               type: progress.status == 'planting'
                                   ? TipeProgress.mingguan
@@ -84,27 +99,27 @@ class _ProgressSectionState extends State<ProgressSection> {
                                           ? TipeProgress.mati
                                           : null,
                               onTap: () {
-                                // pushNewScreen(
-                                //   context,
-                                //   screen: progress.status == 'planting'
-                                //       ? DetailProgresScreen(
-                                //           idTanaman: widget.idTanaman,
-                                //           idProgress:
-                                //               progress.weeklyProgressId!,
-                                //         )
-                                //       : progress.status == 'harvest'
-                                //           ? const DetailPanenScreen()
-                                //           : progress.status == 'dead'
-                                //               ? DetailMatiScreen(
-                                //                   idTanaman: widget.idTanaman,
-                                //                   idProgress: progress
-                                //                       .weeklyProgressId!,
-                                //                 )
-                                //               : const SizedBox(),
-                                //   withNavBar: false,
-                                //   pageTransitionAnimation:
-                                //       PageTransitionAnimation.cupertino,
-                                // );
+                                pushNewScreen(
+                                  context,
+                                  screen: progress.status == 'planting'
+                                      ? DetailProgresScreen(
+                                          idTanaman: widget.idTanaman,
+                                          idProgress:
+                                              progress.weeklyProgressId!,
+                                        )
+                                      : progress.status == 'harvest'
+                                          ? const DetailPanenScreen()
+                                          : progress.status == 'dead'
+                                              ? const DetailMatiScreen(
+                                                  // idTanaman: widget.idTanaman,
+                                                  // idProgress: progress
+                                                  //     .weeklyProgressId!,
+                                                  )
+                                              : const SizedBox(),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
                               },
                             ),
                             const SizedBox(height: 13),

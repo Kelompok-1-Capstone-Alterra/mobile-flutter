@@ -213,8 +213,8 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                           height: 22,
                         ),
                         provider.selectedIndex == 0
-                            ? const OverviewSection()
-                            : const ProgressSection(idTanaman: 3),
+                            ? const OverviewSection(idTanaman: 19)
+                            : const ProgressSection(idTanaman: 19),
                       ],
                     ),
                   ),
