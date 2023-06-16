@@ -10,6 +10,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../utils/app_constant.dart';
 import '../../utils/themes/custom_color.dart';
+import '../dashboard/screen/tambahkan_nama_tanaman_screen.dart';
 
 enum ScreenType { informasiLokasi, pemilihanLokasi }
 
@@ -119,6 +120,20 @@ class _LokasiTanamanScreenState extends State<LokasiTanamanScreen> {
                                   break;
                                 case ScreenType.pemilihanLokasi:
                                   {
+                                    pushNewScreen(
+                                      context,
+                                      screen: TambahNamaTanamanScreen(
+                                          location: provider
+                                                      .plantinglocation[index]
+                                                      .locationPlant! ==
+                                                  1
+                                              ? "container"
+                                              : "ground"),
+                                      withNavBar:
+                                          false, // OPTIONAL VALUE. True by default.
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                    );
                                     //select lokasi
                                   }
                                   break;

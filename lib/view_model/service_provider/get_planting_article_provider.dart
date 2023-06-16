@@ -12,7 +12,7 @@ class GetPlantingArticleProvider extends ChangeNotifier {
   PlantingArticleResponseModel? plantingArticle;
 
   YoutubePlayerController? ytPlayerController;
-  Future getPlantingArticleData(
+  Future<void> getPlantingArticleData(
       {required int plantId, required String location}) async {
     if (state == MyState.loaded || state == MyState.failed) {
       state = MyState.loading;

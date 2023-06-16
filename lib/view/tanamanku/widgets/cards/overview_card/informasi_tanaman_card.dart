@@ -127,7 +127,7 @@ class _InformasiTanamanCardState extends State<InformasiTanamanCard> {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiPemupukanScreen(),
+                    screen: InformasiPemupukanScreen(plantId: widget.plantId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -137,7 +137,7 @@ class _InformasiTanamanCardState extends State<InformasiTanamanCard> {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiPenyiramanScreen(),
+                    screen: InformasiPenyiramanScreen(plantId: widget.plantId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -147,7 +147,7 @@ class _InformasiTanamanCardState extends State<InformasiTanamanCard> {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiTempIdealScreen(),
+                    screen: InformasiTempIdealScreen(plantId: widget.plantId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );

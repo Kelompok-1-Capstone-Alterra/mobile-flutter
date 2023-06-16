@@ -29,9 +29,11 @@ class _InformasiCaraMenanamScreenState
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<GetPlantingArticleProvider>().getPlantingArticleData(
+          plantId: widget.plantId, location: widget.location);
+    });
     super.initState();
-    context.read<GetPlantingArticleProvider>().getPlantingArticleData(
-        plantId: widget.plantId, location: widget.location);
   }
 
   @override
@@ -40,137 +42,138 @@ class _InformasiCaraMenanamScreenState
         builder: (context, provider, _) {
       if (provider.state == MyState.loading) {
         return Scaffold(
-            floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: FloatingActionButton.small(
-                elevation: 0,
-                backgroundColor: Colors.black12,
-                highlightElevation: 0,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: const CircleBorder(),
-                disabledElevation: 0,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  FluentIcons.chevron_left_16_regular,
-                  size: 30,
-                  color: neutral[10],
-                ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: FloatingActionButton.small(
+              elevation: 0,
+              backgroundColor: Colors.black12,
+              highlightElevation: 0,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: const CircleBorder(),
+              disabledElevation: 0,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                FluentIcons.chevron_left_16_regular,
+                size: 30,
+                color: neutral[10],
               ),
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Shimmer.fromColors(
-                    baseColor: neutral[30]!,
-                    highlightColor: neutral[20]!,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.31,
-                      width: MediaQuery.of(context).size.width,
-                      color: neutral[20]!,
-                    ),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Shimmer.fromColors(
+                  baseColor: neutral[30]!,
+                  highlightColor: neutral[20]!,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.31,
+                    width: MediaQuery.of(context).size.width,
+                    color: neutral[20]!,
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  UnconstrainedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Shimmer.fromColors(
-                        baseColor: neutral[30]!,
-                        highlightColor: neutral[20]!,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: neutral[20]!,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 15,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                        ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                UnconstrainedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: neutral[20]!,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 15,
+                        width: MediaQuery.of(context).size.width * 0.2,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  UnconstrainedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Shimmer.fromColors(
-                        baseColor: neutral[30]!,
-                        highlightColor: neutral[20]!,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: neutral[20]!,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 10,
-                          width: MediaQuery.of(context).size.width * 0.25,
-                        ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                UnconstrainedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: neutral[20]!,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 10,
+                        width: MediaQuery.of(context).size.width * 0.25,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  UnconstrainedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Shimmer.fromColors(
-                        baseColor: neutral[30]!,
-                        highlightColor: neutral[20]!,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: neutral[20]!,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 10,
-                          width: MediaQuery.of(context).size.width * 0.5,
-                        ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                UnconstrainedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: neutral[20]!,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 10,
+                        width: MediaQuery.of(context).size.width * 0.5,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  UnconstrainedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Shimmer.fromColors(
-                        baseColor: neutral[30]!,
-                        highlightColor: neutral[20]!,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: neutral[20]!,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 10,
-                          width: MediaQuery.of(context).size.width * 0.6,
-                        ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                UnconstrainedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: neutral[20]!,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 10,
+                        width: MediaQuery.of(context).size.width * 0.6,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  UnconstrainedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Shimmer.fromColors(
-                        baseColor: neutral[30]!,
-                        highlightColor: neutral[20]!,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: neutral[20]!,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 10,
-                          width: MediaQuery.of(context).size.width * 0.7,
-                        ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                UnconstrainedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: neutral[20]!,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 10,
+                        width: MediaQuery.of(context).size.width * 0.7,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ));
+                ),
+              ],
+            ),
+          ),
+        );
       } else if (provider.state == MyState.loaded) {
         return YoutubePlayerBuilder(
           // onExitFullScreen: () {
@@ -331,9 +334,10 @@ class _InformasiCaraMenanamScreenState
                                 margin: Margins.symmetric(horizontal: 0),
                               ),
                               'br': Style(
-                                  margin: Margins.symmetric(horizontal: 0),
-                                  padding: EdgeInsets.zero,
-                                  fontSize: FontSize(10)),
+                                margin: Margins.symmetric(horizontal: 0),
+                                padding: EdgeInsets.zero,
+                                fontSize: FontSize(10),
+                              ),
                             },
                           ),
                           const SizedBox(

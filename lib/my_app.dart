@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_fertilizing_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_plant_details.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_plant_location_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_planting_article_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_temperature_article_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_watering_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:mobile_flutter/utils/routes.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
+import 'package:mobile_flutter/view_model/service_provider/post_add_myplant_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
@@ -147,10 +151,22 @@ class MyApp extends StatelessWidget {
           create: (context) => GetPlantDetailsProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => PostAddMyPlantProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => GetPlantLocationProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => GetAllProductsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetWateringArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetTemperatureArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetFertilizingArticleProvider(),
         ),
       ],
       child: MaterialApp(

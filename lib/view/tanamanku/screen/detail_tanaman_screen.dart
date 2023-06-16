@@ -21,6 +21,12 @@ class DetailTanamanScreen extends StatefulWidget {
 
 class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
   @override
+  void initState() {
+    print(widget.idTanaman);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TanamankuProvider>(context, listen: false);
     final providerOverview =

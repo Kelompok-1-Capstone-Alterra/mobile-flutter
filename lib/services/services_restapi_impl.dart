@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
+import 'package:mobile_flutter/models/fertilizing_article_response_model.dart';
 import 'package:mobile_flutter/models/location_plant_response_model.dart';
 import 'package:mobile_flutter/models/plant_details_reponse_model.dart';
 import 'package:mobile_flutter/models/planting_article_response_model.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
+import 'package:mobile_flutter/models/temperature_article_response_model.dart';
+import 'package:mobile_flutter/models/watering_article_response_model.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'dart:math';
 
@@ -14,10 +17,15 @@ import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/plant_details_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/planting_article_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/search_plants_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/temperature_article_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/watering_article_reponse.dart';
 
+import '../models/add_my_plant_response_model.dart';
 import '../models/all_product_response_model.dart';
+import '../utils/response_dummy/explore_monitoring/add_myplant_response.dart';
 import '../utils/response_dummy/explore_monitoring/article_trending_response.dart';
 import '../utils/response_dummy/explore_monitoring/available_plants_response.dart';
+import '../utils/response_dummy/explore_monitoring/fertilizing_article_response.dart';
 import '../utils/response_dummy/explore_monitoring/location_plant_response.dart';
 import '../utils/response_dummy/explore_monitoring/weather_response.dart';
 
@@ -36,6 +44,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
       baseUrl: AppConstant.baseUrl,
     ),
   );
+
   // Buat instance Dio
   @override
   void contohEndpoint() {}
@@ -212,6 +221,76 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
+  Future<WateringArticleResponse> getWateringArticle(int plantId) async {
+    try {
+      //
+      // final response = await _dio.get(
+      //   ' /auth/auth/articles/watering/:plant_id',
+      // );
+      // final model = ArticleResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+        //
+      );
+
+      final response =
+          WateringArticleResponse.fromJson(wateringArticleResponse);
+      return response;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<TempArticleResponseModel> getTemperatureArticle(int plantId) async {
+    try {
+      //
+      // final response = await _dio.get(
+      //   '/auth/auth/articles/temperature/:plant_id',
+      // );
+      // final model = ArticleResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+        //
+      );
+
+      final response =
+          TempArticleResponseModel.fromJson(temperatureArticleResponse);
+      return response;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<FertilizingArticleResponseModel> getFertilizingArticle(
+      int plantId) async {
+    try {
+      //
+      // final response = await _dio.get(
+      //   '/auth/auth/articles/temperature/:plant_id',
+      // );
+      // final model = ArticleResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+        //
+      );
+
+      final response =
+          FertilizingArticleResponseModel.fromJson(fertilizingArticleResponse);
+      return response;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
   Future<PlantingArticleResponseModel> getPlantingArticle(
       int plantId, String location) async {
     try {
@@ -270,6 +349,33 @@ class ServicesRestApiImpl extends ServicesRestApi {
         const Duration(seconds: 2),
       );
       return 200;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<AddMyplantResponseModel> addMyPlant(
+      {required plantId,
+      required String location,
+      required String namedPlant}) async {
+    try {
+      // final response = await _dio.post(
+      //   '/auth/plants/:plant_id ',
+      //   data: {
+      //     "location ": location,
+      //     "name ": namedPlant
+      //   },
+      // );
+      // return response.statusCode;
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 5),
+      );
+
+      final responModel = AddMyplantResponseModel.fromJson(addMyPlantResponse);
+      return responModel;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
