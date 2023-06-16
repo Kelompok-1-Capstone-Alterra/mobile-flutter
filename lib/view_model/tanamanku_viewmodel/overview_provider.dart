@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/models/overview_response_model.dart';
+import 'package:mobile_flutter/services/services_restapi_impl.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 
 class OverviewProvider with ChangeNotifier {
-  int counterPenyiraman = 0;
-  int batasPenyiraman = 2;
-  bool sudahMenanam = false;
-  bool pemupukan = false;
+  bool? sudahMenanam;
 
-  void addPenyiraman() {
-    counterPenyiraman++;
-    notifyListeners();
-  }
+  MyState state = MyState.initial;
+  final services = ServicesRestApiImpl();
+  OverviewResponseModel? _overview;
+  OverviewResponseModel get getOverviewData => _overview!;
 
-  void addPemupukan() {
-    pemupukan = true;
-    notifyListeners();
+  Future<void> getOverview(int idTanaman) async {
+    try {
+      state = MyState.loading;
+
+      final response = await services.getOverview(idTanaman);
+      _overview = response;
+
+      state = MyState.loaded;
+      notifyListeners();
+    } catch (e) {
+      state = MyState.failed;
+      notifyListeners();
+    }
   }
 
   void addSudahMenanam() {
@@ -22,9 +32,6 @@ class OverviewProvider with ChangeNotifier {
   }
 
   void refresh() {
-    counterPenyiraman = 0;
-    batasPenyiraman = 2;
     sudahMenanam = false;
-    pemupukan = false;
   }
 }
