@@ -80,4 +80,10 @@ abstract class ServicesRestApi {
     String? description,
     List<String>? pictures,
   );
+  Future<void> addHarvestProgress(
+    int idTanaman,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  );
 }

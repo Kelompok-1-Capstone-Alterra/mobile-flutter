@@ -106,4 +106,51 @@ class AddPanenMatiProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> addHarvestProgress(BuildContext context, int idTanaman) async {
+    try {
+      state = MyState.loading;
+      notifyListeners();
+
+      var formData = FormData();
+
+      List<String> imageUrl = [];
+
+      if (image.isNotEmpty) {
+        for (var i = 0; i < image.length; i++) {
+          var imageFile = await MultipartFile.fromFile(image[i].path);
+          formData.files.add(MapEntry('pictures', imageFile));
+        }
+
+        imageUrl = await services.addPhoto(formData);
+      }
+
+      await services.addHarvestProgress(
+        idTanaman,
+        null,
+        descriptionController.text,
+        imageUrl,
+      );
+
+      state = MyState.loaded;
+      notifyListeners();
+
+      if (context.mounted) {
+        await customShowDialogIcon(
+            context: context,
+            iconDialog: FluentIcons.premium_16_regular,
+            title: 'Selamat',
+            desc:
+                'Kamu berhasil memanen tanaman kamu! Cek History Tanaman kamu di menu Statistika Penanaman.');
+        if (context.mounted) {
+          refresh();
+          Navigator.pop(context);
+        }
+        // Navigator.pop(context);
+      }
+    } catch (e) {
+      state = MyState.failed;
+      notifyListeners();
+    }
+  }
 }

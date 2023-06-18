@@ -108,7 +108,11 @@ class _ProgressSectionState extends State<ProgressSection> {
                                               progress.weeklyProgressId!,
                                         )
                                       : progress.status == 'harvest'
-                                          ? const DetailPanenScreen()
+                                          ? DetailPanenScreen(
+                                              idTanaman: widget.idTanaman,
+                                              idProgress:
+                                                  progress.weeklyProgressId!,
+                                            )
                                           : progress.status == 'dead'
                                               ? DetailMatiScreen(
                                                   idTanaman: widget.idTanaman,
