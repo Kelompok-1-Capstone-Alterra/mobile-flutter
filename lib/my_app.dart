@@ -32,7 +32,7 @@ import 'package:mobile_flutter/view_model/setting_viewmodel/statistik_penanaman_
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_nama_provider.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_progress.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_provider.dart';
 import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
