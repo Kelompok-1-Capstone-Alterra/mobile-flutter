@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/all_product_response_model.dart';
 
+import '../../models/product.dart';
 import '../../services/services_restapi_impl.dart';
 import '../../utils/state/finite_state.dart';
 

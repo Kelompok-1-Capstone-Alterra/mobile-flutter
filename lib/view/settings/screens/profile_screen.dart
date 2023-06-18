@@ -94,7 +94,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 121,
                           height: 120,
                           child: Image.network(
-                              '${AppConstant.imgUrl}${profile.picture!}'),
+                            '${AppConstant.imgUrl}${profile.picture!}',
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              color: neutral[20],
+                              width: 121,
+                              height: 120,
+                              child: const Icon(
+                                  Icons.image_not_supported_outlined),
+                            ),
+                          ),
                         );
                       }
                     } else {
