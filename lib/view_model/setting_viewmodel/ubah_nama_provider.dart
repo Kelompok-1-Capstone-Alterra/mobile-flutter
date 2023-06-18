@@ -12,6 +12,7 @@ class UbahNamaProvider with ChangeNotifier {
   Future<void> changeName(String newName) async {
     state = MyState.loading;
     notifyListeners();
+
     await serviceRestApiImpl.changeName(newName);
     state = MyState.loaded;
     notifyListeners();

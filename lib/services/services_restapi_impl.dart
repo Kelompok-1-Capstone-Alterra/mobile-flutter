@@ -442,6 +442,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<int> checkEmailValidEndpoint(String email) async {
     try {
+      
       final response = await _dioWithoutInterceptor.get(
         '/users/emails/check',
         data: {'email': email},
@@ -457,6 +458,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
+ 
+  
   @override
   Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
     try {
@@ -494,6 +497,9 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
+   
+    
+     
       _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
       Map name = {"name": newName};
       final response = await _dioWithoutInterceptor
@@ -537,6 +543,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
       throw Exception(e.toString());
     }
   }
+
+ 
 
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
