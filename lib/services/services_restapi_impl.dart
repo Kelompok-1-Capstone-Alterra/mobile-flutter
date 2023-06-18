@@ -208,6 +208,18 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
+ @override
+  Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
+    try {
+      await _dio.put(
+        '/users/$userId/password',
+        data: {'password': newPassword},
+      );
+    } catch (error) {
+      throw Exception(e);
+    }
+  }
+
   // ------------------------------------- ------------- --------------------------------
   // ---------------------------------------- settings ----------------------------------
   // ------------------------------------- ------------- --------------------------------
@@ -276,17 +288,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
-  @override
-  Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
-    try {
-      await _dio.put(
-        '/users/$userId/password',
-        data: {'password': newPassword},
-      );
-    } catch (error) {
-      throw Exception(e);
-    }
-  }
+ 
 
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
