@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-// import 'package:mobile_flutter/view/tanamanku/screen/add_progress_mati_screen.dart';
+import 'package:mobile_flutter/view/tanamanku/screen/add_progress_mati_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/add_progress_panen_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/description_card.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/informasi_tanaman_card.dart';
@@ -29,21 +29,78 @@ class OverviewSection extends StatefulWidget {
 
 class _OverviewSectionState extends State<OverviewSection> {
   @override
+  // void initState() {
+  //   super.initState();
+
+  //   bool? sudahMenanamResponse =
+  //       context.read<TanamankuProvider>().getDetails.isStartPlanting;
+
+  //   // context.read<AddWateringProvider>().getWateringData(widget.idTanaman);
+
+  //   // context.read<AddFertilizingProvider>().getFertilizingData(widget.idTanaman);
+
+  //   // context.read<AddProgressProvider>().getWeeklyProgressData(widget.idTanaman);
+
+  //   context.read<OverviewProvider>().getOverview(widget.idTanaman);
+
+  //   context.read<OverviewProvider>().sudahMenanam = sudahMenanamResponse;
+  // }
+
   void initState() {
     super.initState();
+    _initState();
+  }
 
+  Future<void> _initState() async {
     bool? sudahMenanamResponse =
         context.read<TanamankuProvider>().getDetails.isStartPlanting;
 
-    context.read<AddWateringProvider>().getWateringData(widget.idTanaman);
+    await context.read<OverviewProvider>().getOverview(widget.idTanaman);
 
-    context.read<AddFertilizingProvider>().getFertilizingData(widget.idTanaman);
+    if (context.mounted) {
+      if (Provider.of<OverviewProvider>(context, listen: false).state !=
+          MyState.failed) {
+        context.read<OverviewProvider>().sudahMenanam = sudahMenanamResponse;
 
-    context.read<AddProgressProvider>().getWeeklyProgressData(widget.idTanaman);
+        context.read<AddWateringProvider>().week =
+            context.read<OverviewProvider>().getOverviewData.watering?.week;
+        context.read<AddWateringProvider>().day =
+            context.read<OverviewProvider>().getOverviewData.watering?.day;
+        context.read<AddWateringProvider>().period =
+            context.read<OverviewProvider>().getOverviewData.watering?.period;
+        context.read<AddWateringProvider>().history =
+            context.read<OverviewProvider>().getOverviewData.watering?.history;
 
-    context.read<OverviewProvider>().getOverview(widget.idTanaman);
+        context.read<AddFertilizingProvider>().isActive = context
+            .read<OverviewProvider>()
+            .getOverviewData
+            .fertilizing
+            ?.isActive;
+        context.read<AddFertilizingProvider>().isEnabled = context
+            .read<OverviewProvider>()
+            .getOverviewData
+            .fertilizing
+            ?.isEnabled;
 
-    context.read<OverviewProvider>().sudahMenanam = sudahMenanamResponse;
+        context.read<AddProgressProvider>().isActive = context
+            .read<OverviewProvider>()
+            .getOverviewData
+            .weeklyProgress
+            ?.isActive;
+        context.read<AddProgressProvider>().from = context
+            .read<OverviewProvider>()
+            .getOverviewData
+            .weeklyProgress
+            ?.from;
+        context.read<AddProgressProvider>().to =
+            context.read<OverviewProvider>().getOverviewData.weeklyProgress?.to;
+        context.read<AddProgressProvider>().isEnabled = context
+            .read<OverviewProvider>()
+            .getOverviewData
+            .weeklyProgress
+            ?.isEnabled;
+      }
+    }
   }
 
   @override
@@ -284,16 +341,16 @@ class _OverviewSectionState extends State<OverviewSection> {
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.pop(context);
-                                                // pushNewScreen(
-                                                //   context,
-                                                //   screen: AddProgresMatiScreen(
-                                                //       idTanaman:
-                                                //           widget.idTanaman),
-                                                //   withNavBar: false,
-                                                //   pageTransitionAnimation:
-                                                //       PageTransitionAnimation
-                                                //           .cupertino,
-                                                // );
+                                                pushNewScreen(
+                                                  context,
+                                                  screen: AddProgresMatiScreen(
+                                                      idTanaman:
+                                                          widget.idTanaman),
+                                                  withNavBar: false,
+                                                  pageTransitionAnimation:
+                                                      PageTransitionAnimation
+                                                          .cupertino,
+                                                );
                                               },
                                               style: ButtonStyle(
                                                 overlayColor:

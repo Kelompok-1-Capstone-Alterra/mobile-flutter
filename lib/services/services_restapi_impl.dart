@@ -230,12 +230,6 @@ class ServicesRestApiImpl extends ServicesRestApi {
         ),
       );
 
-      await Future.delayed(const Duration(seconds: 2));
-
-      // String contents = ApiResponse.getOverview;
-      // Map<String, dynamic> jsonResponse = jsonDecode(contents);
-
-      // final model = OverviewResponseModel.fromJson(jsonResponse);
       final model = OverviewResponseModel.fromJson(response.data['data']);
 
       return model;
@@ -330,7 +324,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
       });
 
       await _dioWithInterceptor.post(
-        '/auth/users/plants/$idTanaman/progresss',
+        '/auth/users/plants/$idTanaman/progress',
         data: jsonData,
         options: Options(
           headers: {
@@ -388,6 +382,46 @@ class ServicesRestApiImpl extends ServicesRestApi {
           .getToken();
       await _dioWithInterceptor.post(
         '/auth/users/plants/$idTanaman/watering',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addDeadProgress(
+    int idTanaman,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  ) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await Future.delayed(const Duration(seconds: 1));
+
+      List<Map<String, String>> weeklyPictures = [];
+
+      if (pictures != null) {
+        weeklyPictures = pictures.map((url) => {'url': url}).toList();
+      }
+
+      var jsonData = jsonEncode({
+        'condition': condition,
+        'description': description,
+        'weekly_pictures': weeklyPictures,
+      });
+
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/progress/dead',
+        data: jsonData,
         options: Options(
           headers: {
             'Authorization': token,
