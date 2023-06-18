@@ -11,6 +11,10 @@ import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.da
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/progres_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/carimenu_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/dashboard_toko_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/deskripsi_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/kategori_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 import 'package:mobile_flutter/utils/themes/theme.dart';
@@ -76,7 +80,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ValidatorProvider(),
         ),
         ChangeNotifierProvider<SearchProvider>(
-          create: (context) => SearchProvider(products: []),
+          create: (context) => SearchProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => DashboardProvider(),
@@ -153,6 +157,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AddWateringProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => TokoProvider()),
+        ChangeNotifierProvider(create: (context) => CurrentProductProvider()),
+        ChangeNotifierProvider(create: (context) => KategoriProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
