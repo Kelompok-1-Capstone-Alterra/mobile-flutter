@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/overview_section.dart';
-import 'package:mobile_flutter/view/tanamanku/widgets/progress_section.dart';
+import 'package:mobile_flutter/models/my_plant_name_response_model.dart';
+import 'package:mobile_flutter/services/services_restapi_impl.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 
 class TanamankuProvider with ChangeNotifier {
+  MyState state = MyState.initial;
   int selectedIndex = 0;
-
-  final List<Widget> pages = [
-    const OverviewSection(),
-    const ProgressSection(),
-  ];
+  final services = ServicesRestApiImpl();
+  MyPlantNameResponseModel? _details;
+  MyPlantNameResponseModel get getDetails => _details!;
 
   void setSelectedIndex(BuildContext context, int index) {
     selectedIndex = index;
@@ -22,5 +22,19 @@ class TanamankuProvider with ChangeNotifier {
   String removeHtmlTags(String htmlString) {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
     return htmlString.replaceAll(exp, '');
+  }
+
+  Future<void> getMyPlantName(int idTanaman) async {
+    try {
+      state = MyState.loading;
+      final response = await services.getMyPlantName(idTanaman);
+      _details = response;
+
+      state = MyState.loaded;
+      notifyListeners();
+    } catch (e) {
+      state = MyState.failed;
+      notifyListeners();
+    }
   }
 }

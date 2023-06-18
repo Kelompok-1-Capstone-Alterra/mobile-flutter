@@ -7,7 +7,7 @@ enum TipeProgress { mingguan, panen, mati }
 class ProgressCard extends StatelessWidget {
   final String title;
   final String date;
-  final TipeProgress type;
+  final TipeProgress? type;
   final VoidCallback onTap;
 
   const ProgressCard({

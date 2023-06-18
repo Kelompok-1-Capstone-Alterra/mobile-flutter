@@ -61,7 +61,7 @@ class SharedPreferencesProvider with ChangeNotifier {
       token = null;
     }
     dio.options.headers['Authorization'] = '$token';
-    print(dio.options.headers['Authorization']);
+    // print(dio.options.headers['Authorization']);
     notifyListeners();
   }
 
@@ -73,7 +73,7 @@ class SharedPreferencesProvider with ChangeNotifier {
     }
     _isLoading = false;
     dio.options.headers['Authorization'] = 'Bearer $token';
-    print(dio.options.headers['Authorization']);
+    // print(dio.options.headers['Authorization']);
     return dio.options.headers['Authorization'];
   }
 }
