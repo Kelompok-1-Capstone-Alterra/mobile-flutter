@@ -107,6 +107,10 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                   return const StatistikPenanamanEmptyWidget(
                     kondisiTanaman: 'tanaman',
                   );
+                } else if (state == MyState.failed) {
+                  return const Center(
+                    child: Text('error'),
+                  );
                 } else {
                   return GridView.builder(
                     gridDelegate:
@@ -130,6 +134,10 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                 if (statistikaPenanaman.harvestItems.isEmpty) {
                   return const StatistikPenanamanEmptyWidget(
                     kondisiTanaman: 'tanaman panen',
+                  );
+                } else if (state == MyState.failed) {
+                  return const Center(
+                    child: Text('error'),
                   );
                 } else {
                   return GridView.builder(
@@ -155,6 +163,10 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                 if (statistikaPenanaman.harvestItems.isEmpty) {
                   return const StatistikPenanamanEmptyWidget(
                     kondisiTanaman: 'tanaman mati',
+                  );
+                } else if (state == MyState.failed) {
+                  return const Center(
+                    child: Text('error'),
                   );
                 } else {
                   return GridView.builder(
