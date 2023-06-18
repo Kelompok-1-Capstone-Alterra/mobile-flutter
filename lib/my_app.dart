@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
@@ -6,7 +7,10 @@ import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.
 import 'package:mobile_flutter/utils/routes.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/get_profile_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/progres_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 import 'package:mobile_flutter/utils/themes/theme.dart';
@@ -140,12 +144,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => GetAllProductsProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ProgresProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddFertilizingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddWateringProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Agriplan - App',
         theme: agriplantLight,
         home: const SplashScreen(),
+        navigatorKey: navigatorKeys,
         routes: {
           Routes.detailTanamankuPage: (BuildContext context) =>
               const DetailTanamanScreen(),

@@ -1,18 +1,31 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
 import 'package:mobile_flutter/models/profile_model.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
+import 'package:mobile_flutter/models/my_plant_name_response_model.dart';
+import 'package:mobile_flutter/models/overview_response_model.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
+import 'package:mobile_flutter/models/progres_detail_response_model.dart';
+import 'package:mobile_flutter/models/progres_response_model.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'package:mobile_flutter/services/services_restapi.dart';
 import 'package:mobile_flutter/utils/app_constant.dart';
+import 'package:mobile_flutter/utils/dio/global_dio.dart';
+import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/all_products_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/api_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../models/all_product_response_model.dart';
 import '../utils/response_dummy/explore_monitoring/article_trending_response.dart';
+import '../utils/response_dummy/explore_monitoring/available_plants_response.dart';
 import '../utils/response_dummy/explore_monitoring/weather_response.dart';
 import '../models/user_model.dart';
 
@@ -24,11 +37,14 @@ class ServicesRestApiImpl extends ServicesRestApi {
     return _instance;
   }
 
-  final Dio _dio = Dio(
+  final Dio _dioWithoutInterceptor = Dio(
     BaseOptions(
       baseUrl: AppConstant.baseUrl,
     ),
   );
+
+  final _dioWithInterceptor = DioGlobal().globalDio;
+
   // Buat instance Dio
   @override
   void contohEndpoint() {}
@@ -79,6 +95,32 @@ class ServicesRestApiImpl extends ServicesRestApi {
       }
 
       return plantsData;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<PlantsResponseModel>> getAvailablePlants() async {
+    try {
+      List<PlantsResponseModel> availablePlants = [];
+      //
+      // final response = await _dio.get(
+      //   '/auth/plants',
+      // );
+      // final model = PlantsResponseModel.fromJson(response.data);
+
+      //progress dummy wait 2 second
+      await Future.delayed(
+        const Duration(seconds: 2),
+        //
+      );
+
+      for (var json in availablePlantsResponse) {
+        availablePlants.add(PlantsResponseModel.fromJson(json));
+      }
+
+      return availablePlants;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -150,6 +192,213 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
+  // Fauzi Section
+  @override
+  Future<MyPlantNameResponseModel> getMyPlantName(int idTanaman) async {
+    try {
+      // final response = await _dio.get(
+      //   '/genre/movie/list',
+      //   queryParameters: {'language': language},
+      // );
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      String contents = ApiResponse.getMyPlantName;
+      Map<String, dynamic> jsonResponse = jsonDecode(contents);
+
+      final model = MyPlantNameResponseModel.fromJson(jsonResponse);
+
+      return model;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<OverviewResponseModel> getOverview(int idTanaman) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/$idTanaman/overview',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      // String contents = ApiResponse.getOverview;
+      // Map<String, dynamic> jsonResponse = jsonDecode(contents);
+
+      // final model = OverviewResponseModel.fromJson(jsonResponse);
+      final model = OverviewResponseModel.fromJson(response.data['data']);
+
+      return model;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<ProgresResponseModel>> getProgres(int idTanaman) async {
+    try {
+      List<ProgresResponseModel> weeklyProgressList = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/$idTanaman/progress',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (response.data['data'] != null) {
+        weeklyProgressList = List<ProgresResponseModel>.from(
+            response.data['data'].map((x) => ProgresResponseModel.fromJson(x)));
+      }
+
+      return weeklyProgressList;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<ProgresDetailResponseModel> getProgresDetail(
+      int idTanaman, int idProgress) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/$idTanaman/progress/$idProgress',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      final model = ProgresDetailResponseModel.fromJson(response.data['data']);
+
+      return model;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addWeeklyProgress(
+    int idTanaman,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  ) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      List<Map<String, String>> weeklyPictures = [];
+
+      if (pictures != null) {
+        weeklyPictures = pictures.map((url) => {'url': url}).toList();
+      }
+
+      var jsonData = jsonEncode({
+        'condition': condition,
+        'description': description,
+        'weekly_pictures': weeklyPictures,
+      });
+
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/progresss',
+        data: jsonData,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<String>> addPhoto(FormData formData) async {
+    try {
+      var response = await _dioWithInterceptor.post(
+        '/pictures',
+        data: formData,
+      );
+
+      var responseData = response.data as Map<String, dynamic>;
+      List<String> imageUrl = List<String>.from(responseData['urls']);
+      return imageUrl;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addFertilizing(int idTanaman) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/fertilizing',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addWatering(int idTanaman) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/watering',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
 // ------------------------------------- ------------- ----------------------------------
 // ------------------------------------- MEMBERSHIP--------------------------------------
 // ------------------------------------- ------------- ----------------------------------
@@ -157,7 +406,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<void> registerEndpoint(User user) async {
     try {
       // Lakukan permintaan POST ke endpoint registrasi
-      await _dio.post(
+      await _dioWithoutInterceptor.post(
         '/users/register',
         data: user.toJson(),
       );
@@ -174,7 +423,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<String> loginEndpoint(String email, String password) async {
     try {
       // Lakukan permintaan POST ke endpoint login
-      final response = await _dio.post(
+      final response = await _dioWithoutInterceptor.post(
         '/users/login',
         data: {'email': email, 'password': password},
       );
@@ -193,7 +442,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<int> checkEmailValidEndpoint(String email) async {
     try {
-      final response = await _dio.get(
+      final response = await _dioWithoutInterceptor.get(
         '/users/emails/check',
         data: {'email': email},
       );
@@ -211,7 +460,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
     try {
-      await _dio.put(
+      await _dioWithoutInterceptor.put(
         '/users/$userId/password',
         data: {'password': newPassword},
       );
@@ -229,8 +478,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
-      _dio.options.headers['Authorization'] = 'Bearer $token';
-      final response = await _dio.get('/auth/users/profiles');
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
+      final response = await _dioWithoutInterceptor.get('/auth/users/profiles');
       final profile = ProfileModel.fromJson(response.data['data']);
       print(response.statusCode);
       print(response.data['data']);
@@ -246,11 +495,11 @@ class ServicesRestApiImpl extends ServicesRestApi {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
 
-      _dio.options.headers['Authorization'] = 'Bearer $token';
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map name = {'name': newName};
 
-      final response = await _dio.put('/auth/users/profiles/name', data: name);
+      final response = await _dioWithoutInterceptor.put('/auth/users/profiles/name', data: name);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -263,12 +512,12 @@ class ServicesRestApiImpl extends ServicesRestApi {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
 
-      _dio.options.headers['Authorization'] = 'Bearer $token';
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map password = {'password': newPassword};
 
       final response =
-          await _dio.put('/auth/users/profiles/password', data: password);
+          await _dioWithoutInterceptor.put('/auth/users/profiles/password', data: password);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -278,7 +527,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<List<PlantStatsModel>> getPlantStats(status) async {
     try {
-      final response = await _dio.get(
+      final response = await _dioWithoutInterceptor.get(
         '/auth/users/plants/stats',
         queryParameters: {'status': status},
       );
@@ -319,7 +568,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
 
-      _dio.options.headers['Authorization'] = 'Bearer $token';
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map data = {
         "phone": phone,
@@ -327,7 +576,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
         "message": message,
       };
 
-      final response = await _dio.post('/auth/users/helps', data: data);
+      final response = await _dioWithoutInterceptor.post('/auth/users/helps', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -340,13 +589,13 @@ class ServicesRestApiImpl extends ServicesRestApi {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
 
-      _dio.options.headers['Authorization'] = 'Bearer $token';
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map data = {
         "message": message,
       };
 
-      final response = await _dio.post('/auth/users/suggestions', data: data);
+      final response = await _dioWithoutInterceptor.post('/auth/users/suggestions', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -366,7 +615,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
         },
       );
 
-      final response = await _dio.post('/pictures', data: formData);
+      final response = await _dioWithoutInterceptor.post('/pictures', data: formData);
       final image = response.data["urls"][0];
       print(response.statusCode);
       print(image);
@@ -381,12 +630,12 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
-      _dio.options.headers['Authorization'] = 'Bearer $token';
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map data = {'picture': pic};
 
       final response =
-          await _dio.put('/auth/users/profiles/pictures', data: data);
+          await _dioWithoutInterceptor.put('/auth/users/profiles/pictures', data: data);
 
       print(response.statusCode);
     } on DioError catch (e) {

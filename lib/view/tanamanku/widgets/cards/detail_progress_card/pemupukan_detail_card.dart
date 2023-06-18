@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/detail_progress_provider.dart';
 import 'package:provider/provider.dart';
 
 class PemupukanDetailCard extends StatelessWidget {
@@ -10,12 +10,14 @@ class PemupukanDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OverviewProvider>(builder: (context, provider, _) {
+    return Consumer<DetailProgressProvider>(builder: (context, provider, _) {
       return Card(
         margin: const EdgeInsets.all(0),
         elevation: 15,
         shadowColor: Colors.black26,
-        color: provider.pemupukan ? primary[100] : error[100],
+        color: provider.getProgresDetailData.fertilizing?.history != 0
+            ? primary[100]
+            : error[100],
         surfaceTintColor: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -39,18 +41,21 @@ class PemupukanDetailCard extends StatelessWidget {
                 ),
               ),
               Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    color: provider.pemupukan ? primary : null,
-                    shape: BoxShape.circle,
-                  ),
-                  child: provider.pemupukan
-                      ? Icon(
-                          FluentIcons.checkmark_16_regular,
-                          color: neutral[10],
-                        )
-                      : null),
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: provider.getProgresDetailData.fertilizing?.history != 0
+                      ? primary
+                      : null,
+                  shape: BoxShape.circle,
+                ),
+                child: provider.getProgresDetailData.fertilizing?.history != 0
+                    ? Icon(
+                        FluentIcons.checkmark_16_regular,
+                        color: neutral[10],
+                      )
+                    : null,
+              ),
             ],
           ),
         ),
