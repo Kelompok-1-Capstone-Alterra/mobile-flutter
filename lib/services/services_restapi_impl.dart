@@ -19,7 +19,6 @@ import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/all_products_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/api_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -510,13 +509,14 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<ProfileModel> getProfile() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
       _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
       final response = await _dioWithInterceptor.get('/auth/users/profiles');
       final profile = ProfileModel.fromJson(response.data['data']);
-      print(response.statusCode);
-      print(response.data['data']);
+
       return profile;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -526,16 +526,16 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> changeName(newName) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map name = {'name': newName};
 
-      final response = await _dioWithInterceptor
-          .put('/auth/users/profiles/name', data: name);
-      print(response.statusCode);
+      await _dioWithInterceptor.put('/auth/users/profiles/name', data: name);
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -544,16 +544,17 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> changePassword(newPassword) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map password = {'password': newPassword};
 
-      final response = await _dioWithInterceptor
-          .put('/auth/users/profiles/password', data: password);
-      print(response.statusCode);
+      await _dioWithInterceptor.put('/auth/users/profiles/password',
+          data: password);
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -600,8 +601,10 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
@@ -611,9 +614,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
         "message": message,
       };
 
-      final response =
-          await _dioWithInterceptor.post('/auth/users/helps', data: data);
-      print(response.statusCode);
+      await _dioWithInterceptor.post('/auth/users/helps', data: data);
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -622,8 +623,10 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> sendSuggestion(String message) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
@@ -631,9 +634,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
         "message": message,
       };
 
-      final response =
-          await _dioWithInterceptor.post('/auth/users/suggestions', data: data);
-      print(response.statusCode);
+      await _dioWithInterceptor.post('/auth/users/suggestions', data: data);
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -664,15 +665,16 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> updateProfilePic(String pic) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
       _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map data = {'picture': pic};
 
-      final response = await _dioWithInterceptor
-          .put('/auth/users/profiles/pictures', data: data);
-      print(response.statusCode);
+      await _dioWithInterceptor.put('/auth/users/profiles/pictures',
+          data: data);
     } on DioError catch (e) {
       throw Exception(e.toString());
     }

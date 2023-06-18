@@ -22,7 +22,6 @@ class ProfileProvider with ChangeNotifier {
       final imageFile = File(
         pickedImage.path,
       );
-      print(imageFile);
       setSelectedImage(imageFile);
     }
   }
@@ -34,7 +33,7 @@ class ProfileProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 }
