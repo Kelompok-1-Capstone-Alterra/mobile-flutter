@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/all_product_response_model.dart';
 import 'package:mobile_flutter/models/my_plant_name_response_model.dart';
@@ -9,6 +10,8 @@ import 'package:mobile_flutter/models/progres_response_model.dart';
 import '../models/article_response_model.dart';
 import '../models/weather_response_model.dart';
 import 'package:mobile_flutter/models/user_model.dart';
+import 'package:mobile_flutter/models/plant_stats_model.dart';
+import 'package:mobile_flutter/models/profile_model.dart';
 
 abstract class ServicesRestApi {
   void contohEndpoint();
@@ -36,6 +39,23 @@ abstract class ServicesRestApi {
     int userId,
     String newPassword,
   );
+
+  // Settings Hafidz
+  Future<ProfileModel> getProfile();
+
+  Future<String> uploadProfilePic(File file);
+
+  Future<void> updateProfilePic(String pic);
+
+  Future<void> changeName(String newName);
+
+  Future<void> changePassword(String newPassword);
+
+  Future<List<PlantStatsModel>> getPlantStats(String status);
+
+  Future<void> sendComplaintEmails(String phone, String email, String message);
+
+  Future<void> sendSuggestion(String message);
 
   // Explore Monitoring Fauzi
   Future<MyPlantNameResponseModel> getMyPlantName(int idTanaman);
