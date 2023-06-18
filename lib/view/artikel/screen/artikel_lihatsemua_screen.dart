@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view/artikel/widget/artikel_lihatsemua_widget.dart';
@@ -18,11 +19,13 @@ class _ArtikelLihatSemuaScreenState extends State<ArtikelLihatSemuaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AutoSizeText(
           widget.title,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style:
+              Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 22),
+          minFontSize: 18,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         leading: IconButton(
           padding: const EdgeInsets.only(left: 10),
