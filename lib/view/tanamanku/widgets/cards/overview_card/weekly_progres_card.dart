@@ -1,12 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/converter/convert_date.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/add_progress_mingguan_screen.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class WeeklyProgressCard extends StatelessWidget {
-  const WeeklyProgressCard({super.key});
+  final int idTanaman;
+  const WeeklyProgressCard({super.key, this.idTanaman = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -39,32 +44,64 @@ class WeeklyProgressCard extends StatelessWidget {
                     "Progres Mingguan",
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  AutoSizeText(
-                    "24 -30 May",
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                          color: neutral[50],
-                        ),
+                  Consumer<OverviewProvider>(
+                    builder: (context, provider, _) {
+                      final String fromMonth = formatDateMMM(
+                          provider.getOverviewData.weeklyProgress!.from!);
+
+                      final String toMonth = formatDateMMM(
+                          provider.getOverviewData.weeklyProgress!.to!);
+
+                      String fromFormat = '';
+
+                      if (fromMonth == toMonth) {
+                        fromFormat = formatDatedd(
+                            provider.getOverviewData.weeklyProgress!.from!);
+                      } else {
+                        fromFormat = formatDateddMMM(
+                            provider.getOverviewData.weeklyProgress!.from!);
+                      }
+
+                      final String toFormat = formatDateddMMMyyyy(
+                          provider.getOverviewData.weeklyProgress!.to!);
+
+                      return AutoSizeText(
+                        "$fromFormat - $toFormat",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                              color: neutral[50],
+                            ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () {
-                pushNewScreen(
-                  context,
-                  screen: AddProgressMingguanScreen(),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            Consumer<AddProgressProvider>(
+              builder: (context, provider, _) {
+                return IconButton(
+                  onPressed: () {
+                    provider.isEnabled!
+                        ? pushNewScreen(
+                            context,
+                            screen:
+                                AddProgressMingguanScreen(idTanaman: idTanaman),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          )
+                        : null;
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                        provider.isEnabled! ? primary : neutral[40]),
+                  ),
+                  padding: const EdgeInsets.all(13),
+                  icon: Icon(
+                    FluentIcons.chevron_right_16_regular,
+                    color: neutral[10],
+                  ),
                 );
               },
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(primary),
-              ),
-              padding: const EdgeInsets.all(13),
-              icon: Icon(
-                FluentIcons.chevron_right_16_regular,
-                color: neutral[10],
-              ),
             ),
           ],
         ),
