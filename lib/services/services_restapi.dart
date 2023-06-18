@@ -54,4 +54,10 @@ abstract class ServicesRestApi {
   Future<List<String>> addPhoto(FormData formData);
   Future<void> addFertilizing(int idTanaman);
   Future<void> addWatering(int idTanaman);
+  Future<void> addDeadProgress(
+    int idTanaman,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  );
 }

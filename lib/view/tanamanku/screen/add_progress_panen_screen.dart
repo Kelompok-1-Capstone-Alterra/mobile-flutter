@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_progress.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
 import 'package:provider/provider.dart';
 
