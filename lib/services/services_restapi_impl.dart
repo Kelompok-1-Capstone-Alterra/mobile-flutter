@@ -442,7 +442,6 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<int> checkEmailValidEndpoint(String email) async {
     try {
-      
       final response = await _dioWithoutInterceptor.get(
         '/users/emails/check',
         data: {'email': email},
@@ -458,8 +457,6 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
- 
-  
   @override
   Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
     try {
@@ -497,9 +494,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
-   
-    
-     
+
       _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
       Map name = {"name": newName};
       final response = await _dioWithoutInterceptor
@@ -544,19 +539,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
- 
-
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
-    final dio = Dio();
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
+
       Map data = {
         "phone": phone,
         "email": email,
         "message": message,
       };
+
       final response =
-          await dio.put('https://34.128.85.215:8080/users/helps', data: data);
+          await _dioWithoutInterceptor.post('/auth/users/helps', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -575,7 +573,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
         "message": message,
       };
 
-      final response = await _dioWithoutInterceptor.post('/auth/users/suggestions', data: data);
+      final response = await _dioWithoutInterceptor
+          .post('/auth/users/suggestions', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
