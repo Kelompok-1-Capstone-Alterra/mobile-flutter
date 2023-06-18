@@ -565,13 +565,17 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<void> sendSuggestion(String message) async {
-    final dio = Dio();
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
+
       Map data = {
         "message": message,
       };
-      final response =
-          await dio.put('https://34.128.85.215:8080/users/helps', data: data);
+
+      final response = await _dioWithoutInterceptor.post('/auth/users/suggestions', data: data);
       print(response.statusCode);
     } on DioError catch (e) {
       throw Exception(e.toString());
