@@ -206,44 +206,66 @@ class _InformasiTempIdealScreenState extends State<InformasiTempIdealScreen> {
                         child: const Icon(Icons.image_not_supported_outlined)),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 0),
+                      child: Text(
                         "Temperatur Ideal",
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      Text(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
                         "${provider.temperatureArticle!.name}",
                         style: Theme.of(context)
                             .textTheme
                             .labelSmall!
                             .copyWith(color: neutral[40]),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Html(
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 0),
+                      child: Html(
                         data: provider.temperatureArticle!.description,
                         style: {
-                          'p': Style(
-                            textAlign: TextAlign.justify,
-                          ),
-                          '#': Style(
-                            margin: Margins.symmetric(horizontal: 0),
-                          ),
                           'br': Style(
-                            margin: Margins.symmetric(horizontal: 0),
-                            padding: EdgeInsets.zero,
-                            fontSize: FontSize(10),
+                            fontSize: FontSize(0),
+                            margin: Margins.symmetric(
+                              horizontal: 0,
+                              vertical: 0,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
                           ),
+                          'p': Style(textAlign: TextAlign.justify),
+                          'ol': Style(
+                              margin:
+                                  Margins.symmetric(horizontal: 0, vertical: 0),
+                              padding: const EdgeInsets.only(
+                                  left: 18, top: 0, right: 0, bottom: 0)
+                              // padding: EdgeInsets.all(0),
+                              ),
+                          'ul': Style(
+                              margin: Margins.symmetric(horizontal: 0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18)
+                              // padding: EdgeInsets.all(0),
+                              ),
+                          'li': Style(textAlign: TextAlign.justify
+                              // padding: EdgeInsets.all(0),
+                              ),
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             );

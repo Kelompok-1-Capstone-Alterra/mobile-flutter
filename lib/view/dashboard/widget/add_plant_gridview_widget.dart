@@ -46,8 +46,7 @@ class AddPlantGridview extends StatelessWidget {
       else if (provider.state == MyState.loaded) {
         //
         // kalau textfield kosong dan data availble tidak kosong
-        if ((provider.searchFieldController.text.isEmpty ||
-                provider.searchQuery == "") &&
+        if (provider.searchFieldController.text.isEmpty &&
             provider.availablePlants.isNotEmpty) {
           return GridView.builder(
             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -66,7 +65,7 @@ class AddPlantGridview extends StatelessWidget {
                   CardMyPlantWidget(
                     plantName: provider.availablePlants[index].name!,
                     latinName: provider.availablePlants[index].latin!,
-                    picture: provider.availablePlants[index].picture!,
+                    picture: provider.availablePlants[index].pictures!,
                   ),
                   Positioned.fill(
                     child: Material(
@@ -77,7 +76,9 @@ class AddPlantGridview extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         onTap: () {
                           pushNewScreen(context,
-                              screen: const InformasiTanamanScreen(plantId: 1),
+                              screen: InformasiTanamanScreen(
+                                  plantId:
+                                      provider.availablePlants[index].plantId!),
                               withNavBar: false,
                               pageTransitionAnimation:
                                   PageTransitionAnimation.cupertino);
@@ -93,7 +94,7 @@ class AddPlantGridview extends StatelessWidget {
         // kalau textfield terisi dan data di search tidak kosong
         // search data ga kosong
         else if (provider.searchedPlants.isNotEmpty &&
-            provider.searchQuery.isNotEmpty) {
+            provider.searchFieldController.text.isNotEmpty) {
           return GridView.builder(
             padding: const EdgeInsets.symmetric(vertical: 15),
             shrinkWrap: true,
@@ -109,9 +110,9 @@ class AddPlantGridview extends StatelessWidget {
               return Stack(
                 children: [
                   CardMyPlantWidget(
-                    plantName: provider.availablePlants[index].name!,
-                    latinName: provider.availablePlants[index].latin!,
-                    picture: provider.availablePlants[index].picture!,
+                    plantName: provider.searchedPlants[index].name!,
+                    latinName: provider.searchedPlants[index].latin!,
+                    picture: provider.searchedPlants[index].pictures!,
                   ),
                   Positioned.fill(
                     child: Material(
@@ -122,7 +123,9 @@ class AddPlantGridview extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         onTap: () {
                           pushNewScreen(context,
-                              screen: const InformasiTanamanScreen(plantId: 1),
+                              screen: InformasiTanamanScreen(
+                                  plantId:
+                                      provider.searchedPlants[index].plantId!),
                               withNavBar: false,
                               pageTransitionAnimation:
                                   PageTransitionAnimation.cupertino);
@@ -138,7 +141,7 @@ class AddPlantGridview extends StatelessWidget {
         // state ga ketemu search nya
         else if (provider.searchedPlants.isEmpty &&
             provider.availablePlants.isNotEmpty &&
-            provider.searchQuery.isNotEmpty) {
+            provider.searchFieldController.text.isNotEmpty) {
           return SizedBox(
             height: screenHeight * 0.65,
             child: Row(

@@ -1,30 +1,30 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
-List<PlantsResponseModel> myPlantResponseModelFromJson(String str) =>
-    List<PlantsResponseModel>.from(
-        json.decode(str).map((x) => PlantsResponseModel.fromJson(x)));
+List<MyPlantsResponseModel> myPlantResponseModelFromJson(String str) =>
+    List<MyPlantsResponseModel>.from(
+        json.decode(str).map((x) => MyPlantsResponseModel.fromJson(x)));
 
-String myPlantResponseModelToJson(List<PlantsResponseModel> data) =>
+String myPlantResponseModelToJson(List<MyPlantsResponseModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 // ignore: must_be_immutable
-class PlantsResponseModel extends Equatable {
+class MyPlantsResponseModel extends Equatable {
   final int? myplantId;
   final String? name;
   final String? picture;
   final String? latin;
   bool isSelected = false;
 
-  PlantsResponseModel({
+  MyPlantsResponseModel({
     this.myplantId,
     this.name,
     this.picture,
     this.latin,
   });
 
-  factory PlantsResponseModel.fromJson(Map<String, dynamic> json) =>
-      PlantsResponseModel(
+  factory MyPlantsResponseModel.fromJson(Map<String, dynamic> json) =>
+      MyPlantsResponseModel(
         myplantId: json["myplant_id"],
         name: json["name"],
         picture: json["picture"],

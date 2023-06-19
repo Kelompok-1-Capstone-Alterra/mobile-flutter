@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final detailsPlantResponseModel = detailsPlantResponseModelFromJson(jsonString);
+// final detailsPlantResponseModel = detailsPlantResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -54,3 +54,48 @@ class PlantDetailsResponseModel {
         "temperature_article_id": temperatureArticleId,
       };
 }
+
+// To parse this JSON data, do
+//
+//     final plantDetailsResponseModel = plantDetailsResponseModelFromJson(jsonString);
+
+// import 'dart:convert';
+
+// PlantDetailsResponseModel plantDetailsResponseModelFromJson(String str) =>
+//     PlantDetailsResponseModel.fromJson(json.decode(str));
+
+// String plantDetailsResponseModelToJson(PlantDetailsResponseModel data) =>
+//     json.encode(data.toJson());
+
+// class PlantDetailsResponseModel {
+//   String? description;
+//   String? latin;
+//   String? name;
+//   String? picture;
+//   int? plantId;
+
+//   PlantDetailsResponseModel({
+//     this.description,
+//     this.latin,
+//     this.name,
+//     this.picture,
+//     this.plantId,
+//   });
+
+//   factory PlantDetailsResponseModel.fromJson(Map<String, dynamic> json) =>
+//       PlantDetailsResponseModel(
+//         description: json["description"],
+//         latin: json["latin"],
+//         name: json["name"],
+//         picture: json["picture"],
+//         plantId: json["plant_id"],
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "description": description,
+//         "latin": latin,
+//         "name": name,
+//         "picture": picture,
+//         "plant_id": plantId,
+//       };
+// }

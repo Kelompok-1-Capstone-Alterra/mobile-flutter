@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../models/plants_response_model.dart';
+import '../../models/available_plant_response_model.dart';
+// import '../../models/plants_response_model.dart';
 import '../../services/services_restapi_impl.dart';
 import '../../utils/state/finite_state.dart';
 
@@ -14,8 +15,8 @@ class GetAvailablePlantsProvider extends ChangeNotifier {
   final service = ServicesRestApiImpl();
   MyState state = MyState.loading;
 
-  List<PlantsResponseModel> availablePlants = [];
-  List<PlantsResponseModel> searchedPlants = [];
+  List<AvailablePlantResponseModel> availablePlants = [];
+  List<AvailablePlantResponseModel> searchedPlants = [];
 
   //fetch data available
   void getAvailablePlantsData() async {
@@ -38,14 +39,15 @@ class GetAvailablePlantsProvider extends ChangeNotifier {
 
   //get hasil pencarian dari data available
   void searchAvailablePlants() async {
+    searchedPlants.clear();
+    print("mencari ${searchFieldController.text}");
     searchQuery = searchFieldController.text;
     if (state == MyState.loaded || state == MyState.failed) {
       state = MyState.loading;
     }
     try {
-      searchedPlants.clear();
-
       final response = await service.getSearchAvailablePlants(searchQuery);
+
       searchedPlants = response;
 
       state = MyState.loaded;

@@ -29,6 +29,7 @@ class GetWeatherProvider extends ChangeNotifier {
   double? latitude;
   double? longitude;
   WeatherResponseModel? currentWeather;
+  String username = "";
 
   void getWeatherData() async {
     //ini untuk dapatin lokasi serta handler service location
@@ -51,7 +52,7 @@ class GetWeatherProvider extends ChangeNotifier {
       try {
         //ini untuk dapatin cuaca dari restApi
         final response = await service.getWeather(
-            latitude: 110.438126, longitude: -7.005145);
+            latitude: latitude!, longitude: longitude!);
         currentWeather = response;
         state = MyState.loaded;
         // print(
@@ -64,6 +65,15 @@ class GetWeatherProvider extends ChangeNotifier {
       state = MyState.failed;
       notifyListeners();
       // print("eror mas bro");
+    }
+  }
+
+  void getUsernameData() async {
+    try {
+      final result = await service.getUsername();
+      username = result;
+    } catch (e) {
+      state = MyState.failed;
     }
   }
 }

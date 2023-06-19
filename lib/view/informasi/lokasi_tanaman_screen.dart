@@ -26,6 +26,7 @@ class LokasiTanamanScreen extends StatefulWidget {
 class _LokasiTanamanScreenState extends State<LokasiTanamanScreen> {
   @override
   void initState() {
+    // print(widget.plantid);
     context
         .read<GetPlantLocationProvider>()
         .getPlantingLocationData(widget.plantid);

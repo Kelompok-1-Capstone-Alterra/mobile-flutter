@@ -1,27 +1,40 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
 import 'package:mobile_flutter/models/fertilizing_article_response_model.dart';
 import 'package:mobile_flutter/models/location_plant_response_model.dart';
 import 'package:mobile_flutter/models/plant_details_reponse_model.dart';
 import 'package:mobile_flutter/models/planting_article_response_model.dart';
+import 'package:mobile_flutter/models/my_plant_name_response_model.dart';
+import 'package:mobile_flutter/models/overview_response_model.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
 import 'package:mobile_flutter/models/temperature_article_response_model.dart';
 import 'package:mobile_flutter/models/watering_article_response_model.dart';
+import 'package:mobile_flutter/models/progres_detail_response_model.dart';
+import 'package:mobile_flutter/models/progres_response_model.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'dart:math';
 
 import 'package:mobile_flutter/services/services_restapi.dart';
 import 'package:mobile_flutter/utils/app_constant.dart';
+import 'package:mobile_flutter/utils/dio/global_dio.dart';
+import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/all_products_response.dart';
+import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/api_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/plant_details_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/planting_article_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/search_plants_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/temperature_article_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/watering_article_reponse.dart';
+import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../models/add_my_plant_response_model.dart';
 import '../models/all_product_response_model.dart';
+import '../models/article_weather_response_model.dart';
+import '../models/available_plant_response_model.dart';
 import '../utils/response_dummy/explore_monitoring/add_myplant_response.dart';
 import '../utils/response_dummy/explore_monitoring/article_trending_response.dart';
 import '../utils/response_dummy/explore_monitoring/available_plants_response.dart';
@@ -39,11 +52,13 @@ class ServicesRestApiImpl extends ServicesRestApi {
     return _instance;
   }
 
-  final Dio _dio = Dio(
+  final Dio _dioWithoutInterceptor = Dio(
     BaseOptions(
       baseUrl: AppConstant.baseUrl,
     ),
   );
+
+  final _dioWithInterceptor = DioGlobal().globalDio;
 
   // Buat instance Dio
   @override
@@ -53,31 +68,82 @@ class ServicesRestApiImpl extends ServicesRestApi {
 // ------------------------------------- exlore monitoring-------------------------------
 // ------------------------------------- ------------- ----------------------------------
   @override
-  Future<WeatherResponseModel?> getWeather(
-      {required double latitude, required double longitude}) async {
+  Future<String> getUsername() async {
     try {
-      //
-      // final response = await _dio.get(
-      //   '/users/weather',
-      // );
-      // final model = WeatherResponseModel.fromJson(response.data);
-
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/profiles/name',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-      //
-      final model = WeatherResponseModel.fromJson(weatherResponse);
-      return model;
+      // print(response.data['data']);
+      if (response.data['data'] == null || response.data['data'] == "") {
+        return "";
+      } else {
+        final String name = response.data['data'];
+        return name;
+      }
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
   }
 
   @override
-  Future<List<PlantsResponseModel>> getMyPlants() async {
+  Future<ArticleWeatherResponseModel> getWeatherArticle(
+      {required int labelId}) async {
     try {
-      List<PlantsResponseModel> plantsData = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/weather/$labelId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+      // print(response.data['data']);
+      return ArticleWeatherResponseModel.fromJson(response.data['data']);
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<WeatherResponseModel?> getWeather(
+      {required double latitude, required double longitude}) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/weather/$latitude/$longitude',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+      final result = WeatherResponseModel.fromJson(response.data['data']);
+      return result;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<MyPlantsResponseModel>> getMyPlants() async {
+    try {
+      List<MyPlantsResponseModel> plantsData = [];
       //
       // final response = await _dio.get(
       //   '/users/plants',
@@ -91,7 +157,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
       );
 
       for (var json in myPlantSResponse) {
-        plantsData.add(PlantsResponseModel.fromJson(json));
+        plantsData.add(MyPlantsResponseModel.fromJson(json));
       }
 
       return plantsData;
@@ -101,36 +167,78 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
-  Future<List<PlantsResponseModel>> getAvailablePlants() async {
+  Future<List<AvailablePlantResponseModel>> getAvailablePlants() async {
     try {
-      List<PlantsResponseModel> availablePlants = [];
-      //
-      // final response = await _dio.get(
-      //   '/auth/plants',
-      // );
-      // final model = PlantsResponseModel.fromJson(response.data);
+      List<AvailablePlantResponseModel> availablePlants = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      final response = await _dioWithInterceptor.get(
+        '/auth/plants',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
 
-      for (var json in availablePlantsResponse) {
-        availablePlants.add(PlantsResponseModel.fromJson(json));
+      if (response.data['data'] != null) {
+        for (var element in response.data['data']) {
+          availablePlants.add(AvailablePlantResponseModel.fromJson(element));
+        }
       }
-
       return availablePlants;
     } on DioError catch (e) {
+      // print(e.toString());
       throw Exception(e.toString());
     }
   }
 
   @override
-  Future<List<PlantsResponseModel>> getSearchAvailablePlants(
+  Future<List<AvailablePlantResponseModel>> getSearchAvailablePlants(
       String name) async {
     try {
-      List<PlantsResponseModel> searchResult = [];
+      List<AvailablePlantResponseModel> searchResult = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/plants/search?name=$name',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      if (response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          // print(json['name']);
+          // searchResult.add(
+          //   AvailablePlantResponseModel(
+          //     name: json['name'],
+          //     latin: json['latin'],
+          //     pictures: json['picture'],
+          //     plantId: json['plant_id'],
+          //   ),
+          // );
+          searchResult.add(AvailablePlantResponseModel.fromJson(json));
+        }
+      }
+
+      // searchResult.add(
+      //   AvailablePlantResponseModel(
+      //     name: "Terong afrika",
+      //     latin: "Lycopersicon",
+      //     pictures: "tomat1.png",
+      //     plantId: 15,
+      //   ),
+      // );
+      return searchResult;
 
       // final response = await _dio.get(
       //   '/auth/plants/search?name=$name',
@@ -138,13 +246,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
       // final model = PlantsResponseModel.fromJson(response.data);
 
       //progress dummy wait 2 second
-      await Future.delayed(const Duration(seconds: 2));
-
-      for (var json in searchAvailablePlantsResponse) {
-        searchResult.add(PlantsResponseModel.fromJson(json));
-      }
-
-      return searchResult;
+      // await Future.delayed(const Duration(seconds: 2));
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -153,18 +255,21 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<PlantDetailsResponseModel> getPlantDetails(int plantId) async {
     try {
-      //
-      // final response = await _dio.get(
-      //   '/auth/plants/:plant_id'
-      // );
-      // final model = PlantDetailsResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
+      final response = await _dioWithInterceptor.get(
+        '/auth/plants/$plantId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
 
-      final details = PlantDetailsResponseModel.fromJson(plantDetailsResponse);
+      final details = PlantDetailsResponseModel.fromJson(response.data['data']);
       return details;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -176,18 +281,25 @@ class ServicesRestApiImpl extends ServicesRestApi {
     try {
       List<LocationPlantResponseModel> plantLocation = [];
 
-      // final response = await _dio.get(
-      //   '/auth/plants/search?name=$name',
-      // );
-      // final model = PlantsResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(const Duration(seconds: 2));
+      final response = await _dioWithInterceptor.get(
+        '/auth/plants/$plantId/location',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
 
-      for (var json in locationPlantResponse) {
-        plantLocation.add(LocationPlantResponseModel.fromJson(json));
+      if (response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          plantLocation.add(LocationPlantResponseModel.fromJson(json));
+        }
       }
-
       return plantLocation;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -198,22 +310,24 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<List<ArticleResponseModel>> getTrendingArticle() async {
     try {
       List<ArticleResponseModel> articleData = [];
-      //
-      // final response = await _dio.get(
-      //   '/users/articles/trending',
-      // );
-      // final model = ArticleResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/articles/trending',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-
-      for (var json in articleTrendingResponse) {
-        articleData.add(ArticleResponseModel.fromJson(json));
+      if (response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          articleData.add(ArticleResponseModel.fromJson(json));
+        }
       }
-
       return articleData;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -223,21 +337,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<WateringArticleResponse> getWateringArticle(int plantId) async {
     try {
-      //
-      // final response = await _dio.get(
-      //   ' /auth/auth/articles/watering/:plant_id',
-      // );
-      // final model = ArticleResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      final response = await _dioWithInterceptor.get(
+        '/auth/articles/watering/$plantId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-
-      final response =
-          WateringArticleResponse.fromJson(wateringArticleResponse);
-      return response;
+      final resultArticle =
+          WateringArticleResponse.fromJson(response.data['data']);
+      return resultArticle;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -246,21 +361,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<TempArticleResponseModel> getTemperatureArticle(int plantId) async {
     try {
-      //
-      // final response = await _dio.get(
-      //   '/auth/auth/articles/temperature/:plant_id',
-      // );
-      // final model = ArticleResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      final response = await _dioWithInterceptor.get(
+        '/auth/articles/temperature/$plantId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-
-      final response =
-          TempArticleResponseModel.fromJson(temperatureArticleResponse);
-      return response;
+      final resultArticle =
+          TempArticleResponseModel.fromJson(response.data['data']);
+      return resultArticle;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -270,21 +386,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<FertilizingArticleResponseModel> getFertilizingArticle(
       int plantId) async {
     try {
-      //
-      // final response = await _dio.get(
-      //   '/auth/auth/articles/temperature/:plant_id',
-      // );
-      // final model = ArticleResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      final response = await _dioWithInterceptor.get(
+        '/auth/articles/fertilizing/$plantId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-
-      final response =
-          FertilizingArticleResponseModel.fromJson(fertilizingArticleResponse);
-      return response;
+      final resultArticle =
+          FertilizingArticleResponseModel.fromJson(response.data['data']);
+      return resultArticle;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -294,21 +411,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<PlantingArticleResponseModel> getPlantingArticle(
       int plantId, String location) async {
     try {
-      //
-      // final response = await _dio.get(
-      //   '/auth/auth/articles/planting/:plant_id/:location',
-      // );
-      // final model = ArticleResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      final response = await _dioWithInterceptor.get(
+        '/auth/articles/planting/$plantId/$location',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-
-      final response =
-          PlantingArticleResponseModel.fromJson(plantingArticleResponse);
-      return response;
+      final resultArticle =
+          PlantingArticleResponseModel.fromJson(response.data['data']);
+      return resultArticle;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -317,18 +435,21 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<AllProductsResponseModel> getAllProducts() async {
     try {
-      //
-      // final response = await _dio.get(
-      //   '/users/articles/trending',
-      // );
-      // final model = ArticleResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/products',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
 
-      final model = AllProductsResponseModel.fromJson(allProductResponse);
+      final model = AllProductsResponseModel.fromJson(response.data['data']);
       return model;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -360,22 +481,230 @@ class ServicesRestApiImpl extends ServicesRestApi {
       required String location,
       required String namedPlant}) async {
     try {
-      // final response = await _dio.post(
-      //   '/auth/plants/:plant_id ',
-      //   data: {
-      //     "location ": location,
-      //     "name ": namedPlant
-      //   },
-      // );
-      // return response.statusCode;
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 5),
+      final response = await _dioWithInterceptor.post(
+        '/auth/plants/$plantId',
+        data: {"location": location, "name": namedPlant},
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
 
-      final responModel = AddMyplantResponseModel.fromJson(addMyPlantResponse);
-      return responModel;
+      final result = AddMyplantResponseModel.fromJson(response.data['data']);
+      return result;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Fauzi Section
+  @override
+  Future<MyPlantNameResponseModel> getMyPlantName(int idTanaman) async {
+    try {
+      // final response = await _dio.get(
+      //   '/genre/movie/list',
+      //   queryParameters: {'language': language},
+      // );
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      String contents = ApiResponse.getMyPlantName;
+      Map<String, dynamic> jsonResponse = jsonDecode(contents);
+
+      final model = MyPlantNameResponseModel.fromJson(jsonResponse);
+
+      return model;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<OverviewResponseModel> getOverview(int idTanaman) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/$idTanaman/overview',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      // String contents = ApiResponse.getOverview;
+      // Map<String, dynamic> jsonResponse = jsonDecode(contents);
+
+      // final model = OverviewResponseModel.fromJson(jsonResponse);
+      final model = OverviewResponseModel.fromJson(response.data['data']);
+
+      return model;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<ProgresResponseModel>> getProgres(int idTanaman) async {
+    try {
+      List<ProgresResponseModel> weeklyProgressList = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/$idTanaman/progress',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (response.data['data'] != null) {
+        weeklyProgressList = List<ProgresResponseModel>.from(
+            response.data['data'].map((x) => ProgresResponseModel.fromJson(x)));
+      }
+
+      return weeklyProgressList;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<ProgresDetailResponseModel> getProgresDetail(
+      int idTanaman, int idProgress) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/$idTanaman/progress/$idProgress',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      final model = ProgresDetailResponseModel.fromJson(response.data['data']);
+
+      return model;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addWeeklyProgress(
+    int idTanaman,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  ) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      List<Map<String, String>> weeklyPictures = [];
+
+      if (pictures != null) {
+        weeklyPictures = pictures.map((url) => {'url': url}).toList();
+      }
+
+      var jsonData = jsonEncode({
+        'condition': condition,
+        'description': description,
+        'weekly_pictures': weeklyPictures,
+      });
+
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/progresss',
+        data: jsonData,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<String>> addPhoto(FormData formData) async {
+    try {
+      var response = await _dioWithInterceptor.post(
+        '/pictures',
+        data: formData,
+      );
+
+      var responseData = response.data as Map<String, dynamic>;
+      List<String> imageUrl = List<String>.from(responseData['urls']);
+      return imageUrl;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addFertilizing(int idTanaman) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/fertilizing',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addWatering(int idTanaman) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/watering',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -388,7 +717,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<void> registerEndpoint(User user) async {
     try {
       // Lakukan permintaan POST ke endpoint registrasi
-      await _dio.post(
+      await _dioWithoutInterceptor.post(
         '/users/register',
         data: user.toJson(),
       );
@@ -405,7 +734,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   Future<String> loginEndpoint(String email, String password) async {
     try {
       // Lakukan permintaan POST ke endpoint login
-      final response = await _dio.post(
+      final response = await _dioWithoutInterceptor.post(
         '/users/login',
         data: {'email': email, 'password': password},
       );
@@ -424,7 +753,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<int> checkEmailValidEndpoint(String email) async {
     try {
-      final response = await _dio.get(
+      final response = await _dioWithoutInterceptor.get(
         '/users/emails/check',
         data: {'email': email},
       );
@@ -442,7 +771,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> resetPasswordEndpoint(int userId, String newPassword) async {
     try {
-      await _dio.put(
+      await _dioWithoutInterceptor.put(
         '/users/$userId/password',
         data: {'password': newPassword},
       );

@@ -29,6 +29,7 @@ class _InformasiCaraMenanamScreenState
 
   @override
   void initState() {
+    // print("${widget.plantId} ${widget.location}");
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<GetPlantingArticleProvider>().getPlantingArticleData(
           plantId: widget.plantId, location: widget.location);
@@ -269,82 +270,105 @@ class _InformasiCaraMenanamScreenState
                     const SizedBox(
                       height: 15,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 0),
+                          child: Text(
                             "Alat dan Bahan",
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
-                          Html(
-                            data: provider
-                                    .plantingArticle!.description!.material ??
-                                "",
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 0),
+                          child: Html(
+                              data: provider
+                                      .plantingArticle!.description!.material ??
+                                  "-",
+                              style: {
+                                'br': Style(
+                                  fontSize: FontSize(0),
+                                  margin: Margins.symmetric(
+                                    horizontal: 0,
+                                    vertical: 0,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 0, vertical: 0),
+                                ),
+                                'p': Style(textAlign: TextAlign.justify),
+                                'ol': Style(
+                                    margin: Margins.symmetric(
+                                        horizontal: 0, vertical: 0),
+                                    padding: const EdgeInsets.only(
+                                        left: 18, top: 0, right: 0, bottom: 0)
+                                    // padding: EdgeInsets.all(0),
+                                    ),
+                                'ul': Style(
+                                    margin: Margins.symmetric(horizontal: 0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18)
+                                    // padding: EdgeInsets.all(0),
+                                    ),
+                                'li': Style(textAlign: TextAlign.justify
+                                    // padding: EdgeInsets.all(0),
+                                    ),
+                              }),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 20),
+                          child: Text(
+                            "Cara Menanam",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 0),
+                          child: Html(
+                            data: provider.plantingArticle!.description!
+                                    .instruction ??
+                                "-",
                             style: {
-                              '#': Style(
-                                margin: Margins.symmetric(horizontal: 0),
+                              'br': Style(
+                                fontSize: FontSize(0),
+                                margin: Margins.symmetric(
+                                  horizontal: 0,
+                                  vertical: 0,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
                               ),
+                              'p': Style(textAlign: TextAlign.justify),
                               'ol': Style(
-                                  margin: Margins.symmetric(horizontal: 0),
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20)
+                                  margin: Margins.symmetric(
+                                      horizontal: 0, vertical: 0),
+                                  padding: const EdgeInsets.only(
+                                      left: 18, top: 0, right: 0, bottom: 0)
                                   // padding: EdgeInsets.all(0),
                                   ),
                               'ul': Style(
                                   margin: Margins.symmetric(horizontal: 0),
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 20)
+                                      const EdgeInsets.symmetric(horizontal: 18)
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                              'li': Style(textAlign: TextAlign.justify
                                   // padding: EdgeInsets.all(0),
                                   ),
                             },
                           ),
-                          // Text(
-                          //   "1. Tanah Subur",
-                          //   style: Theme.of(context).textTheme.bodyMedium,
-                          // ),
-                          // Text(
-                          //   "2. Bibit Tomat",
-                          //   style: Theme.of(context).textTheme.bodyMedium,
-                          // ),
-                          // Text(
-                          //   "3. Pupuk",
-                          //   style: Theme.of(context).textTheme.bodyMedium,
-                          // ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "Cara Menanam",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Html(
-                            data: provider.plantingArticle!.description!
-                                    .instruction ??
-                                "",
-                            style: {
-                              'p': Style(
-                                textAlign: TextAlign.justify,
-                              ),
-                              '#': Style(
-                                margin: Margins.symmetric(horizontal: 0),
-                              ),
-                              'br': Style(
-                                margin: Margins.symmetric(horizontal: 0),
-                                padding: EdgeInsets.zero,
-                                fontSize: FontSize(10),
-                              ),
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
                     ),
                   ],
                 )

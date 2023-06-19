@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
+import 'package:mobile_flutter/utils/converter/convert_temperature.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +64,7 @@ class WeatherWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               onTap: () {
                 pushNewScreen(context,
-                    screen: const ArtikelCuacaScreen(),
+                    screen: ArtikelCuacaScreen(labelId: weatherData.labelId!),
                     withNavBar: false,
                     pageTransitionAnimation: PageTransitionAnimation.fade);
               },
@@ -113,7 +114,7 @@ class WeatherWidget extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   minFontSize: 13,
-                                  weatherData.city!,
+                                  "${weatherData.city!}, ${weatherData.country!} ",
                                   style: Theme.of(context).textTheme.bodySmall),
                             ),
                           ],
@@ -161,7 +162,9 @@ class WeatherWidget extends StatelessWidget {
                   direction: Axis.vertical,
                   children: [
                     AutoSizeText(
-                      "${weatherData.temperature!.round()}°C",
+                      tempOneDecimal(weatherData.temperature!),
+                      // " ${weatherData.temperature}°C ",
+                      // "${weatherData.temperature!.round()}°C",
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(

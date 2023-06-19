@@ -28,7 +28,7 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    print(widget.location);
+    // print(widget.location);
     _addNameControler.text =
         context.read<GetPlantDetailsProvider>().plantDetails!.name!;
     context.read<PostAddMyPlantProvider>().state = MyState.initial;
@@ -145,6 +145,8 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                               throw Exception(e);
                             }
                           }
+                          // print(
+                          //     "${provider.postResponse!.myplantId} ${provider.postResponse!.plantsId}");
                           if (provider.postResponse!.myplantId != null &&
                               provider.state != MyState.loading) {
                             navigationToDetailMyPlant();
@@ -179,7 +181,25 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                   ? Consumer<PostAddMyPlantProvider>(
                       builder: (context, providers, _) {
                       return TextButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate() &&
+                              providers.state != MyState.loading) {
+                            try {
+                              await providers.addMyPlant(
+                                plantId: providerDetail.plantDetails!.plantId!,
+                                location: widget.location,
+                                namedPlant: providerDetail.plantDetails!.name!,
+                              );
+                            } catch (e) {
+                              throw Exception(e);
+                            }
+                          }
+                          // print(
+                          //     "${provider.postResponse!.myplantId} ${provider.postResponse!.plantsId}");
+                          if (providers.postResponse!.myplantId != null &&
+                              providers.state != MyState.loading) {
+                            navigationToDetailMyPlant();
+                          }
                           // if (providers.state != MyState.loading) {
                           //   try {
                           //     providers.addMyPlant(

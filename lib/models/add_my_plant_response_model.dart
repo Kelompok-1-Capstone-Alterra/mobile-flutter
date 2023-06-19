@@ -22,7 +22,7 @@ class AddMyplantResponseModel {
   factory AddMyplantResponseModel.fromJson(Map<String, dynamic> json) =>
       AddMyplantResponseModel(
         myplantId: json["myplant_id"],
-        plantsId: json["plants_id"],
+        plantsId: json["plant_id"],
       );
 
   Map<String, dynamic> toJson() => {

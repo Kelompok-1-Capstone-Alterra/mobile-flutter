@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_constant.dart';
+import '../../converter/convert_date.dart';
 import '../../themes/custom_color.dart';
 
 class ArtikelCardWidget extends StatelessWidget {
@@ -11,11 +12,11 @@ class ArtikelCardWidget extends StatelessWidget {
     super.key,
     required this.image,
     required this.title,
-    required this.hours,
+    required this.time,
   });
   final String image;
   final String title;
-  final int hours;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -67,17 +68,24 @@ class ArtikelCardWidget extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                     height: double.maxFinite,
-                    // color: Colors.red,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AutoSizeText(
-                          title,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          minFontSize: 14,
-                          style: Theme.of(context).textTheme.titleSmall,
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: AutoSizeText(
+                              title,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              minFontSize: 14,
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 3,
                         ),
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
@@ -85,13 +93,13 @@ class ArtikelCardWidget extends StatelessWidget {
                             Icon(
                               FluentIcons.clock_16_regular,
                               color: neutral[50],
-                              size: 15,
+                              size: 14,
                             ),
                             const SizedBox(
                               width: 3,
                             ),
                             Text(
-                              "$hours jam lalu",
+                              convertToRelativeTime(time),
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!

@@ -27,6 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final double _horizontal = 20;
 
   Future<void> _refreshPage() async {
+    context.read<GetWeatherProvider>().getUsernameData();
     context.read<GetWeatherProvider>().getWeatherData();
     context.read<GetMyPlantsProvider>().getMyPlantsData();
     context.read<GetTrendingArticleProvider>().getTrendingArticleData();
@@ -35,6 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    context.read<GetWeatherProvider>().getUsernameData();
     context.read<GetWeatherProvider>().getWeatherData();
     context.read<GetMyPlantsProvider>().getMyPlantsData();
     context.read<GetTrendingArticleProvider>().getTrendingArticleData();
@@ -95,7 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       screenWidth: screenWidth,
                       horizontal: _horizontal,
                       weatherData: providerWeather.currentWeather!,
-                      userName: "Jhon Cena",
+                      userName: providerWeather.username,
                     );
                   } else {
                     return const WeatherWidgetFailed();

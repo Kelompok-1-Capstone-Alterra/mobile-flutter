@@ -226,22 +226,37 @@ class _InformasiPemupukanScreenState extends State<InformasiPemupukanScreen> {
                             .copyWith(color: neutral[40]),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 5,
                       ),
                       Html(
                         data: provider.fertilizingArticle!.description,
                         style: {
-                          'p': Style(
-                            textAlign: TextAlign.justify,
-                          ),
-                          '#': Style(
-                            margin: Margins.symmetric(horizontal: 0),
-                          ),
                           'br': Style(
-                            margin: Margins.symmetric(horizontal: 0),
-                            padding: EdgeInsets.zero,
-                            fontSize: FontSize(10),
+                            fontSize: FontSize(0),
+                            margin: Margins.symmetric(
+                              horizontal: 0,
+                              vertical: 0,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
                           ),
+                          'p': Style(textAlign: TextAlign.justify),
+                          'ol': Style(
+                              margin:
+                                  Margins.symmetric(horizontal: 0, vertical: 0),
+                              padding: const EdgeInsets.only(
+                                  left: 18, top: 0, right: 0, bottom: 0)
+                              // padding: EdgeInsets.all(0),
+                              ),
+                          'ul': Style(
+                              margin: Margins.symmetric(horizontal: 0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18)
+                              // padding: EdgeInsets.all(0),
+                              ),
+                          'li': Style(textAlign: TextAlign.justify
+                              // padding: EdgeInsets.all(0),
+                              ),
                         },
                       ),
                     ],

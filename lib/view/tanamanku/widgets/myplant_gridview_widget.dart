@@ -104,11 +104,6 @@ class MyPlantGridviewWidget extends StatelessWidget {
                                 indexSelected: index);
                           } else {
                             pushNewScreen(context,
-
-                                // screen: DetailTanamanScreen(
-                                //     idTanaman: provider
-                                //         .showDataPlants[index].myplantId!),
-
                                 // ini dummy id cuma lempar 1
                                 screen: const DetailTanamanScreen(idTanaman: 1),
                                 withNavBar: true,
@@ -201,7 +196,7 @@ class MyPlantGridviewWidget extends StatelessWidget {
 
                                 // ini dummy id cuma lempar 1
                                 screen: const DetailTanamanScreen(idTanaman: 1),
-                                withNavBar: true,
+                                withNavBar: false,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino);
 
