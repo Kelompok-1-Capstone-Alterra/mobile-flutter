@@ -241,7 +241,9 @@ class _OverviewSectionState extends State<OverviewSection> {
                                                 Navigator.pop(context);
                                                 pushNewScreen(
                                                   context,
-                                                  screen: AddPanenScreen(),
+                                                  screen: AddPanenScreen(
+                                                      idTanaman:
+                                                          widget.idTanaman),
                                                   withNavBar: false,
                                                   pageTransitionAnimation:
                                                       PageTransitionAnimation

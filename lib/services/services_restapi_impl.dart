@@ -433,6 +433,49 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
+  @override
+  Future<void> addHarvestProgress(
+    int idTanaman,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  ) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await Future.delayed(const Duration(seconds: 1));
+
+      List<Map<String, String>> weeklyPictures = [];
+
+      if (pictures != null) {
+        weeklyPictures = pictures.map((url) => {'url': url}).toList();
+      }
+
+      var jsonData = jsonEncode({
+        'condition': condition,
+        'description': description,
+        'weekly_pictures': weeklyPictures,
+      });
+
+      print(jsonData);
+
+      await _dioWithInterceptor.post(
+        '/auth/users/plants/$idTanaman/progress/harvest',
+        data: jsonData,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      print(e.toString());
+      throw Exception(e.toString());
+    }
+  }
+
 // ------------------------------------- ------------- ----------------------------------
 // ------------------------------------- MEMBERSHIP--------------------------------------
 // ------------------------------------- ------------- ----------------------------------
