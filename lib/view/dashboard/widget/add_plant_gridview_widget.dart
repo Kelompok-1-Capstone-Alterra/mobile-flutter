@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_flutter/view/informasi/informasi_tanaman_screen.dart';
+import 'package:mobile_flutter/view/settings/screens/masukan_saran_screen.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
@@ -188,7 +189,14 @@ class AddPlantGridview extends StatelessWidget {
                             TextSpan(
                               style: Theme.of(context).textTheme.labelMedium,
                               text: " klik disini",
-                              recognizer: TapGestureRecognizer()..onTap = () {},
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  pushNewScreen(context,
+                                      screen: const MasukanSaranScreen(),
+                                      withNavBar: false,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino);
+                                },
                             ),
                           ],
                         ),

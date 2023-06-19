@@ -12,13 +12,16 @@ import 'package:mobile_flutter/view_model/service_provider/get_temperature_artic
 import 'package:mobile_flutter/view_model/service_provider/get_watering_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
-// import 'package:mobile_flutter/utils/routes.dart';
-// import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
 import 'package:mobile_flutter/view_model/service_provider/post_add_myplant_provider.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/get_profile_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/edit_progres_mingguan_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/progres_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/carimenu_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/dashboard_toko_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/deskripsi_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/kategori_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/search_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 import 'package:mobile_flutter/utils/themes/theme.dart';
@@ -40,7 +43,7 @@ import 'package:mobile_flutter/view_model/setting_viewmodel/statistik_penanaman_
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_kata_sandi_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/ubah_nama_provider.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_progress.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_provider.dart';
 import 'package:mobile_flutter/view_model/dashboard_viewmodel/dashboard_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/plant_gridview_provider.dart';
@@ -84,7 +87,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ValidatorProvider(),
         ),
         ChangeNotifierProvider<SearchProvider>(
-          create: (context) => SearchProvider(products: []),
+          create: (context) => SearchProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => DashboardProvider(),
@@ -138,6 +141,9 @@ class MyApp extends StatelessWidget {
           create: (context) => EditProgresMingguanProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => GetProfileProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => GetWeatherProvider(),
         ),
         ChangeNotifierProvider(
@@ -184,6 +190,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
             create: (context) => GetWeatherArticleProvider()),
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => TokoProvider()),
+        ChangeNotifierProvider(create: (context) => CurrentProductProvider()),
+        ChangeNotifierProvider(create: (context) => KategoriProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

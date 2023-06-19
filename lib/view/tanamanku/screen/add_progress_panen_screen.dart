@@ -3,15 +3,24 @@ import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_progress.dart';
-import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddPanenScreen extends StatelessWidget {
-  AddPanenScreen({super.key});
+class AddPanenScreen extends StatefulWidget {
+  final int idTanaman;
+  const AddPanenScreen({super.key, this.idTanaman = 0});
+
+  @override
+  State<AddPanenScreen> createState() => _AddPanenScreenState();
+}
+
+class _AddPanenScreenState extends State<AddPanenScreen> {
   final _formKey = GlobalKey<FormState>();
+  List<XFile> imagesFromPhone = [];
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AddPanenMatiProvider>(context, listen: false);
@@ -35,7 +44,7 @@ class AddPanenScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: keyboardIsOpened
-          ? null
+          ? const SizedBox.shrink()
           : Padding(
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.height * 0.02,
@@ -46,22 +55,15 @@ class AddPanenScreen extends StatelessWidget {
                 builder: (context, provider, _) {
                   return ElevatedButton(
                     onPressed: () async {
-                      // Logika Database
-
-                      // Dialog Sementara
                       if (_formKey.currentState!.validate()) {
-                        await customShowDialogIcon(
-                            context: context,
-                            iconDialog: FluentIcons.premium_16_regular,
-                            title: 'Selamat',
-                            desc: 'Kamu berhasil memanen tanaman kamu');
-                        if (context.mounted) {
+                        await provider.addHarvestProgress(
+                            context, widget.idTanaman);
+                        if (context.mounted &&
+                            provider.state == MyState.loaded) {
                           provider.refresh();
-                          Provider.of<TanamankuProvider>(context, listen: false)
-                              .setSelectedIndex(context, 1);
                           Navigator.pop(context);
                         }
-                      } else {}
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -69,12 +71,24 @@ class AddPanenScreen extends StatelessWidget {
                       minimumSize: const Size(double.infinity, 0),
                       elevation: 0,
                     ),
-                    child: Text(
-                      'Simpan progres',
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            color: neutral[10],
+                    child: provider.state == MyState.loading
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: neutral[10],
+                            ),
+                          )
+                        : Text(
+                            'Simpan progres',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(
+                                  color: neutral[10],
+                                ),
                           ),
-                    ),
                   );
                 },
               ),
@@ -86,7 +100,7 @@ class AddPanenScreen extends StatelessWidget {
           child: ListView(
             children: [
               Text(
-                '24 May 2023',
+                DateFormat('dd MMM yyyy').format(DateTime.now()).toString(),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               const SizedBox(
@@ -155,10 +169,9 @@ class AddPanenScreen extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () async {
-                        final List<XFile>? imagesFromPhone =
-                            await ImagePicker().pickMultiImage();
+                        imagesFromPhone = await ImagePicker().pickMultiImage();
 
-                        if (imagesFromPhone != null) {
+                        if (imagesFromPhone.isNotEmpty) {
                           provider.addListImage(imagesFromPhone);
                         }
                       },
@@ -208,9 +221,9 @@ class AddPanenScreen extends StatelessWidget {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemCount: provider.image?.length ?? 0,
+                    itemCount: provider.image.length,
                     itemBuilder: (context, index) {
-                      final image = provider.image![index];
+                      final image = provider.image[index];
                       return Stack(
                         children: [
                           ClipRRect(

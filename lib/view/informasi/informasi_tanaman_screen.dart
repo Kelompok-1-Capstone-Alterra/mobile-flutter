@@ -351,7 +351,7 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
                     //     ));
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     backgroundColor: primary,
                     minimumSize: const Size(double.infinity, 0),
                     // Mengatur minimumSize dengan double.infinity
@@ -389,7 +389,9 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
                 ),
                 TextButton(
                     onPressed: () {
-                      // context.read<GetWeatherProvider>().getWeatherData();
+                      context
+                          .read<GetPlantDetailsProvider>()
+                          .getplantDetailsProvider(widget.plantId);
                     },
                     child: Text(
                       "Try Again?",

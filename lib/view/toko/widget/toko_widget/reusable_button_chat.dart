@@ -17,7 +17,7 @@ class ReuseableButtonChat extends StatelessWidget {
     return Center(
       child: Container(
         width: size.width * 0.9,
-        height: size.height * 0.07,
+        height: 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: primary[300],

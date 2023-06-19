@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/dashboard/widget/product_card_widget.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+
+import '../../toko/screen/detail_produk.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({
@@ -91,7 +94,15 @@ class ProductWidget extends StatelessWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),
-                            onTap: () {},
+                            onTap: () {
+                              pushNewScreen(context,
+                                  screen: Details(
+                                      productId:
+                                          provider.productsShuffled[index].id!),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino);
+                            },
                           ),
                         ),
                       )

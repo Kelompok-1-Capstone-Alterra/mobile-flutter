@@ -63,13 +63,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   screen: const PilihTambahTanamanScreen(),
                   withNavBar: false,
                   pageTransitionAnimation: PageTransitionAnimation.cupertino);
-
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const PilihTambahTanamanScreen(),
-              //   ),
-              // );
             },
             child: Icon(
               Icons.add,
@@ -110,28 +103,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
 
               Consumer<GetMyPlantsProvider>(builder: (_, provider, __) {
-                // if (provider.state == MyState.loading) {
-                //   return Padding(
-                //     padding: EdgeInsets.symmetric(
-                //         horizontal: _horizontal, vertical: 10),
-                //     child: UnconstrainedBox(
-                //       alignment: AlignmentDirectional.centerStart,
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(10),
-                //         child: Shimmer.fromColors(
-                //           baseColor: neutral[30]!,
-                //           highlightColor: neutral[20]!,
-                //           child: Container(
-                //             color: neutral[20]!,
-                //             height: 10,
-                //             width: screenWidth * 0.2,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   );
-                // }
-
                 if (provider.state == MyState.loaded) {
                   if (provider.myPlants.isNotEmpty) {
                     return Padding(
@@ -155,17 +126,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
               TanamankuDasboardWidget(
                   horizontal: _horizontal, screenWidth: screenWidth),
-
-              // Consumer<DashboardProvider>(builder: (context, provider, child) {
-              //   if (provider.isTanamankuEmpty) {
-              //     // ----------------- card punya tanaman --------------------------
-              //     return TanamankuDasboardWidget(
-              //         horizontal: _horizontal, screenWidth: screenWidth);
-              //   } else {
-              //     // ----------------- card kamu belum punya tanaman --------------------------
-              //     return NoPlantCardWidget(horizontal: _horizontal);
-              //   }
-              // }),
 
               // ------------- artikel trending ------------------
               TitleSections(

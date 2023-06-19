@@ -1,18 +1,33 @@
-import 'dart:io';
-
+import 'package:mobile_flutter/utils/app_constant.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/settings/widgets/item_info_pribadi_widget.dart';
+import 'package:mobile_flutter/view_model/setting_viewmodel/get_profile_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/profile_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetProfileProvider>().getUserProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProfileProvider>(context, listen: false);
+    final getProfileProvider =
+        Provider.of<GetProfileProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -37,10 +52,34 @@ class ProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 18),
-              Consumer<ProfileProvider>(
-                builder: (context, profileProvider, _) => Center(
-                  child: provider.selectedImage == null
-                      ? SizedBox(
+              Center(
+                child: Consumer<GetProfileProvider>(
+                  builder: (context, getProfileProvider, _) {
+                    final state = getProfileProvider.state;
+                    final profile = getProfileProvider.profile;
+                    if (state == MyState.initial) {
+                      return Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          height: 121,
+                          width: 120,
+                          color: neutral[20]!,
+                        ),
+                      );
+                    } else if (state == MyState.loading) {
+                      return Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          height: 121,
+                          width: 120,
+                          color: neutral[20]!,
+                        ),
+                      );
+                    } else if (state == MyState.loaded) {
+                      if (profile.picture == '') {
+                        return SizedBox(
                           width: 121,
                           height: 120,
                           child: Image.asset(
@@ -48,24 +87,60 @@ class ProfileScreen extends StatelessWidget {
                             width: 121,
                             height: 120,
                             fit: BoxFit.cover,
-                            
                           ),
-                        )
-                      : SizedBox(
+                        );
+                      } else {
+                        return SizedBox(
                           width: 121,
                           height: 120,
-                          child: Image.file(
-                            File(provider.selectedImage!.path),
+                          child: Image.network(
+                            '${AppConstant.imgUrl}${profile.picture!}',
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              color: neutral[20],
+                              width: 121,
+                              height: 120,
+                              child: const Icon(
+                                  Icons.image_not_supported_outlined),
+                            ),
                           ),
+                        );
+                      }
+                    } else {
+                      return Shimmer.fromColors(
+                        baseColor: neutral[30]!,
+                        highlightColor: neutral[20]!,
+                        child: Container(
+                          height: 121,
+                          width: 120,
+                          color: neutral[20]!,
                         ),
+                      );
+                      // return SizedBox(
+                      //   width: 121,
+                      //   height: 120,
+                      //   child: Image.asset(
+                      //     'assets/images/ubah_profile.png',
+                      //     width: 121,
+                      //     height: 120,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // );
+                    }
+                  },
                 ),
               ),
+
               const SizedBox(height: 8),
 
               // ? button ubah foto profile
               Center(
                 child: TextButton(
-                  onPressed: () => provider.selectImage(),
+                  onPressed: () async {
+                    await provider.selectImage();
+                    await provider.upImage();
+                    await getProfileProvider.getUserProfile();
+                  },
                   child: Text(
                     'Ubah Foto Profil',
                     style: ThemeData().textTheme.labelLarge!.copyWith(
@@ -85,30 +160,56 @@ class ProfileScreen extends StatelessWidget {
                     ),
               ),
               const SizedBox(height: 10),
+              Consumer<GetProfileProvider>(
+                builder: (context, getProfileProvider, _) {
+                  final state = getProfileProvider.state;
+                  final profile = getProfileProvider.profile;
+                  if (state == MyState.initial) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state == MyState.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state == MyState.loaded) {
+                    return Column(
+                      children: [
+                        // ? Item nama lengkap
+                        ItemInfoPribadiWidget(
+                          title: 'Nama Lengkap',
+                          desc: profile.name ?? 'Juna Darendra',
+                          navigateScreen: NavigateType.ubahNama,
+                          defaultValue: profile.name!,
+                        ),
 
-              // ? Item nama lengkap
-              const ItemInfoPribadiWidget(
-                title: 'Nama Lengkap',
-                desc: 'Juna Darendra',
-                navigateScreen: NavigateType.ubahNama,
-              ),
+                        const SizedBox(height: 15),
 
-              const SizedBox(height: 15),
+                        // ? Item Email
+                        ItemInfoPribadiWidget(
+                          title: 'Email',
+                          desc: profile.email ?? 'Juna.darendra@example.com',
+                          isTapable: false,
+                          navigateScreen: NavigateType.none,
+                          defaultValue: profile.email!,
+                        ),
+                        const SizedBox(height: 15),
 
-              // ? Item Email
-              const ItemInfoPribadiWidget(
-                title: 'Email',
-                desc: 'Juna.darendra@example.com',
-                isTapable: false,
-                navigateScreen: NavigateType.none,
-              ),
-              const SizedBox(height: 15),
-
-              // ? Item kata sandi
-              const ItemInfoPribadiWidget(
-                title: 'Kata Sandi',
-                desc: '*********',
-                navigateScreen: NavigateType.ubahKataSandi,
+                        // ? Item kata sandi
+                        const ItemInfoPribadiWidget(
+                          title: 'Kata Sandi',
+                          desc: '*********',
+                          navigateScreen: NavigateType.ubahKataSandi,
+                          defaultValue: '',
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
             ],
           ),

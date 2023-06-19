@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:mobile_flutter/utils/converter/convert_price.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
+import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_fertilizing_article_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -429,7 +431,16 @@ class ProductRecomendationGridviewWidget extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               borderRadius: BorderRadius.circular(10),
-                              onTap: () {},
+                              onTap: () {
+                                pushNewScreen(context,
+                                    screen: Details(
+                                      productId: provider.fertilizingArticle!
+                                          .productsRecomendation![index].id!,
+                                    ),
+                                    withNavBar: false,
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino);
+                              },
                             ),
                           ),
                         )

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/models/toko_model.dart';
+import 'package:mobile_flutter/models/toko/toko_model.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/toko_data.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -12,6 +12,10 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_flutter/models/toko/get_product.dart';
+import 'package:mobile_flutter/services/toko/service_get_product.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/dashboard_toko_provider.dart';
+import 'package:mobile_flutter/view_model/toko_viewmodel/url_image.dart';
 
 class TokoScreen extends StatefulWidget {
   const TokoScreen({super.key});
@@ -21,6 +25,28 @@ class TokoScreen extends StatefulWidget {
 }
 
 class _TokoScreenState extends State<TokoScreen> {
+  List<Produk> products = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<TokoProvider>(context, listen: false).fetchProducts();
+  }
+
+  Future<List<Produk>> fetchProductsByCategory(
+      BuildContext context, String category) async {
+    try {
+      ProductService productService = ProductService();
+      List<Produk> fetchedProducts =
+          await productService.fetchProductsByCategory(category);
+      return fetchedProducts;
+    } catch (e) {
+      print('Error fetching products by category: $e');
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -42,7 +68,7 @@ class _TokoScreenState extends State<TokoScreen> {
                   onPressed: () {
                     pushNewScreen(
                       context,
-                      screen: ListAllProduk(allProducts: getAllProducts()),
+                      screen: const ListAllProduk(),
                       withNavBar: false,
                     );
                   },
@@ -128,7 +154,6 @@ class _TokoScreenState extends State<TokoScreen> {
                 ),
               ),
 
-              //select kategory
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -137,15 +162,19 @@ class _TokoScreenState extends State<TokoScreen> {
                   children: [
                     for (final item in category)
                       GestureDetector(
-                        onTap: () {
-                          List<BaseModel> products =
-                              getProductsByCategory(item.name);
-                          pushNewScreen(context,
-                              screen: ListProduk(
-                                  category: item.name, products: products),
-                              withNavBar: false,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino);
+                        onTap: () async {
+                          List<Produk> fetchedProducts =
+                              await fetchProductsByCategory(context, item.name);
+                          pushNewScreen(
+                            context,
+                            screen: ListProduk(
+                              category: item.name,
+                              productList: fetchedProducts,
+                            ),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
                         },
                         child: Column(
                           children: [
@@ -204,114 +233,191 @@ class _TokoScreenState extends State<TokoScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 width: size.width,
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: mainList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 7 / size.height * 80,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemBuilder: (context, index) {
-                      BaseModel current = mainList[index];
-                      return GestureDetector(
-                        onTap: () {
-                          pushNewScreen(context,
-                              screen: Details(
-                                data: current,
-                                isCameFromProduk: true,
-                              ),
-                              withNavBar: false,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 0),
-                          child: Card(
-                            margin: const EdgeInsets.all(0),
-                            elevation: 10,
-                            shadowColor: Colors.black26,
-                            surfaceTintColor: Colors.transparent,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                child: Consumer<TokoProvider>(
+                  builder: (context, tokoProvider, _) {
+                    return tokoProvider.isLoading
+                        ? Align(
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  primary[300]!), // Ubah warna menjadi merah
                             ),
-                            color: Colors.white,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(current.imageUrl),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                          )
+                        : tokoProvider.products.isNotEmpty
+                            ? GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: tokoProvider.products.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 7 / size.height * 80,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 15,
                                 ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
+                                itemBuilder: (context, index) {
+                                  Produk current = tokoProvider.products[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      pushNewScreen(
+                                        context,
+                                        screen: Details(
+                                          productId: current.id!,
+                                        ),
+                                        withNavBar: false,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.cupertino,
+                                      );
+                                    },
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 10,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            child: AutoSizeText(
-                                              current.name,
-                                              overflow: TextOverflow.ellipsis,
-                                              minFontSize: 14,
-                                              maxLines: 2,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.38,
-                                              child: ReuseablePrice(
-                                                price: current.price,
-                                              )),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 3),
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.38,
-                                              child: AutoSizeText(
-                                                "${current.review.toString()}RB dilihat",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                                maxLines: 1,
+                                      padding: const EdgeInsets.only(left: 0),
+                                      child: Card(
+                                        margin: const EdgeInsets.all(0),
+                                        elevation: 10,
+                                        shadowColor: Colors.black26,
+                                        surfaceTintColor: Colors.transparent,
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        color: Colors.white,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              // child: Container(
+                                              //   decoration: BoxDecoration(
+                                              //     image: DecorationImage(
+                                              //       image: AssetImage(current
+                                              //           .productPictures![0]),
+                                              //       fit: BoxFit.cover,
+                                              //     ),
+                                              //   ),
+                                              // ),
+
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        '${UrlImage.imgurl}${current.productPictures![0]}'),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned.fill(
+                                                      child: Image.network(
+                                                        '${UrlImage.imgurl}${current.productPictures![0]}',
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                          return Container(
+                                                              width: 130,
+                                                              height: 105,
+                                                              color:
+                                                                  neutral[20],
+                                                              child: const Icon(
+                                                                  Icons
+                                                                      .image_not_supported_outlined));
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                            Expanded(
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 10,
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        child: AutoSizeText(
+                                                          current.productName!,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          minFontSize: 14,
+                                                          maxLines: 2,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .titleSmall,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.38,
+                                                        child: ReuseablePrice(
+                                                          price: current
+                                                              .productPrice!
+                                                              .toDouble(),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 3),
+                                                        child: SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.38,
+                                                          child: AutoSizeText(
+                                                            "${current.productSeen}RB dilihat",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodySmall,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : const Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 20,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Mohon maaf tidak ada produk yang tersedia",
+                                    style: TextStyle(
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                              );
+                  },
+                ),
               ),
             ],
           ),

@@ -89,7 +89,7 @@ class _ProgressSectionState extends State<ProgressSection> {
                                   ? '$fromFormat - $toFormat'
                                   : progress.status == 'harvest' ||
                                           progress.status == 'dead'
-                                      ? '$formatDatedd(progress.from!)'
+                                      ? formatDateddMMMyyyy(progress.from!)
                                       : 'null',
                               type: progress.status == 'planting'
                                   ? TipeProgress.mingguan
@@ -108,13 +108,17 @@ class _ProgressSectionState extends State<ProgressSection> {
                                               progress.weeklyProgressId!,
                                         )
                                       : progress.status == 'harvest'
-                                          ? const DetailPanenScreen()
+                                          ? DetailPanenScreen(
+                                              idTanaman: widget.idTanaman,
+                                              idProgress:
+                                                  progress.weeklyProgressId!,
+                                            )
                                           : progress.status == 'dead'
-                                              ? const DetailMatiScreen(
-                                                  // idTanaman: widget.idTanaman,
-                                                  // idProgress: progress
-                                                  //     .weeklyProgressId!,
-                                                  )
+                                              ? DetailMatiScreen(
+                                                  idTanaman: widget.idTanaman,
+                                                  idProgress: progress
+                                                      .weeklyProgressId!,
+                                                )
                                               : const SizedBox(),
                                   withNavBar: false,
                                   pageTransitionAnimation:

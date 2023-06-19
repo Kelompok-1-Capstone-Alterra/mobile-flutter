@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_flutter/services/services_restapi_impl.dart';
 
 class ProfileProvider with ChangeNotifier {
+  final serviceRestApiImpl = ServicesRestApiImpl();
   File? selectedImage;
 
   void setSelectedImage(File? image) {
@@ -20,7 +22,19 @@ class ProfileProvider with ChangeNotifier {
       final imageFile = File(
         pickedImage.path,
       );
+      print(imageFile);
       setSelectedImage(imageFile);
+    }
+  }
+
+  Future<void> upImage() async {
+    try {
+      final pic = await serviceRestApiImpl.uploadProfilePic(selectedImage!);
+      await serviceRestApiImpl.updateProfilePic(pic);
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
   }
 }

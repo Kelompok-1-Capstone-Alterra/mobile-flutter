@@ -16,9 +16,9 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final int? maxLines;
   final Widget? icon;
-  bool isError;
+  final bool? isError;
 
-  CustomTextFormField({
+  const CustomTextFormField({
     super.key,
     required this.textInputAction,
     this.label,
@@ -43,7 +43,7 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   late final FocusNode _focusNode;
   late bool _isFocused = false;
-  // late bool _isError = false;
+  late bool _isError = false;
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: widget.isError
+              color: _isError || widget.isError!
                   ? error
                   : _isFocused
                       ? primary
@@ -95,7 +95,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         border: Theme.of(context).inputDecorationTheme.border,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: widget.isError
+            color: _isError || widget.isError!
                 ? error
                 : _isFocused
                     ? primary
@@ -105,7 +105,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: widget.isError ? error : primary,
+            color: _isError || widget.isError! ? error : primary,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -114,13 +114,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: widget.suffixIcon,
-        suffixIconColor: widget.isError ? error : neutral,
+        suffixIconColor: _isError || widget.isError! ? error : neutral,
         icon: widget.icon,
       ),
       validator: widget.validator != null
           ? (value) {
               setState(() {
-                widget.isError = widget.validator!(value) != null;
+                _isError = widget.validator!(value) != null;
               });
               return widget.validator!(value);
             }

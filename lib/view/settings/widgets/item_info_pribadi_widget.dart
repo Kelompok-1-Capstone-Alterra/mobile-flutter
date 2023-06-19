@@ -14,10 +14,12 @@ class ItemInfoPribadiWidget extends StatelessWidget {
     required this.desc,
     this.isTapable = true,
     required this.navigateScreen,
+    required this.defaultValue,
   });
   final String title;
   final String desc;
   final bool isTapable;
+  final String defaultValue;
 
   final NavigateType navigateScreen;
 
@@ -29,8 +31,10 @@ class ItemInfoPribadiWidget extends StatelessWidget {
             ? pushNewScreen(
                 context,
                 screen: navigateScreen == NavigateType.ubahNama
-                    ? const UbahNamaScreen()
-                    : const UbahKataSandiScreen(),
+                    ? UbahNamaScreen(
+                        defaultValue: defaultValue,
+                      )
+                    : UbahKataSandiScreen(defaultValue: defaultValue),
                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
               )
             : '';
