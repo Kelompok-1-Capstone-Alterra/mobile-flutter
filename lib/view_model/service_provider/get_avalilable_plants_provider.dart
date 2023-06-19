@@ -40,7 +40,7 @@ class GetAvailablePlantsProvider extends ChangeNotifier {
   //get hasil pencarian dari data available
   void searchAvailablePlants() async {
     searchedPlants.clear();
-    print("mencari ${searchFieldController.text}");
+    // print("mencari ${searchFieldController.text}");
     searchQuery = searchFieldController.text;
     if (state == MyState.loaded || state == MyState.failed) {
       state = MyState.loading;

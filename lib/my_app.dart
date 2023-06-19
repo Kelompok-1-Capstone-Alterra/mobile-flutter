@@ -12,8 +12,8 @@ import 'package:mobile_flutter/view_model/service_provider/get_temperature_artic
 import 'package:mobile_flutter/view_model/service_provider/get_watering_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
-import 'package:mobile_flutter/utils/routes.dart';
-import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
+// import 'package:mobile_flutter/utils/routes.dart';
+// import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
 import 'package:mobile_flutter/view_model/service_provider/post_add_myplant_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
@@ -191,10 +191,10 @@ class MyApp extends StatelessWidget {
         theme: agriplantLight,
         home: const SplashScreen(),
         navigatorKey: navigatorKeys,
-        routes: {
-          // Routes.detailTanamankuPage: (BuildContext context) =>
-          //     const DetailTanamanScreen(),
-        },
+        // routes: {
+        //   // Routes.detailTanamankuPage: (BuildContext context) =>
+        //   //     const DetailTanamanScreen(),
+        // },
       ),
     );
   }
