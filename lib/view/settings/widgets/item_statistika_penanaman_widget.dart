@@ -20,7 +20,10 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
         pushNewScreen(
           context,
           screen: DetailItemStatistikPenanaman(
-              index: index, plantStatsModel: plantStatsModel),
+            index: index,
+            myplantId: 18,
+            plantStatsModel: plantStatsModel,
+          ),
           withNavBar: false,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
