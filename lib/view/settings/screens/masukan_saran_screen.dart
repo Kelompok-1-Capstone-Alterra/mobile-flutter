@@ -41,7 +41,7 @@ class MasukanSaranScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: keyboardIsOpened
-          ? null
+          ? const SizedBox.shrink()
           : Padding(
               padding: const EdgeInsets.only(
                 left: 16,
@@ -49,6 +49,7 @@ class MasukanSaranScreen extends StatelessWidget {
                 bottom: 48,
               ),
               child: SizedBox(
+                height: 40,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
@@ -85,8 +86,14 @@ class MasukanSaranScreen extends StatelessWidget {
                               ),
                         );
                       } else if (state == MyState.loading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Container(
+                          height: 25,
+                          width: 25,
+                          alignment: Alignment.center,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          ),
                         );
                       } else {
                         return Text(

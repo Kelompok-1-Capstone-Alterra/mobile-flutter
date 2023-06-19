@@ -13,12 +13,12 @@ class GetMyPlantsProvider extends ChangeNotifier {
   final service = ServicesRestApiImpl();
   MyState state = MyState.loading;
 
-  List<PlantsResponseModel> myPlants = [];
-  List<PlantsResponseModel> showDataPlants = [];
+  List<MyPlantsResponseModel> myPlants = [];
+  List<MyPlantsResponseModel> showDataPlants = [];
   // ----
   bool isDeleteMode = false;
   List<int> selectedIndexCard = [];
-  List<PlantsResponseModel> dataSelected = [];
+  List<MyPlantsResponseModel> dataSelected = [];
 
   void getMyPlantsData() async {
     if (state == MyState.loaded || state == MyState.failed) {

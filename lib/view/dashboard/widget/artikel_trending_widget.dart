@@ -49,7 +49,7 @@ class ArtikelWidget extends StatelessWidget {
               children: [
                 ArtikelCardWidget(
                     title: provider.artikelTrending[index].title!,
-                    hours: provider.artikelTrending[index].hours!,
+                    time: provider.artikelTrending[index].postAt!,
                     image: provider.artikelTrending[index].picture!),
                 Positioned.fill(
                   child: Material(

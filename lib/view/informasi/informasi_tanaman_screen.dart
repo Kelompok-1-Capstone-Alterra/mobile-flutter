@@ -3,24 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 // import 'package:flutter_html/flutter_html.dart';
 import 'package:mobile_flutter/utils/converter/remove_html_tags.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/informasi/lokasi_tanaman_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/cards/overview_card/informasi_tanaman_card.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_plant_details.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../utils/app_constant.dart';
 import '../../utils/themes/custom_color.dart';
 
 enum TabPreview { overview, progress }
 
 class InformasiTanamanScreen extends StatefulWidget {
-  const InformasiTanamanScreen({super.key});
+  const InformasiTanamanScreen({super.key, required this.plantId});
 
+  final int plantId;
   @override
   State<InformasiTanamanScreen> createState() => _InformasiTanamanScreenState();
 }
-
-const String _htmlData = r"""
-<p>Tomat atau rangam (Solanum lycopersicum) adalah tumbuhan dari keluarga Solanaceae, tumbuhan asli Amerika Tengah dan Selatan, dari Meksiko sampai Peru. Tomat merupakan tumbuhan siklus hidup singkat, dapat tumbuh setinggi 1 sampai 3 meter.</p><br><p>Tumbuhan ini memiliki buah berwarna hijau, kuning, dan merah yang biasa dipakai sebagai sayur dalam masakan atau dimakan secara langsung tanpa diproses.</p><br><p>Tomat memiliki batang dan daun yang tidak dapat dikonsumsi karena masih sekeluarga dengan kentang dan terung yang mengadung alkaloid.</p><br><p>Cara menanam tanaman tomat adalah disemai lebih dahulu, setelah tumbuh 4 daun sejati kemudian ditanam (dijadikan bibit terlebih dahulu). Panen dimulai usia 9 minggu setelah tanam selanjutnya setiap 5 hari.</p>
-""";
 
 ValueNotifier<TabPreview> tabActive = ValueNotifier(TabPreview.overview);
 
@@ -29,7 +31,14 @@ ValueNotifier<bool> readMore = ValueNotifier(false);
 class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
   @override
   void initState() {
+    // print(widget.plantId);
     readMore.value = false;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context
+          .read<GetPlantDetailsProvider>()
+          .getplantDetailsProvider(widget.plantId);
+    });
 
     super.initState();
   }
@@ -60,141 +69,341 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
           ),
         ),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          // --------------------------image header--------------------------
-          Container(
-            color: Colors.amber,
-            height: screenHeight * 0.31,
-            child: Image.asset(
-              "assets/images/sample_tomat.png",
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
+      body: Consumer<GetPlantDetailsProvider>(builder: (context, provider, _) {
+        // loading state
+        if (provider.state == MyState.loading) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
+                baseColor: neutral[30]!,
+                highlightColor: neutral[20]!,
+                child: Container(
+                  height: screenHeight * 0.31,
+                  width: screenWidth,
+                  color: neutral[20]!,
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              UnconstrainedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Shimmer.fromColors(
+                    baseColor: neutral[30]!,
+                    highlightColor: neutral[20]!,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: neutral[20]!,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 15,
+                      width: screenWidth * 0.2,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              UnconstrainedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Shimmer.fromColors(
+                    baseColor: neutral[30]!,
+                    highlightColor: neutral[20]!,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: neutral[20]!,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 10,
+                      width: screenWidth * 0.25,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              UnconstrainedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Shimmer.fromColors(
+                    baseColor: neutral[30]!,
+                    highlightColor: neutral[20]!,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: neutral[20]!,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 10,
+                      width: screenWidth * 0.5,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              UnconstrainedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Shimmer.fromColors(
+                    baseColor: neutral[30]!,
+                    highlightColor: neutral[20]!,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: neutral[20]!,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 10,
+                      width: screenWidth * 0.6,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              UnconstrainedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Shimmer.fromColors(
+                    baseColor: neutral[30]!,
+                    highlightColor: neutral[20]!,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: neutral[20]!,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 10,
+                      width: screenWidth * 0.7,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+          // loaded state
+        } else if (provider.state == MyState.loaded) {
+          return ListView(
+            shrinkWrap: true,
+            children: [
+              // --------------------------image header--------------------------
+              SizedBox(
+                height: screenHeight * 0.3,
+                child: Image.network(
+                  "${AppConstant.imgUrl}${provider.plantDetails!.picture}",
+                  // image,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        width: double.maxFinite,
+                        height: screenHeight * 0.30,
+                        color: neutral[20]!,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                      width: double.maxFinite,
+                      height: screenHeight * 0.3,
+                      color: neutral[20],
+                      child: const Icon(Icons.image_not_supported_outlined)),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
 
-          // -------------------------- judul dan nama latin --------------------------
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
+              // -------------------------- judul dan nama latin --------------------------
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Wrap(
+                  direction: Axis.vertical,
+                  children: [
+                    Text(
+                      provider.plantDetails!.name ?? "-",
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Text(
+                      provider.plantDetails!.latin ?? "-",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(color: neutral[40]),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+
+              // -------------------------- deskripsi --------------------------
+              ValueListenableBuilder(
+                  valueListenable: readMore,
+                  builder: (context, bool readMoreValue, _) {
+                    if (readMoreValue == false) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        child: Wrap(
+                          direction: Axis.vertical,
+                          children: [
+                            SizedBox(
+                              width: screenWidth * 0.9,
+                              child: Text(
+                                parseHtmlString(
+                                  provider.plantDetails!.description ?? "-",
+                                ),
+                                maxLines: 5,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              onTap: () {
+                                readMore.value = !readMore.value;
+                              },
+                              child: Text("Baca Selengkapnya",
+                                  style:
+                                      Theme.of(context).textTheme.labelLarge),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Html(
+                          data: provider.plantDetails!.description ?? "-",
+                          style: {
+                            'p': Style(
+                              textAlign: TextAlign.justify,
+                            ),
+                            '#': Style(
+                              margin: Margins.symmetric(horizontal: 0),
+                              padding: const EdgeInsets.only(bottom: 10),
+                            ),
+                            'br': Style(
+                              fontSize: FontSize(0),
+                              margin: Margins.symmetric(
+                                horizontal: 0,
+                                vertical: 0,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 0, vertical: 0),
+                            ),
+                            'ol': Style(
+                                margin: Margins.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                padding: const EdgeInsets.only(
+                                    left: 18, top: 0, right: 0, bottom: 0)
+                                // padding: EdgeInsets.all(0),
+                                ),
+                            'ul': Style(
+                                margin: Margins.symmetric(horizontal: 0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 18)
+                                // padding: EdgeInsets.all(0),
+                                ),
+                            'li': Style(textAlign: TextAlign.justify
+                                // padding: EdgeInsets.all(0),
+                                ),
+                          },
+                        ),
+                      );
+                    }
+                  }),
+
+              const SizedBox(
+                height: 10,
+              ),
+              // -------------------------- 4 grid button --------------------------
+              InformasiTanamanCard(
+                  caraMenanamType: CaraMenanamType.informasiCaraMenanam,
+                  plantId: widget.plantId),
+
+              //---------------- button tambkan tanaman -----------------------
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    pushNewScreen(context,
+                        screen: LokasiTanamanScreen(
+                            type: ScreenType.pemilihanLokasi,
+                            plantid: widget.plantId),
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                        withNavBar: true);
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const LokasiTanamanScreen(),
+                    //     ));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: primary,
+                    minimumSize: const Size(double.infinity, 0),
+                    // Mengatur minimumSize dengan double.infinity
+                  ),
+                  child: Text(
+                    'Tambahkan Tanaman',
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: neutral[10],
+                        ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                height: 25,
+              )
+            ],
+          );
+        } else {
+          return Center(
             child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               direction: Axis.vertical,
               children: [
-                Text(
-                  'Tomat',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                Icon(
+                  Icons.sentiment_dissatisfied_outlined,
+                  size: 30,
+                  color: neutral[40]!,
                 ),
                 Text(
-                  'Solanum lycopersicum',
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(color: neutral[40]),
+                  "Something went wrong",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: neutral[50]!,
+                      ),
                 ),
+                TextButton(
+                    onPressed: () {
+                      context
+                          .read<GetPlantDetailsProvider>()
+                          .getplantDetailsProvider(widget.plantId);
+                    },
+                    child: Text(
+                      "Try Again?",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: neutral[70]!,
+                          ),
+                    ))
               ],
             ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-
-          // -------------------------- deskripsi --------------------------
-          ValueListenableBuilder(
-              valueListenable: readMore,
-              builder: (context, bool readMoreValue, _) {
-                if (readMoreValue == false) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Wrap(
-                      direction: Axis.vertical,
-                      children: [
-                        SizedBox(
-                          width: screenWidth * 0.9,
-                          child: Text(
-                            parseHtmlString(_htmlData),
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.justify,
-                          ),
-                        ),
-                        InkWell(
-                          borderRadius: BorderRadius.circular(5),
-                          onTap: () {
-                            readMore.value = !readMore.value;
-                          },
-                          child: Text("Baca Selengkapnya",
-                              style: Theme.of(context).textTheme.labelLarge),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Html(
-                      data: _htmlData,
-                      style: {
-                        'p': Style(
-                          textAlign: TextAlign.justify,
-                        ),
-                        '#': Style(
-                          margin: Margins.symmetric(horizontal: 0),
-                          padding: const EdgeInsets.only(bottom: 10),
-                        )
-                      },
-                    ),
-                  );
-                }
-              }),
-
-          const SizedBox(
-            height: 10,
-          ),
-          // -------------------------- 4 grid button --------------------------
-          const InformasiTanamanCard(
-              caraMenanamType: CaraMenanamType.informasiCaraMenanam),
-
-          //---------------- button tambkan tanaman -----------------------
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                pushNewScreen(context,
-                    screen: const LokasiTanamanScreen(),
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                    withNavBar: true);
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const LokasiTanamanScreen(),
-                //     ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: primary,
-                minimumSize: const Size(double.infinity, 0),
-                // Mengatur minimumSize dengan double.infinity
-              ),
-              child: Text(
-                'Tambahkan Tanaman',
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: neutral[10],
-                    ),
-              ),
-            ),
-          ),
-
-          const SizedBox(
-            height: 25,
-          )
-        ],
-      ),
+          );
+        }
+      }),
     );
   }
 }

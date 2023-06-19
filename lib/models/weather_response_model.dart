@@ -12,12 +12,14 @@ String weatherResponseModelToJson(WeatherResponseModel data) =>
 
 class WeatherResponseModel {
   String? city;
+  String? country;
   String? label;
   int? labelId;
-  double? temperature;
+  String? temperature;
 
   WeatherResponseModel({
     this.city,
+    this.country,
     this.label,
     this.labelId,
     this.temperature,
@@ -26,13 +28,15 @@ class WeatherResponseModel {
   factory WeatherResponseModel.fromJson(Map<String, dynamic> json) =>
       WeatherResponseModel(
         city: json["city"],
+        country: json["country"],
         label: json["label"],
         labelId: json["label_id"],
-        temperature: json["temperature"]?.toDouble(),
+        temperature: json["temperature"],
       );
 
   Map<String, dynamic> toJson() => {
         "city": city,
+        "country": country,
         "label": label,
         "label_id": labelId,
         "temperature": temperature,

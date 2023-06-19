@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,24 @@ class MyPlantGridviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GetMyPlantsProvider>(
       builder: (context, provider, _) {
+        if (provider.state == MyState.loading) {
+          return GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 6 / 7,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+            ),
+            itemCount: 6,
+            itemBuilder: (BuildContext context, int index) {
+              return const CardMyPlantWidgetLoading();
+            },
+          );
+        }
+
         // kalau text field kosong dan data list my plants tidak kosong
         if ((provider.searchFieldController.text.toLowerCase().isEmpty ||
                 provider.searchQuery == "") &&
@@ -85,8 +104,9 @@ class MyPlantGridviewWidget extends StatelessWidget {
                                 indexSelected: index);
                           } else {
                             pushNewScreen(context,
-                                screen: const DetailTanamanScreen(),
-                                withNavBar: false,
+                                // ini dummy id cuma lempar 1
+                                screen: const DetailTanamanScreen(idTanaman: 1),
+                                withNavBar: true,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino);
 
@@ -170,8 +190,13 @@ class MyPlantGridviewWidget extends StatelessWidget {
                                 indexSelected: index);
                           } else {
                             pushNewScreen(context,
-                                screen: const DetailTanamanScreen(),
-                                withNavBar: true,
+                                // screen: DetailTanamanScreen(
+                                //     idTanaman: provider
+                                //         .showDataPlants[index].myplantId!),
+
+                                // ini dummy id cuma lempar 1
+                                screen: const DetailTanamanScreen(idTanaman: 1),
+                                withNavBar: false,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino);
 

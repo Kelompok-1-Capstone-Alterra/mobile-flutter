@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 class DetailTanamanScreen extends StatefulWidget {
   final int idTanaman;
-  const DetailTanamanScreen({super.key, this.idTanaman = 0});
+  const DetailTanamanScreen({super.key, required this.idTanaman});
 
   @override
   State<DetailTanamanScreen> createState() => _DetailTanamanScreenState();
@@ -23,9 +23,9 @@ class DetailTanamanScreen extends StatefulWidget {
 class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
   @override
   void initState() {
-    super.initState();
-
+    print(widget.idTanaman);
     context.read<TanamankuProvider>().getMyPlantName(widget.idTanaman);
+    super.initState();
   }
 
   @override
@@ -213,8 +213,8 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                           height: 22,
                         ),
                         provider.selectedIndex == 0
-                            ? const OverviewSection(idTanaman: 20)
-                            : const ProgressSection(idTanaman: 20),
+                            ? const OverviewSection(idTanaman: 43)
+                            : const ProgressSection(idTanaman: 43),
                       ],
                     ),
                   ),

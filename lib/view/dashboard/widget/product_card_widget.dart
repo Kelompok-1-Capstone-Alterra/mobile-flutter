@@ -34,6 +34,7 @@ class ProductCardWidget extends StatelessWidget {
           SizedBox(
             width: 150,
             child: Image.network(
+              height: 105,
               "${AppConstant.imgUrl}$image",
               // image,
               fit: BoxFit.cover,

@@ -2,13 +2,13 @@ class ArticleResponseModel {
   int? id;
   String? title;
   String? picture;
-  int? hours;
+  String? postAt;
 
   ArticleResponseModel({
     this.id,
     this.title,
     this.picture,
-    this.hours,
+    this.postAt,
   });
 
   factory ArticleResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -16,13 +16,13 @@ class ArticleResponseModel {
         id: json["id"],
         title: json["title"],
         picture: json["picture"],
-        hours: json["hours"],
+        postAt: json["post_at"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "picture": picture,
-        "hours": hours,
+        "post_at": postAt,
       };
 }

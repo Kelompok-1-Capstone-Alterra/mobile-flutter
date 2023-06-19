@@ -24,7 +24,7 @@ class ArtikelTerbaruWidget extends StatelessWidget {
         children: [
           const ArtikelCardWidget(
               title: "Perubahan cuaca ekstream, pastikan tanaman tetap sehat",
-              hours: 1,
+              time: "1",
               image:
                   "https://imtpi.or.id/wp-content/uploads/2016/09/post8.jpg"),
           Positioned.fill(
