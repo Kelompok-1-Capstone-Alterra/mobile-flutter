@@ -513,8 +513,15 @@ class ServicesRestApiImpl extends ServicesRestApi {
               navigatorKeys.currentContext!,
               listen: false)
           .getToken();
-      _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
-      final response = await _dioWithInterceptor.get('/auth/users/profiles');
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/profiles',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
       final profile = ProfileModel.fromJson(response.data['data']);
 
       return profile;
@@ -531,11 +538,17 @@ class ServicesRestApiImpl extends ServicesRestApi {
               listen: false)
           .getToken();
 
-      _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
-
       Map name = {'name': newName};
 
-      await _dioWithInterceptor.put('/auth/users/profiles/name', data: name);
+      await _dioWithInterceptor.put(
+        '/auth/users/profiles/name',
+        data: name,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -549,46 +562,40 @@ class ServicesRestApiImpl extends ServicesRestApi {
               listen: false)
           .getToken();
 
-      _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
-
       Map password = {'password': newPassword};
 
-      await _dioWithInterceptor.put('/auth/users/profiles/password',
-          data: password);
-    } on DioError catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  @override
-  Future<List<PlantStatsModel>> getPlantStats(status) async {
-    try {
-      final response = await _dioWithInterceptor.get(
-        '/auth/users/plants/stats',
-        queryParameters: {'status': status},
+      await _dioWithInterceptor.put(
+        '/auth/users/profiles/password',
+        data: password,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-
-      List<dynamic> data = response.data['data'];
-      List<PlantStatsModel> plantStats =
-          data.map((item) => PlantStatsModel.fromJson(item)).toList();
-
-      return plantStats;
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
   }
 
-  // with mockapi
   // @override
   // Future<List<PlantStatsModel>> getPlantStats(status) async {
-  //   final dio = Dio();
   //   try {
-  //     final response = await dio.get(
-  //       'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/plantstats',
+  //     String token = await Provider.of<SharedPreferencesProvider>(
+  //             navigatorKeys.currentContext!,
+  //             listen: false)
+  //         .getToken();
+  //     final response = await _dioWithInterceptor.get(
+  //       '/auth/users/plants/stats',
   //       queryParameters: {'status': status},
+  //       options: Options(
+  //         headers: {
+  //           'Authorization': token,
+  //         },
+  //       ),
   //     );
 
-  //     List<dynamic> data = response.data;
+  //     List<dynamic> data = response.data['data'];
   //     List<PlantStatsModel> plantStats =
   //         data.map((item) => PlantStatsModel.fromJson(item)).toList();
 
@@ -598,6 +605,26 @@ class ServicesRestApiImpl extends ServicesRestApi {
   //   }
   // }
 
+  // with mockapi
+  @override
+  Future<List<PlantStatsModel>> getPlantStats(status) async {
+    final dio = Dio();
+    try {
+      final response = await dio.get(
+        'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/plantstats',
+        queryParameters: {'status': status},
+      );
+
+      List<dynamic> data = response.data;
+      List<PlantStatsModel> plantStats =
+          data.map((item) => PlantStatsModel.fromJson(item)).toList();
+
+      return plantStats;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
     try {
@@ -606,15 +633,21 @@ class ServicesRestApiImpl extends ServicesRestApi {
               listen: false)
           .getToken();
 
-      _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
-
       Map data = {
         "phone": phone,
         "email": email,
         "message": message,
       };
 
-      await _dioWithInterceptor.post('/auth/users/helps', data: data);
+      await _dioWithInterceptor.post(
+        '/auth/users/helps',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -628,13 +661,19 @@ class ServicesRestApiImpl extends ServicesRestApi {
               listen: false)
           .getToken();
 
-      _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
-
       Map data = {
         "message": message,
       };
 
-      await _dioWithInterceptor.post('/auth/users/suggestions', data: data);
+      await _dioWithInterceptor.post(
+        '/auth/users/suggestions',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -669,12 +708,18 @@ class ServicesRestApiImpl extends ServicesRestApi {
               navigatorKeys.currentContext!,
               listen: false)
           .getToken();
-      _dioWithInterceptor.options.headers['Authorization'] = 'Bearer $token';
 
       Map data = {'picture': pic};
 
-      await _dioWithInterceptor.put('/auth/users/profiles/pictures',
-          data: data);
+      await _dioWithInterceptor.put(
+        '/auth/users/profiles/pictures',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
