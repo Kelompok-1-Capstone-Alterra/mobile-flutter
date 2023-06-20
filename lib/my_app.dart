@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_fertilizing_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_plant_details.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_plant_location_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_planting_article_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_temperature_article_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_watering_article_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_weather_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
-import 'package:mobile_flutter/utils/routes.dart';
-import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
+import 'package:mobile_flutter/view_model/service_provider/post_add_myplant_provider.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/get_profile_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
@@ -146,10 +153,31 @@ class MyApp extends StatelessWidget {
           create: (context) => GetTrendingArticleProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => GetPlantingArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetAvailablePlantsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetPlantDetailsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PostAddMyPlantProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetPlantLocationProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => GetAllProductsProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => ProgresProvider(),
+          create: (context) => GetWateringArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetTemperatureArticleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetFertilizingArticleProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => AddFertilizingProvider(),
@@ -157,6 +185,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AddWateringProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ProgresProvider(),
+        ),
+        ChangeNotifierProvider(
+            create: (context) => GetWeatherArticleProvider()),
         ChangeNotifierProvider(create: (context) => ProductProvider()),
         ChangeNotifierProvider(create: (context) => TokoProvider()),
         ChangeNotifierProvider(create: (context) => CurrentProductProvider()),
@@ -168,10 +201,10 @@ class MyApp extends StatelessWidget {
         theme: agriplantLight,
         home: const SplashScreen(),
         navigatorKey: navigatorKeys,
-        routes: {
-          Routes.detailTanamankuPage: (BuildContext context) =>
-              const DetailTanamanScreen(),
-        },
+        // routes: {
+        //   // Routes.detailTanamankuPage: (BuildContext context) =>
+        //   //     const DetailTanamanScreen(),
+        // },
       ),
     );
   }

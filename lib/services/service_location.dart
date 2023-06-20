@@ -68,7 +68,7 @@ class ServiceLocations {
     if (hasPermission) {
       try {
         final position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
+            desiredAccuracy: LocationAccuracy.bestForNavigation);
         return position;
       } catch (e) {
         debugPrint(e.toString());

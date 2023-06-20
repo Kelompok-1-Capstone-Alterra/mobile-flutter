@@ -23,10 +23,10 @@ class ArtikelLihatSemuaWidget extends StatelessWidget {
       itemBuilder: (context, index) => Stack(
         children: [
           const ArtikelCardWidget(
-              title: "Perubahan cuaca ekstream, pastikan tanaman tetap sehat",
-              hours: 1,
-              image:
-                  "https://imtpi.or.id/wp-content/uploads/2016/09/post8.jpg"),
+            title: "Perubahan cuaca ekstream, pastikan tanaman tetap sehat",
+            image: "https://imtpi.or.id/wp-content/uploads/2016/09/post8.jpg",
+            time: '2023-06-19 00:00:01 +0000 UTC',
+          ),
           Positioned.fill(
             child: Material(
               color: Colors.transparent,

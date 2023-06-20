@@ -20,14 +20,22 @@ enum InformasiType {
 
 enum CaraMenanamType { informasiCaraMenanam, spesifikCaraMenanam }
 
-class InformasiTanamanCard extends StatelessWidget {
+class InformasiTanamanCard extends StatefulWidget {
   final CaraMenanamType caraMenanamType;
-
+  final int plantId;
+  final String location;
   const InformasiTanamanCard({
     super.key,
     required this.caraMenanamType,
+    this.plantId = 0,
+    this.location = "",
   });
 
+  @override
+  State<InformasiTanamanCard> createState() => _InformasiTanamanCardState();
+}
+
+class _InformasiTanamanCardState extends State<InformasiTanamanCard> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -43,7 +51,7 @@ class InformasiTanamanCard extends StatelessWidget {
                 context,
                 FluentIcons.tree_deciduous_20_regular,
                 'Cara Menanam',
-                caraMenanamType == CaraMenanamType.informasiCaraMenanam
+                widget.caraMenanamType == CaraMenanamType.informasiCaraMenanam
                     ? InformasiType.caraMenanam
                     : InformasiType.spesifikCaraMenanam,
               ),
@@ -95,7 +103,10 @@ class InformasiTanamanCard extends StatelessWidget {
                 {
                   pushNewScreen(
                     context,
-                    screen: const LokasiTanamanScreen(),
+                    screen: LokasiTanamanScreen(
+                      type: ScreenType.informasiLokasi,
+                      plantid: widget.plantId,
+                    ),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -105,7 +116,8 @@ class InformasiTanamanCard extends StatelessWidget {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiCaraMenanamScreen(),
+                    screen: InformasiCaraMenanamScreen(
+                        plantId: widget.plantId, location: widget.location),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -115,7 +127,7 @@ class InformasiTanamanCard extends StatelessWidget {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiPemupukanScreen(),
+                    screen: InformasiPemupukanScreen(plantId: widget.plantId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -125,7 +137,7 @@ class InformasiTanamanCard extends StatelessWidget {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiPenyiramanScreen(),
+                    screen: InformasiPenyiramanScreen(plantId: widget.plantId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -135,7 +147,7 @@ class InformasiTanamanCard extends StatelessWidget {
                 {
                   pushNewScreen(
                     context,
-                    screen: const InformasiTempIdealScreen(),
+                    screen: InformasiTempIdealScreen(plantId: widget.plantId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
