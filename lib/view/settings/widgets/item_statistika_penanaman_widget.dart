@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/models/plant_stats_model.dart';
+import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/settings/screens/detail_item_statistika_penanaman.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -6,11 +8,11 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 class ItemStatistikaPenanamanWidget extends StatelessWidget {
   const ItemStatistikaPenanamanWidget({
     super.key,
-    required this.label,
-    required this.kondisiTanaman,
+    required this.index,
+    required this.plantStatsModel,
   });
-  final String kondisiTanaman;
-  final Widget label;
+  final int index;
+  final PlantStatsModel plantStatsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,11 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
       onTap: () {
         pushNewScreen(
           context,
-          screen: const DetailItemStatistikPenanaman(),
+          screen: DetailItemStatistikPenanaman(
+            index: index,
+            myplantId: plantStatsModel.myplantId!,
+            plantStatsModel: plantStatsModel,
+          ),
           withNavBar: false,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
@@ -36,15 +42,56 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Image.asset('assets/images/penanaman_item.png'),
-                label,
-                // const LabelPanenWidget(),
+                Image.network(
+                  // ' ${AppConstant.imgUrl}${plantStatsModel.picture}',
+                  '${AppConstant.imgUrl}${plantStatsModel.pictures![0].url!}',
+                  width: double.infinity,
+                  height: 120,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: neutral[20],
+                    width: double.infinity,
+                    height: 120,
+                    child: const Icon(Icons.image_not_supported_outlined),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      right: 12,
+                    ),
+                    width: 56,
+                    height: 22,
+                    decoration: BoxDecoration(
+                      color: plantStatsModel.status == 'harvest'
+                          ? primary[200]
+                          : error[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        plantStatsModel.status == 'harvest' ? 'Panen' : 'Mati',
+                        style: ThemeData().textTheme.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: neutral[90],
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 5),
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 12,
+                right: 10,
+              ),
               child: Text(
-                'Cabai Rawit',
+                plantStatsModel.name!,
                 style: ThemeData().textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
@@ -55,10 +102,11 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 5,
+                left: 12,
+                right: 10,
               ),
               child: Text(
-                'Solanum lycopersicum',
+                plantStatsModel.latin!,
                 style: ThemeData().textTheme.labelSmall!.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 11,

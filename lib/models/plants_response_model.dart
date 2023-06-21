@@ -10,6 +10,7 @@ String myPlantsResponseModelToJson(MyPlantsResponseModel data) =>
 // ignore: must_be_immutable
 class MyPlantsResponseModel extends Equatable {
   final String? latin;
+  final String? location;
   final int? myplantId;
   final String? name;
   final String? picture;
@@ -18,6 +19,7 @@ class MyPlantsResponseModel extends Equatable {
 
   MyPlantsResponseModel({
     this.latin,
+    this.location,
     this.myplantId,
     this.name,
     this.picture,
@@ -27,6 +29,7 @@ class MyPlantsResponseModel extends Equatable {
   factory MyPlantsResponseModel.fromJson(Map<String, dynamic> json) =>
       MyPlantsResponseModel(
         latin: json["latin"],
+        location: json["location"],
         myplantId: json["myplant_id"],
         name: json["name"],
         picture: json["picture"],
@@ -35,6 +38,7 @@ class MyPlantsResponseModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "latin": latin,
+        "location": location,
         "myplant_id": myplantId,
         "name": name,
         "picture": picture,

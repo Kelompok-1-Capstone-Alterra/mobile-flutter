@@ -1,7 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-// import 'package:flutter_html/flutter_html.dart';
 import 'package:mobile_flutter/utils/converter/remove_html_tags.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/informasi/lokasi_tanaman_screen.dart';
@@ -242,48 +241,88 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
                 ),
               ),
               const SizedBox(
-                height: 15,
+                height: 10,
               ),
 
               // -------------------------- deskripsi --------------------------
-              ValueListenableBuilder(
-                  valueListenable: readMore,
-                  builder: (context, bool readMoreValue, _) {
-                    if (readMoreValue == false) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                        ),
-                        child: Wrap(
-                          direction: Axis.vertical,
-                          children: [
-                            SizedBox(
-                              width: screenWidth * 0.9,
-                              child: Text(
-                                parseHtmlString(
-                                  provider.plantDetails!.description ?? "-",
-                                ),
-                                maxLines: 5,
-                                overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: ValueListenableBuilder(
+                    valueListenable: readMore,
+                    builder: (context, bool readMoreValue, _) {
+                      if (readMoreValue == false) {
+                        if (parseHtmlString(
+                              provider.plantDetails!.description ?? "-",
+                            ).length <
+                            200) {
+                          return Html(
+                            data: provider.plantDetails!.description ?? "-",
+                            style: {
+                              'p': Style(
                                 textAlign: TextAlign.justify,
                               ),
-                            ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(5),
-                              onTap: () {
-                                readMore.value = !readMore.value;
-                              },
-                              child: Text("Baca Selengkapnya",
-                                  style:
-                                      Theme.of(context).textTheme.labelLarge),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Html(
+                              '#': Style(
+                                margin: Margins.symmetric(horizontal: 0),
+                                padding: const EdgeInsets.only(bottom: 5),
+                              ),
+                              'br': Style(
+                                fontSize: FontSize(0),
+                                margin: Margins.symmetric(
+                                  horizontal: 0,
+                                  vertical: 0,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                              ),
+                              'ol': Style(
+                                  margin: Margins.symmetric(
+                                      horizontal: 0, vertical: 0),
+                                  padding: const EdgeInsets.only(
+                                      left: 18, top: 0, right: 0, bottom: 0)
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                              'ul': Style(
+                                  margin: Margins.symmetric(horizontal: 0),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 18)
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                              'li': Style(textAlign: TextAlign.justify
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                            },
+                          );
+                        } else {
+                          return Wrap(
+                            direction: Axis.vertical,
+                            children: [
+                              SizedBox(
+                                width: screenWidth * 0.9,
+                                child: Text(
+                                  parseHtmlString(
+                                      provider.plantDetails!.description ??
+                                          "-"),
+                                  maxLines: 5,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.justify,
+                                ),
+                              ),
+                              InkWell(
+                                borderRadius: BorderRadius.circular(5),
+                                onTap: () {
+                                  readMore.value = !readMore.value;
+                                },
+                                child: Text("Baca Selengkapnya",
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge),
+                              ),
+                            ],
+                          );
+                        }
+                      } else {
+                        return Html(
                           data: provider.plantDetails!.description ?? "-",
                           style: {
                             'p': Style(
@@ -291,7 +330,7 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
                             ),
                             '#': Style(
                               margin: Margins.symmetric(horizontal: 0),
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.only(bottom: 5),
                             ),
                             'br': Style(
                               fontSize: FontSize(0),
@@ -319,14 +358,11 @@ class _InformasiTanamanScreenState extends State<InformasiTanamanScreen> {
                                 // padding: EdgeInsets.all(0),
                                 ),
                           },
-                        ),
-                      );
-                    }
-                  }),
-
-              const SizedBox(
-                height: 10,
+                        );
+                      }
+                    }),
               ),
+
               // -------------------------- 4 grid button --------------------------
               InformasiTanamanCard(
                   caraMenanamType: CaraMenanamType.informasiCaraMenanam,
