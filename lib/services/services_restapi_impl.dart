@@ -24,7 +24,6 @@ import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/dio/global_dio.dart';
 import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/api_response.dart';
-import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
 import 'package:provider/provider.dart';
@@ -137,7 +136,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
               listen: false)
           .getToken();
 
-      print(token);
+      // print(token);
       final response = await _dioWithInterceptor.get(
         '/auth/users/plants',
         options: Options(

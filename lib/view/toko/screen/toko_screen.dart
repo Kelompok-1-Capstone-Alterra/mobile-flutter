@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/toko/toko_model.dart';
+import 'package:mobile_flutter/utils/converter/convert_seen_counter.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/toko_data.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -394,7 +395,10 @@ class _TokoScreenState extends State<TokoScreen> {
                                                                   .width *
                                                               0.38,
                                                           child: AutoSizeText(
-                                                            "${current.productSeen}RB dilihat",
+                                                            seenCounter(current
+                                                                .productSeen!),
+                                                            // seenCounter(2345),
+                                                            // "${current.productSeen}RB dilihat",
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
