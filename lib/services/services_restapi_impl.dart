@@ -129,26 +129,35 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<List<MyPlantsResponseModel>> getMyPlants() async {
+    List<MyPlantsResponseModel> plantsData = [];
     try {
-      List<MyPlantsResponseModel> plantsData = [];
-      //
-      // final response = await _dio.get(
-      //   '/users/plants',
-      // );
-      // final model = PlantsResponseModel.fromJson(response.data);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
-        //
+      print(token);
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants',
+        options: Options(
+          headers: {
+            'Authorization':
+                // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianVuYW4yIiwicm9sZSI6InVzZXIiLCJ1c2VyX2lkIjoyNH0.tELVGGgB57W0wlCslWtREJ0h9YMolpLCIivGz5EAtiU",
+                token,
+          },
+        ),
       );
 
-      for (var json in myPlantSResponse) {
-        plantsData.add(MyPlantsResponseModel.fromJson(json));
+      print(response.data['data']);
+      if (response.data['data'] != [] || response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          plantsData.add(MyPlantsResponseModel.fromJson(json));
+        }
       }
 
       return plantsData;
     } on DioError catch (e) {
+      print(e.toString());
       throw Exception(e.toString());
     }
   }
@@ -420,17 +429,23 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future deleteMyPlants(List<int> myPlantIds) async {
     try {
-      // final response = await _dio.delete(
-      //   '/users/plants',
-      //   data: {"myplant_id": myPlantIds},
-      // );
-      // return response.statusCode;
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      //progress dummy wait 2 second
-      await Future.delayed(
-        const Duration(seconds: 2),
+      final response = await _dioWithInterceptor.delete(
+        '/auth/users/plants',
+        data: {"myplants_id": myPlantIds},
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
-      return 200;
+      if (response.statusCode == 200) {
+        return 200;
+      }
     } on DioError catch (e) {
       throw Exception(e.toString());
     }

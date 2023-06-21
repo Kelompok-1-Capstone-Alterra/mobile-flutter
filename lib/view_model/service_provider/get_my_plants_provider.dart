@@ -76,22 +76,27 @@ class GetMyPlantsProvider extends ChangeNotifier {
     // print(isDeleteMode);
   }
 
-  deleteAllSelected(List<int> myplantId) async {
-    try {
-      final response = await service.deleteMyPlants(myplantId);
-      if (response == 200) {
-        // buat snackbar berhasil hapus
-        // get data lagi biar liat pembaharuan
-        getMyPlantsData();
-      }
-    } catch (e) {
-      // buat snackbar gagal
-    }
-
+  deleteAllSelected() async {
+    List<int> myplantId = [];
     for (var value in dataSelected) {
-      myPlants.remove(value);
+      myplantId.add(value.myplantId!);
       // print("delete ${myPlants[indexSelected].plantName}");
     }
+    if (myplantId.isNotEmpty) {
+      try {
+        final response = await service.deleteMyPlants(myplantId);
+        if (response == 200) {
+          print("berhasil hapus ler");
+          // buat snackbar berhasil hapus
+          // get data lagi biar liat pembaharuan
+          getMyPlantsData();
+        }
+      } catch (e) {
+        print("gagal cok");
+        // buat snackbar gagal
+      }
+    }
+
     selectedIndexCard.clear();
     dataSelected.clear();
     isDeleteMode = false;

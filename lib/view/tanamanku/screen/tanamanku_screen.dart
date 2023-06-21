@@ -202,7 +202,10 @@ class TanamankuScreen extends StatelessWidget {
                         },
                         textInputAction: TextInputAction.search,
                         maxLength: 30,
+
                         decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 18),
                           suffixIcon: IconButton(
                             splashRadius: 5,
                             splashColor: Colors.black.withOpacity(0.01),
@@ -212,16 +215,24 @@ class TanamankuScreen extends StatelessWidget {
                                   .read<GetMyPlantsProvider>()
                                   .clearSearchField();
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.close,
-                              color: Colors.black,
+                              color: neutral[70],
                               size: 20,
                             ),
                           ),
                           hintText: 'Cari Tanaman',
-                          prefixIcon: const Icon(
-                            FluentIcons.search_16_regular,
+                          prefixIcon: const Padding(
+                            padding: EdgeInsets.only(left: 15, right: 10),
+                            child: Icon(
+                              FluentIcons.search_16_regular,
+                              size: 30,
+                            ),
                           ),
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: neutral[40]),
                           focusColor:
                               Theme.of(context).inputDecorationTheme.focusColor,
                           focusedBorder: Theme.of(context)
@@ -286,6 +297,7 @@ class TanamankuScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
+              context.read<GetMyPlantsProvider>().deleteAllSelected();
               Navigator.pop(context);
             },
             style: ButtonStyle(

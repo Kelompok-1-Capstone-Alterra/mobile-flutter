@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_plant_details.dart';
 import 'package:mobile_flutter/view_model/service_provider/post_add_myplant_provider.dart';
 import 'package:provider/provider.dart';
@@ -76,8 +77,8 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -127,7 +128,9 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                   }
                 },
               ),
-              const Spacer(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+              ),
               keyboardIsOpened
                   ? Consumer<PostAddMyPlantProvider>(
                       builder: (context, provider, _) {
@@ -141,6 +144,11 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                                 location: widget.location,
                                 namedPlant: _addNameControler.text,
                               );
+                              if (context.mounted) {
+                                context
+                                    .read<GetMyPlantsProvider>()
+                                    .getMyPlantsData();
+                              }
                             } catch (e) {
                               throw Exception(e);
                             }
@@ -159,9 +167,12 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                               0), // Mengatur minimumSize dengan double.infinity
                         ),
                         child: provider.state == MyState.loading
-                            ? Center(
+                            ? Container(
+                                width: 20,
+                                height: 20,
+                                alignment: Alignment.center,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 3,
+                                  strokeWidth: 2,
                                   color: neutral[10],
                                 ),
                               )
@@ -190,6 +201,11 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                                 location: widget.location,
                                 namedPlant: providerDetail.plantDetails!.name!,
                               );
+                              if (context.mounted) {
+                                context
+                                    .read<GetMyPlantsProvider>()
+                                    .getMyPlantsData();
+                              }
                             } catch (e) {
                               throw Exception(e);
                             }

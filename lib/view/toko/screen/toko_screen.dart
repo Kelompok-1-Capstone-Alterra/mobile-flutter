@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/toko/toko_model.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/toko_data.dart';
@@ -60,10 +61,8 @@ class _TokoScreenState extends State<TokoScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 10,
-                ),
+                padding: const EdgeInsets.only(
+                    right: 20, left: 20, top: 20, bottom: 15),
                 child: ElevatedButton(
                   onPressed: () {
                     pushNewScreen(
@@ -73,29 +72,36 @@ class _TokoScreenState extends State<TokoScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
+                    shadowColor: Colors.transparent,
+                    elevation: 0,
                     backgroundColor: neutral[10],
                     surfaceTintColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: neutral[70]!),
+                      side: BorderSide(color: neutral[40]!),
                     ),
-                    padding:
-                        const EdgeInsets.all(16), // Ubah ukuran padding tombol
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14), // Ubah ukuran padding tombol
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Row(
-                      children: [
-                        Icon(Icons.search, color: neutral[70]),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            "Cari Kebutuhan disini...",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        FluentIcons.search_16_regular,
+                        color: neutral[70],
+                        size: 30,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Cari Kebutuhan disini...",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: neutral[40]),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -155,26 +161,28 @@ class _TokoScreenState extends State<TokoScreen> {
               ),
 
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding: const EdgeInsets.only(
+                    right: 20, left: 20, top: 20, bottom: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     for (final item in category)
                       GestureDetector(
                         onTap: () async {
                           List<Produk> fetchedProducts =
                               await fetchProductsByCategory(context, item.name);
-                          pushNewScreen(
-                            context,
-                            screen: ListProduk(
-                              category: item.name,
-                              productList: fetchedProducts,
-                            ),
-                            withNavBar: false,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
+                          if (context.mounted) {
+                            pushNewScreen(
+                              context,
+                              screen: ListProduk(
+                                category: item.name,
+                                productList: fetchedProducts,
+                              ),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino,
+                            );
+                          }
                         },
                         child: Column(
                           children: [
@@ -200,11 +208,14 @@ class _TokoScreenState extends State<TokoScreen> {
                               ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             Text(
                               item.name,
-                              style: Theme.of(context).textTheme.labelLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontSize: 14, color: neutral[90]),
                             ),
                           ],
                         ),
@@ -222,7 +233,9 @@ class _TokoScreenState extends State<TokoScreen> {
                   children: [
                     Text(
                       "Spesial Untukmu",
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: 19,
+                          ),
                     ),
                   ],
                 ),
