@@ -895,44 +895,24 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
-  // @override
-  // Future<List<PlantStatsModel>> getPlantStats(status) async {
-  //   try {
-  //     String token = await Provider.of<SharedPreferencesProvider>(
-  //             navigatorKeys.currentContext!,
-  //             listen: false)
-  //         .getToken();
-  //     final response = await _dioWithInterceptor.get(
-  //       '/auth/users/plants/stats',
-  //       queryParameters: {'status': status},
-  //       options: Options(
-  //         headers: {
-  //           'Authorization': token,
-  //         },
-  //       ),
-  //     );
-
-  //     List<dynamic> data = response.data['data'];
-  //     List<PlantStatsModel> plantStats =
-  //         data.map((item) => PlantStatsModel.fromJson(item)).toList();
-
-  //     return plantStats;
-  //   } on DioError catch (e) {
-  //     throw Exception(e.toString());
-  //   }
-  // }
-
-  // with mockapi
   @override
   Future<List<PlantStatsModel>> getPlantStats(status) async {
-    final dio = Dio();
     try {
-      final response = await dio.get(
-        'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/plantstats',
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/stats',
         queryParameters: {'status': status},
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
 
-      List<dynamic> data = response.data;
+      List<dynamic> data = response.data['data'];
       List<PlantStatsModel> plantStats =
           data.map((item) => PlantStatsModel.fromJson(item)).toList();
 
@@ -941,6 +921,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
       throw Exception(e.toString());
     }
   }
+
+  
 
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {

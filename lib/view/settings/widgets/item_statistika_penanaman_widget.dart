@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
+import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/settings/screens/detail_item_statistika_penanaman.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -21,7 +22,7 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
           context,
           screen: DetailItemStatistikPenanaman(
             index: index,
-            myplantId: 18,
+            myplantId: plantStatsModel.myplantId!,
             plantStatsModel: plantStatsModel,
           ),
           withNavBar: false,
@@ -42,17 +43,24 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
             Stack(
               children: [
                 Image.network(
-                  plantStatsModel.picture!,
+                  // ' ${AppConstant.imgUrl}${plantStatsModel.picture}',
+                  '${AppConstant.imgUrl}${plantStatsModel.pictures![0].url!}',
                   width: 200,
                   height: 120,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: neutral[20],
+                    width: 151,
+                    height: 120,
+                    child: const Icon(Icons.image_not_supported_outlined),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.topRight,
                   child: Container(
                     margin: const EdgeInsets.only(
                       top: 10,
-                      right: 19,
+                      right: 12,
                     ),
                     width: 56,
                     height: 22,
@@ -77,7 +85,11 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 5),
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 12,
+                right: 10,
+              ),
               child: Text(
                 plantStatsModel.name!,
                 style: ThemeData().textTheme.titleSmall!.copyWith(
@@ -90,7 +102,8 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 5,
+                left: 12,
+                right: 10,
               ),
               child: Text(
                 plantStatsModel.latin!,

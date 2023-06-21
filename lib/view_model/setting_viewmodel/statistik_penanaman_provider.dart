@@ -5,7 +5,7 @@ import 'package:mobile_flutter/utils/state/finite_state.dart';
 
 class StatistikaPenanamanProvider with ChangeNotifier {
   final serviceRestApiImpl = ServicesRestApiImpl();
-  String selectedFilter = '';
+  String selectedFilter = 'all';
 
   List<PlantStatsModel> allItems = [];
   List<PlantStatsModel> get harvestItems =>

@@ -9,14 +9,14 @@ String plantStatsModelToJson(List<PlantStatsModel> data) =>
 
 class PlantStatsModel {
   int? myplantId;
-  String? picture;
+  List<Picture>? pictures;
   String? name;
   String? latin;
   String? status;
 
   PlantStatsModel({
     this.myplantId,
-    this.picture,
+    this.pictures,
     this.name,
     this.latin,
     this.status,
@@ -24,14 +24,14 @@ class PlantStatsModel {
 
   PlantStatsModel copyWith({
     int? myplantId,
-    String? picture,
+    List<Picture>? pictures,
     String? name,
     String? latin,
     String? status,
   }) =>
       PlantStatsModel(
         myplantId: myplantId ?? this.myplantId,
-        picture: picture ?? this.picture,
+        pictures: pictures ?? this.pictures,
         name: name ?? this.name,
         latin: latin ?? this.latin,
         status: status ?? this.status,
@@ -40,7 +40,10 @@ class PlantStatsModel {
   factory PlantStatsModel.fromJson(Map<String, dynamic> json) =>
       PlantStatsModel(
         myplantId: json["myplant_id"],
-        picture: json["picture"],
+        pictures: json["pictures"] == null
+            ? []
+            : List<Picture>.from(
+                json["pictures"]!.map((x) => Picture.fromJson(x))),
         name: json["name"],
         latin: json["latin"],
         status: json["status"],
@@ -48,9 +51,34 @@ class PlantStatsModel {
 
   Map<String, dynamic> toJson() => {
         "myplant_id": myplantId,
-        "picture": picture,
+        "pictures": pictures == null
+            ? []
+            : List<dynamic>.from(pictures!.map((x) => x.toJson())),
         "name": name,
         "latin": latin,
         "status": status,
+      };
+}
+
+class Picture {
+  String? url;
+
+  Picture({
+    this.url,
+  });
+
+  Picture copyWith({
+    String? url,
+  }) =>
+      Picture(
+        url: url ?? this.url,
+      );
+
+  factory Picture.fromJson(Map<String, dynamic> json) => Picture(
+        url: json["url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "url": url,
       };
 }

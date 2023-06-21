@@ -18,7 +18,7 @@ class DetailItemStatistikPenanaman extends StatefulWidget {
     super.key,
     required this.index,
     required this.plantStatsModel,
-    this.myplantId = 0,
+    required this.myplantId,
   });
   final int index;
   final int myplantId;
@@ -197,7 +197,12 @@ class _DetailItemStatistikPenanamanState
                                                         )
                                                       : progress.status ==
                                                               'harvest'
-                                                          ? const DetailPanenScreen()
+                                                          ? DetailPanenScreen(
+                                                              idTanaman: widget
+                                                                  .myplantId,
+                                                              idProgress: progress
+                                                                  .weeklyProgressId!,
+                                                            )
                                                           : progress.status ==
                                                                   'dead'
                                                               ? DetailMatiScreen(

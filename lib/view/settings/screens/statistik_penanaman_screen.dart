@@ -54,7 +54,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                 padding: const EdgeInsets.only(right: 5),
                 items: const [
                   DropdownMenuItem(
-                    value: '',
+                    value: 'all',
                     child: Text('Semua'),
                   ),
                   DropdownMenuItem(
@@ -102,7 +102,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                 child: CircularProgressIndicator(),
               );
             } else if (state == MyState.loaded) {
-              if (statistikaPenanaman.selectedFilter == '') {
+              if (statistikaPenanaman.selectedFilter == 'all') {
                 if (statistikaPenanaman.allItems.isEmpty) {
                   return const StatistikPenanamanEmptyWidget(
                     kondisiTanaman: 'tanaman',
@@ -116,9 +116,9 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      childAspectRatio: 6 / 7,
-                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 6 / 8,
+                      mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.allItems.length,
                     itemBuilder: (context, index) {
@@ -144,9 +144,9 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      childAspectRatio: 6 / 7,
-                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 6 / 8,
+                      mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.harvestItems.length,
                     itemBuilder: (context, index) {
@@ -160,7 +160,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                   );
                 }
               } else if (statistikaPenanaman.selectedFilter == 'dead') {
-                if (statistikaPenanaman.harvestItems.isEmpty) {
+                if (statistikaPenanaman.deadItems.isEmpty) {
                   return const StatistikPenanamanEmptyWidget(
                     kondisiTanaman: 'tanaman mati',
                   );
@@ -173,9 +173,9 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      childAspectRatio: 6 / 7,
-                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 6 / 8,
+                      mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.deadItems.length,
                     itemBuilder: (context, index) {
