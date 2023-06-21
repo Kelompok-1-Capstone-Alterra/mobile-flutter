@@ -1,10 +1,12 @@
-class ArticleResponseModel {
-  int? id;
-  String? title;
-  String? picture;
-  String? postAt;
+import 'package:equatable/equatable.dart';
 
-  ArticleResponseModel({
+class ArticleResponseModel extends Equatable {
+  final int? id;
+  final String? title;
+  final String? picture;
+  final String? postAt;
+
+  const ArticleResponseModel({
     this.id,
     this.title,
     this.picture,
@@ -25,4 +27,7 @@ class ArticleResponseModel {
         "picture": picture,
         "post_at": postAt,
       };
+
+  @override
+  List<Object?> get props => [id, title];
 }

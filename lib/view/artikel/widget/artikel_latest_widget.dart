@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/utils/state/finite_state.dart';
+import 'package:mobile_flutter/utils/widget/artikel_card/artikel_card_widget.dart';
 import 'package:mobile_flutter/view/artikel/screen/detail_artikel.dart';
-import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_lastest_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/widget/artikel_card/artikel_card_widget.dart';
+import '../../../utils/state/finite_state.dart';
 
-class ArtikelWidget extends StatelessWidget {
-  const ArtikelWidget({
+class ArtikelLatestWidget extends StatelessWidget {
+  const ArtikelLatestWidget({
     super.key,
     required double horizontal,
   }) : _horizontal = horizontal;
@@ -17,8 +17,7 @@ class ArtikelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GetTrendingArticleProvider>(
-        builder: (context, provider, _) {
+    return Consumer<GetArticleLatestProvider>(builder: (context, provider, _) {
       if (provider.state == MyState.loading) {
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
@@ -26,7 +25,7 @@ class ArtikelWidget extends StatelessWidget {
             horizontal: _horizontal,
           ),
           shrinkWrap: true,
-          itemCount: 3,
+          itemCount: 5,
           itemBuilder: (context, index) => const ArtikelCardWidgetLoading(),
           separatorBuilder: (context, index) => const SizedBox(
             height: 10,
@@ -34,7 +33,7 @@ class ArtikelWidget extends StatelessWidget {
         );
       } else if (provider.state == MyState.loaded) {
         // cek ada data artikel apa kaga
-        if (provider.artikelTrending.isNotEmpty) {
+        if (provider.artikelLatest.isNotEmpty) {
           return ListView.separated(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(
@@ -42,15 +41,15 @@ class ArtikelWidget extends StatelessWidget {
             ),
             shrinkWrap: true,
             // cek kalau lebih dari >= 3 artikel tampilkan 3 saja kalau kurang seadanya aja
-            itemCount: provider.artikelTrending.length >= 3
-                ? 3
-                : provider.artikelTrending.length,
+            itemCount: provider.artikelLatest.length >= 5
+                ? 5
+                : provider.artikelLatest.length,
             itemBuilder: (context, index) => Stack(
               children: [
                 ArtikelCardWidget(
-                    title: provider.artikelTrending[index].title!,
-                    time: provider.artikelTrending[index].postAt!,
-                    image: provider.artikelTrending[index].picture!),
+                    title: provider.artikelLatest[index].title!,
+                    time: provider.artikelLatest[index].postAt!,
+                    image: provider.artikelLatest[index].picture!),
                 Positioned.fill(
                   child: Material(
                     color: Colors.transparent,
@@ -60,7 +59,7 @@ class ArtikelWidget extends StatelessWidget {
                         pushNewScreen(
                           context,
                           screen: DetailArtikelScreen(
-                            artikelId: provider.artikelTrending[index].id!,
+                            artikelId: provider.artikelLatest[index].id!,
                           ),
                           withNavBar: false,
                         );
