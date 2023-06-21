@@ -1,43 +1,49 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
-List<MyPlantsResponseModel> myPlantResponseModelFromJson(String str) =>
-    List<MyPlantsResponseModel>.from(
-        json.decode(str).map((x) => MyPlantsResponseModel.fromJson(x)));
+MyPlantsResponseModel myPlantsResponseModelFromJson(String str) =>
+    MyPlantsResponseModel.fromJson(json.decode(str));
 
-String myPlantResponseModelToJson(List<MyPlantsResponseModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String myPlantsResponseModelToJson(MyPlantsResponseModel data) =>
+    json.encode(data.toJson());
 
 // ignore: must_be_immutable
 class MyPlantsResponseModel extends Equatable {
+  final String? latin;
+  final String? location;
   final int? myplantId;
   final String? name;
   final String? picture;
-  final String? latin;
+  final int? plantId;
   bool isSelected = false;
 
   MyPlantsResponseModel({
+    this.latin,
+    this.location,
     this.myplantId,
     this.name,
     this.picture,
-    this.latin,
+    this.plantId,
   });
 
   factory MyPlantsResponseModel.fromJson(Map<String, dynamic> json) =>
       MyPlantsResponseModel(
+        latin: json["latin"],
+        location: json["location"],
         myplantId: json["myplant_id"],
         name: json["name"],
         picture: json["picture"],
-        latin: json["latin"],
+        plantId: json["plant_id"],
       );
 
   Map<String, dynamic> toJson() => {
+        "latin": latin,
+        "location": location,
         "myplant_id": myplantId,
         "name": name,
         "picture": picture,
-        "latin": latin,
+        "plant_id": plantId,
       };
-
   @override
   List<Object?> get props => [myplantId, name];
 }
