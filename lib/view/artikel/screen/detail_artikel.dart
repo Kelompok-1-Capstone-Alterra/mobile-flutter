@@ -1,40 +1,73 @@
+import 'dart:async';
+
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:mobile_flutter/utils/themes/custom_color.dart';
-import 'package:mobile_flutter/view_model/artikel_viewmodel/artikel_provider.dart';
+import 'package:like_button/like_button.dart';
+import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/artikel_detail_provider.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_liked_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../../utils/app_constant.dart';
+import '../../../utils/state/finite_state.dart';
+import '../../../utils/themes/custom_color.dart';
 
 class DetailArtikelScreen extends StatefulWidget {
-  const DetailArtikelScreen({super.key});
+  const DetailArtikelScreen({super.key, required this.artikelId});
+
+  final int artikelId;
 
   @override
   State<DetailArtikelScreen> createState() => _DetailArtikelScreenState();
 }
 
-const _htmlData = r"""
-<p>Tomat dikategorikan sebagai sayuran, meskipun memiliki struktur buah. Tanaman yang memiliki nama latin Lycopersium esculentum L, dapat tumbuh baik di dataran rendah maupun tinggi mulai dari 0-1.500 m dpl, tergantung dari varietasnya. Untuk dapat tumbuh dengan baik, memerlukan media tanah yang subur dan gembur, keasaman ph 5,5-7. Tanaman tomat bisa tumbuh dengan baik di media seperti lahan terbuka, hidroponik, taman vertikultur dan media pot/polybag. Cara menanam tomat dalam pot/polybag dapat menjadi solusi dalam memanfaatkan lahan yang sempit. Hal yang perlu dipersiapkan adalah:</p>
-
-<b>Pemilihan Benih</b>
-<p>Pemilihan benih sangat menentukan produksi, oleh karena itu perlu seleksi varietas yang akan ditanam, dan sesuaikan lokasi budidaya dengan varietas yang akan ditanam terutama kondisi iklim dan ketinggian tempat.</p>
-
-<b>Persemaian Benih</b>
-<p>Benih tomat yang sudah diseleksi selanjutnya harus disemai terlebih dahulu. Penyemaiaan dapat dilakukan di dalam polybag atau nampan dengan media persemaian berupa campuran tanah dan pupuk kandang dengan perbandingan 1:1. Tempat persemaian harus terlindungi dari hujan agar tidak merusak benih yang masih lemah dan sinar matahari secara langsung. Penyiraman media dilakukan sebelum benih disemai agar media semai tidak menjadi padat dan benih tidak tenggelam dalam media persemaian. Setelah benih ditanam, benih ditutup tipis dengan media dan dilakukan penyiraman ulang. Persemaian disarankan ditutup selama 3-5 hari saat perkecambahan awal. Penyiraman benih yang disemai dilakukan 2 kali sehari, jangan sampai merusak permukaan persemaian.Pemupukan tambahan dapat diberikan setelah 2 minggu dengan pupuk cair organik/kompos/ NPK. Penyiangan dilakukan agar gulma tidak sampai tumbuh di area persemaian. Bibit tomat dapat dipindahkan dari persemaian ke dalam pot setelah 21-30 hari atau sudah memiliki minimal 5 helai daun.</p>
-
-<b>Pemindahan benih</b>
-<p>Sebelumnya dipersiapkan media tanam dalam pot yang berisi tanah, arang sekam, kompos dengan perbandingan 2:1:1 atau 1:1:1. Bibit dicabut, dengan cara menyiram persemaian dengan air supaya media tanah menjadi lunak. Lalu cabut tanaman tomat, jangan sampai akar tanaman putus atau rusak. Selanjutnya tanaman dimasukkan kedalam pot yang telah berisi media tanam. Posisi akar tegak lurus jangan sampai bengkok. Untuk bibit dalam polybag semai, sobek polybag semai kemudian dipindahkan bersama tanah ke dalam pot.</p>
-
-<b>Perawatan dan Pemeliharaan Tomat</b>
-<p>Pemeliharaan tanaman tomat relatif lebih mudah, jangan sampai media tanam menjadi kering, siram 2 kali sehari namun jangan terlalu basah agar akar tidak busuk. Penyiangan gulma yang terdapat dalam pot dilakukan secara teratur. Bila ada tanaman layu atau mati, dicabut segera dan buang agar tidak menular ke tanaman lain. Pemangkasan tunas dan pemberian ajir sebagai penopang buah. Pemberian pupuk tanaman dilakukan setelah 1 minggu dengan kompos sebanyak satu genggam/pot. Penambahan pupuk kompos dilakukan setiap bulan atau bila terlihat tanaman kurang subur. Bila tanaman akan berbuah ditambahkan pupuk buah atau pupuk organik cair.</p>
-
-<b>Panen</b>
-<p>Tanaman tomat dalam pot dapat dipanen setelah 3 bulan tanam, tergantung dari varietasnya. Ciri-ciri tanaman tomat yang akan panen perubahan warna pada buah tomat dari warna hijau ke kuning-kuningan. Pemetikan dilakukan pada buah yang telah matang saja. Waktu pemetikan yang paling baik pagi dan sore hari saat matahari tidak terlalu terik.</p>
-""";
-
 class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context
+          .read<ArtikelProvider>()
+          .getArticleDetail(artikelId: widget.artikelId);
+    });
+  }
+
+  Future<void> _refreshPage() async {
+    context
+        .read<ArtikelProvider>()
+        .getArticleDetail(artikelId: widget.artikelId);
+  }
+
+  // _showLiked() async {
+  //   OverlayState? overlayState = Overlay.of(context);
+  //   OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
+  //     return Positioned(
+  //         top: MediaQuery.of(context).size.height / 2.5,
+  //         right: MediaQuery.of(context).size.width / 2.5,
+  //         child: const Icon(
+  //           FluentIcons.heart_48_filled,
+  //           size: 70,
+  //           color: primary,
+  //         ));
+  //   });
+
+  //   overlayState.insert(overlayEntry);
+  //   await Future.delayed(const Duration(milliseconds: 500));
+  //   overlayEntry.remove();
+  // }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    final providerLiked =
+        Provider.of<GetArticleLikedProvider>(context, listen: false);
+    return WillPopScope(
+      onWillPop: () async {
+        providerLiked.getArticleLikedtData();
+        return true;
+      },
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: Padding(
@@ -47,6 +80,8 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
             shape: const CircleBorder(),
             disabledElevation: 0,
             onPressed: () {
+              // menjalankan fungsi like artikel
+              providerLiked.getArticleLikedtData();
               Navigator.pop(context);
             },
             child: Icon(
@@ -56,65 +91,352 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
             ),
           ),
         ),
-        body: Consumer<ArtikelProvider>(
-          builder: (context, provider, _) {
-            return ListView(
-              shrinkWrap: true,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+        body: RefreshIndicator(
+          onRefresh: _refreshPage,
+          child: Consumer<ArtikelProvider>(builder: (context, provider, _) {
+            if (provider.state == MyState.loading) {
+              return SingleChildScrollView(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/images/sample_tomat.png',
-                      fit: BoxFit.cover,
+                    Shimmer.fromColors(
+                      baseColor: neutral[30]!,
+                      highlightColor: neutral[20]!,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.31,
+                        width: MediaQuery.of(context).size.width,
+                        color: neutral[20]!,
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Cara menanam sayuran tomat di lahan sempit',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () => provider.likesStatus(),
-                                icon: Icon(provider.likes
-                                    ? FluentIcons.heart_16_filled
-                                    : FluentIcons.heart_16_regular),
-                              ),
-                            ],
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    UnconstrainedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Shimmer.fromColors(
+                          baseColor: neutral[30]!,
+                          highlightColor: neutral[20]!,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: neutral[20]!,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 15,
+                            width: MediaQuery.of(context).size.width * 0.2,
                           ),
-                          const SizedBox(
-                            height: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    UnconstrainedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Shimmer.fromColors(
+                          baseColor: neutral[30]!,
+                          highlightColor: neutral[20]!,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: neutral[20]!,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 10,
+                            width: MediaQuery.of(context).size.width * 0.25,
                           ),
-                          Html(
-                            data: _htmlData,
-                            style: {
-                              'p': Style(
-                                textAlign: TextAlign.justify,
-                              ),
-                              '#': Style(
-                                margin: Margins.symmetric(horizontal: 0),
-                                padding: const EdgeInsets.only(bottom: 20),
-                              )
-                            },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    UnconstrainedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Shimmer.fromColors(
+                          baseColor: neutral[30]!,
+                          highlightColor: neutral[20]!,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: neutral[20]!,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 10,
+                            width: MediaQuery.of(context).size.width * 0.5,
                           ),
-                        ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    UnconstrainedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Shimmer.fromColors(
+                          baseColor: neutral[30]!,
+                          highlightColor: neutral[20]!,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: neutral[20]!,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 10,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    UnconstrainedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Shimmer.fromColors(
+                          baseColor: neutral[30]!,
+                          highlightColor: neutral[20]!,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: neutral[20]!,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 10,
+                            width: MediaQuery.of(context).size.width * 0.7,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ],
-            );
-          },
+              );
+            } else if (provider.state == MyState.loaded) {
+              return ListView.separated(
+                itemCount: provider.articleDetail!.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) => Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.network(
+                        "${AppConstant.imgUrl}${provider.articleDetail![index].picture!}",
+                        // "asdad",
+                        // image,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Shimmer.fromColors(
+                            baseColor: neutral[30]!,
+                            highlightColor: neutral[20]!,
+                            child: Container(
+                              width: double.maxFinite,
+                              height: MediaQuery.of(context).size.height * 0.30,
+                              color: neutral[20]!,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) => Container(
+                            width: double.maxFinite,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            color: neutral[20],
+                            child:
+                                const Icon(Icons.image_not_supported_outlined)),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 20, bottom: 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  provider.articleDetail![index].title!,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                              ),
+                              LikeButton(
+                                circleColor: CircleColor(
+                                    start: primary, end: primary[400]!),
+                                bubblesColor: BubblesColor(
+                                    dotPrimaryColor: primary,
+                                    dotSecondaryColor: primary[400]!),
+                                isLiked: providerLiked
+                                    .isContainInLikedList(widget.artikelId),
+                                onTap: (isLiked) async {
+                                  if (isLiked == false) {
+                                    // lakukan post add liked article
+                                    providerLiked.liked(widget.artikelId);
+                                    //muncul kan snack bar berhasil menyimpan
+                                    AnimatedSnackBar(
+                                      mobilePositionSettings:
+                                          const MobilePositionSettings(
+                                        topOnAppearance: 50,
+                                      ),
+                                      builder: ((context) {
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: success[300],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+
+                                          // height: 50,
+                                          child: Text(
+                                            'Berhasil Menambahkan',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge!
+                                                .copyWith(
+                                                  color: neutral[10],
+                                                ),
+                                            textAlign: TextAlign.justify,
+                                          ),
+                                        );
+                                      }),
+                                    ).show(navigatorKeys.currentContext!);
+                                    return true;
+                                  }
+
+                                  if (isLiked == true) {
+                                    // lakukan delete liked article
+                                    providerLiked.unLiked(widget.artikelId);
+                                    //muncul kan snack bar berhasil menghapus
+                                    AnimatedSnackBar(
+                                      mobilePositionSettings:
+                                          const MobilePositionSettings(
+                                        topOnAppearance: 50,
+                                      ),
+                                      builder: ((context) {
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: neutral[40],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+
+                                          // height: 50,
+                                          child: Text(
+                                            'Berhasil Menghapus',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge!
+                                                .copyWith(
+                                                  color: neutral[10],
+                                                ),
+                                            textAlign: TextAlign.justify,
+                                          ),
+                                        );
+                                      }),
+                                    ).show(navigatorKeys.currentContext!);
+
+                                    return false;
+                                  }
+
+                                  return null;
+                                },
+                                likeBuilder: (isLiked) {
+                                  return Icon(isLiked
+                                      // provider.articleDetail![index].isLiked!
+                                      ? FluentIcons.heart_32_filled
+                                      : FluentIcons.heart_32_regular);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 0),
+                          child: Html(
+                            data: provider.articleDetail![index].description!,
+                            style: {
+                              'br': Style(
+                                fontSize: FontSize(0),
+                                margin: Margins.symmetric(
+                                  horizontal: 0,
+                                  vertical: 0,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                              ),
+                              'p': Style(textAlign: TextAlign.justify),
+                              'ol': Style(
+                                  margin: Margins.symmetric(
+                                      horizontal: 0, vertical: 0),
+                                  padding: const EdgeInsets.only(
+                                      left: 18, top: 0, right: 0, bottom: 0)
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                              'ul': Style(
+                                  margin: Margins.symmetric(horizontal: 0),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 18)
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                              'li': Style(textAlign: TextAlign.justify
+                                  // padding: EdgeInsets.all(0),
+                                  ),
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(
+                  height: 10,
+                ),
+              );
+            } else {
+              return Center(
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  direction: Axis.vertical,
+                  children: [
+                    Icon(
+                      Icons.sentiment_dissatisfied_outlined,
+                      size: 40,
+                      color: neutral[40]!,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Something went wrong",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: neutral[50]!,
+                          ),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          // provider.getTemperatureArticleData(
+                          //     plantId: widget.plantId);
+                        },
+                        child: Text(
+                          "Try Again?",
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: neutral[70]!,
+                                  ),
+                        ))
+                  ],
+                ),
+              );
+            }
+          }),
         ),
       ),
     );

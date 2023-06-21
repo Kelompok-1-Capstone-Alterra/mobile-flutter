@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:mobile_flutter/models/article_by_id_response_model.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
 import 'package:mobile_flutter/models/profile_model.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
@@ -283,6 +284,13 @@ class ServicesRestApiImpl extends ServicesRestApi {
           },
         ),
       );
+
+      //progress dummy wait 1 second
+      await Future.delayed(
+        const Duration(seconds: 1),
+        //
+      );
+
       if (response.data['data'] != null) {
         for (var json in response.data['data']) {
           articleData.add(ArticleResponseModel.fromJson(json));
@@ -1023,6 +1031,145 @@ class ServicesRestApiImpl extends ServicesRestApi {
       await _dioWithInterceptor.put(
         '/auth/users/profiles/pictures',
         data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // ------------------------------------- ------------- --------------------------------
+  // ---------------------------------------- Artikel ----------------------------------
+  // ------------------------------------- ------------- --------------------------------
+  @override
+  Future<List<ArticleResponseModel>> getLatestArticles() async {
+    try {
+      List<ArticleResponseModel> articleData = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/articles/latest',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      //progress wait 1 second
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          articleData.add(ArticleResponseModel.fromJson(json));
+        }
+      }
+
+      return articleData;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<ArticleByIdResponseModel>> getArtikelById(int artikelId) async {
+    try {
+      List<ArticleByIdResponseModel> articleData = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/articles/$artikelId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      //progress wait 1 second
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          articleData.add(ArticleByIdResponseModel.fromJson(json));
+        }
+      }
+
+      return articleData;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<ArticleResponseModel>> getLikedArticles() async {
+    try {
+      List<ArticleResponseModel> articleData = [];
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/articles/liked',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      //progress wait 1 second
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          articleData.add(ArticleResponseModel.fromJson(json));
+        }
+      }
+
+      return articleData;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> like(int articleId) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await _dioWithInterceptor.post(
+        '/auth/users/articles/$articleId/liked',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> unLike(int articleId) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      await _dioWithInterceptor.delete(
+        '/auth/users/articles/$articleId/liked',
         options: Options(
           headers: {
             'Authorization': token,

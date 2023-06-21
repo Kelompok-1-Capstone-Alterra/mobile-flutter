@@ -5,6 +5,7 @@ import 'package:mobile_flutter/models/fertilizing_article_response_model.dart';
 import 'package:mobile_flutter/models/location_plant_response_model.dart';
 import 'package:mobile_flutter/models/plant_details_reponse_model.dart';
 import 'package:mobile_flutter/models/planting_article_response_model.dart';
+import 'package:mobile_flutter/models/article_by_id_response_model.dart';
 import 'package:mobile_flutter/models/my_plant_name_response_model.dart';
 import 'package:mobile_flutter/models/overview_response_model.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
@@ -107,4 +108,11 @@ abstract class ServicesRestApi {
     String? description,
     List<String>? pictures,
   );
+
+  // ------ Artikel ------------
+  Future<List<ArticleResponseModel>> getLatestArticles();
+  Future<List<ArticleByIdResponseModel>> getArtikelById(int artikelId);
+  Future<List<ArticleResponseModel>> getLikedArticles();
+  Future<void> like(int articleId);
+  Future<void> unLike(int articleId);
 }
