@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_lastest_provider.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_liked_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
@@ -27,7 +29,7 @@ import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart'
 import 'package:mobile_flutter/utils/themes/theme.dart';
 import 'package:mobile_flutter/utils/widget/bottom_navbar/custom_navbar_provider.dart';
 import 'package:mobile_flutter/view/splash/splash_screen.dart';
-import 'package:mobile_flutter/view_model/artikel_viewmodel/artikel_provider.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/artikel_detail_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/forgot_password_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/login_provider.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/register_provider.dart';
@@ -194,6 +196,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => TokoProvider()),
         ChangeNotifierProvider(create: (context) => CurrentProductProvider()),
         ChangeNotifierProvider(create: (context) => KategoriProvider()),
+        ChangeNotifierProvider(
+          create: (context) => GetArticleLatestProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetArticleLikedProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

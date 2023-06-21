@@ -1,31 +1,23 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_flutter/view/artikel/widget/artikel_lihatsemua_widget.dart';
-import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_lastest_provider.dart';
-import 'package:mobile_flutter/view_model/service_provider/get_article_trending_provider.dart';
+import 'package:mobile_flutter/view/artikel/widget/artikel_liked_widget.dart';
+import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_liked_provider.dart';
 import 'package:provider/provider.dart';
 
-class ArtikelLihatSemuaScreen extends StatefulWidget {
-  final String title;
-  final bool latest;
-  const ArtikelLihatSemuaScreen({
+class ArtikelLikedScreen extends StatefulWidget {
+  const ArtikelLikedScreen({
     super.key,
-    required this.title,
-    required this.latest,
   });
 
   @override
-  State<ArtikelLihatSemuaScreen> createState() =>
-      _ArtikelLihatSemuaScreenState();
+  State<ArtikelLikedScreen> createState() => _ArtikelLikedScreenState();
 }
 
-class _ArtikelLihatSemuaScreenState extends State<ArtikelLihatSemuaScreen> {
+class _ArtikelLikedScreenState extends State<ArtikelLikedScreen> {
   final double _horizontal = 16;
-
   Future<void> _refreshPage() async {
-    context.read<GetTrendingArticleProvider>().getTrendingArticleData();
-    context.read<GetArticleLatestProvider>().getArticleLatestData();
+    context.read<GetArticleLikedProvider>().getArticleLikedtData();
   }
 
   @override
@@ -33,7 +25,7 @@ class _ArtikelLihatSemuaScreenState extends State<ArtikelLihatSemuaScreen> {
     return Scaffold(
       appBar: AppBar(
         title: AutoSizeText(
-          widget.title,
+          'Artikel yang disukai',
           style:
               Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 22),
           minFontSize: 18,
@@ -53,9 +45,8 @@ class _ArtikelLihatSemuaScreenState extends State<ArtikelLihatSemuaScreen> {
             const SizedBox(
               height: 10,
             ),
-            ArtikelLihatSemuaWidget(
+            ArtikelLikedWidget(
               horizontal: _horizontal,
-              latest: widget.latest,
             ),
           ],
         ),
