@@ -1,13 +1,27 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/view/settings/widgets/item_statistika_penanaman_widget.dart';
 import 'package:mobile_flutter/view/settings/widgets/statistik_penanaman_empty_widget.dart';
 import 'package:mobile_flutter/view_model/setting_viewmodel/statistik_penanaman_provider.dart';
 import 'package:provider/provider.dart';
 
-class StatistikPenanamanScreen extends StatelessWidget {
+class StatistikPenanamanScreen extends StatefulWidget {
   const StatistikPenanamanScreen({super.key});
+
+  @override
+  State<StatistikPenanamanScreen> createState() =>
+      _StatistikPenanamanScreenState();
+}
+
+class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<StatistikaPenanamanProvider>().getAllPlantStats();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +54,22 @@ class StatistikPenanamanScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5),
                 items: const [
                   DropdownMenuItem(
-                    value: 'Semua',
+                    value: 'all',
                     child: Text('Semua'),
                   ),
                   DropdownMenuItem(
-                    value: 'Panen',
+                    value: 'harvest',
                     child: Text('Panen'),
                   ),
                   DropdownMenuItem(
-                    value: 'Mati',
+                    value: 'dead',
                     child: Text('Mati'),
                   ),
                 ],
                 onChanged: (value) {
                   if (value != null) {
                     statPenanamanProvider.setFilter(value);
+                    statPenanamanProvider.getAllPlantStats();
                   }
                 },
                 underline: const SizedBox(),
@@ -77,55 +92,109 @@ class StatistikPenanamanScreen extends StatelessWidget {
         ),
         child: Consumer<StatistikaPenanamanProvider>(
           builder: (context, statistikaPenanaman, _) {
-            if (statistikaPenanaman.semuaItems.isEmpty) {
-              return const StatistikPenanamanEmptyWidget(
-                kondisiTanaman: 'tanaman',
+            final state = statistikaPenanaman.state;
+            if (state == MyState.initial) {
+              const Center(
+                child: CircularProgressIndicator(),
               );
-            } else if (statistikaPenanaman.selectedFilter == 'Panen') {
-              if (statistikaPenanaman.panenItems.isEmpty) {
-                return const StatistikPenanamanEmptyWidget(
-                  kondisiTanaman: 'tanaman panen',
-                );
-              }
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  childAspectRatio: 6 / 7,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: statistikaPenanaman.panenItems.length,
-                itemBuilder: (context, index) =>
-                    statistikaPenanaman.panenItems[index],
+            } else if (state == MyState.loading) {
+              const Center(
+                child: CircularProgressIndicator(),
               );
-            } else if (statistikaPenanaman.selectedFilter == 'Mati') {
-              if (statistikaPenanaman.matiItems.isEmpty) {
-                return const StatistikPenanamanEmptyWidget(
-                  kondisiTanaman: 'tanaman mati',
-                );
+            } else if (state == MyState.loaded) {
+              if (statistikaPenanaman.selectedFilter == 'all') {
+                if (statistikaPenanaman.allItems.isEmpty) {
+                  return const StatistikPenanamanEmptyWidget(
+                    kondisiTanaman: 'tanaman',
+                  );
+                } else if (state == MyState.failed) {
+                  return const Center(
+                    child: Text('error'),
+                  );
+                } else {
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 6 / 8,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: statistikaPenanaman.allItems.length,
+                    itemBuilder: (context, index) {
+                      final plantStats = statistikaPenanaman.allItems[index];
+                      return ItemStatistikaPenanamanWidget(
+                        index: index,
+                        plantStatsModel: plantStats,
+                      );
+                    },
+                  );
+                }
+              } else if (statistikaPenanaman.selectedFilter == 'harvest') {
+                if (statistikaPenanaman.harvestItems.isEmpty) {
+                  return const StatistikPenanamanEmptyWidget(
+                    kondisiTanaman: 'tanaman panen',
+                  );
+                } else if (state == MyState.failed) {
+                  return const Center(
+                    child: Text('error'),
+                  );
+                } else {
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 6 / 8,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: statistikaPenanaman.harvestItems.length,
+                    itemBuilder: (context, index) {
+                      final plantStats =
+                          statistikaPenanaman.harvestItems[index];
+                      return ItemStatistikaPenanamanWidget(
+                        index: index,
+                        plantStatsModel: plantStats,
+                      );
+                    },
+                  );
+                }
+              } else if (statistikaPenanaman.selectedFilter == 'dead') {
+                if (statistikaPenanaman.deadItems.isEmpty) {
+                  return const StatistikPenanamanEmptyWidget(
+                    kondisiTanaman: 'tanaman mati',
+                  );
+                } else if (state == MyState.failed) {
+                  return const Center(
+                    child: Text('error'),
+                  );
+                } else {
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 6 / 8,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: statistikaPenanaman.deadItems.length,
+                    itemBuilder: (context, index) {
+                      final plantStats = statistikaPenanaman.deadItems[index];
+                      return ItemStatistikaPenanamanWidget(
+                        index: index,
+                        plantStatsModel: plantStats,
+                      );
+                    },
+                  );
+                }
               }
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  childAspectRatio: 6 / 7,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: statistikaPenanaman.matiItems.length,
-                itemBuilder: (context, index) =>
-                    statistikaPenanaman.matiItems[index],
+            } else if (state == MyState.failed) {
+              return const Center(
+                child: Text('error'),
               );
             }
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                childAspectRatio: 6 / 7,
-                mainAxisSpacing: 20,
-              ),
-              itemCount: statistikaPenanaman.semuaItems.length,
-              itemBuilder: (context, index) =>
-                  statistikaPenanaman.semuaItems[index],
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           },
         ),

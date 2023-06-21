@@ -25,7 +25,6 @@ import 'package:mobile_flutter/utils/dio/global_dio.dart';
 import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/api_response.dart';
 import 'package:mobile_flutter/utils/response_dummy/explore_monitoring/my_plants_response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_flutter/view_model/aunt_viewmodel/shared_preferences_provider.dart';
 import 'package:provider/provider.dart';
 import '../models/add_my_plant_response_model.dart';
@@ -827,13 +826,21 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<ProfileModel> getProfile() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
-      final response = await _dioWithoutInterceptor.get('/auth/users/profiles');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/profiles',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
       final profile = ProfileModel.fromJson(response.data['data']);
-      print(response.statusCode);
-      print(response.data['data']);
+
       return profile;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -843,14 +850,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> changeName(newName) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
-      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
-      Map name = {"name": newName};
-      final response = await _dioWithoutInterceptor
-          .put('/auth/users/profiles/name', data: name);
-      print(response.statusCode);
+      Map name = {'name': newName};
+
+      await _dioWithInterceptor.put(
+        '/auth/users/profiles/name',
+        data: name,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -859,13 +874,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> changePassword(newPassword) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
-      Map password = {"password": newPassword};
-      final response = await _dioWithoutInterceptor
-          .put('/auth/users/profiles/password', data: password);
-      print(response.statusCode);
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      Map password = {'password': newPassword};
+
+      await _dioWithInterceptor.put(
+        '/auth/users/profiles/password',
+        data: password,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -873,14 +897,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
   @override
   Future<List<PlantStatsModel>> getPlantStats(status) async {
-    final dio = Dio();
     try {
-      final response = await dio.get(
-        'https://6475e319e607ba4797dcd15f.mockapi.io/users/profiles/plantstats',
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/stats',
         queryParameters: {'status': status},
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
       );
 
-      List<dynamic> data = response.data;
+      List<dynamic> data = response.data['data'];
       List<PlantStatsModel> plantStats =
           data.map((item) => PlantStatsModel.fromJson(item)).toList();
 
@@ -890,13 +922,15 @@ class ServicesRestApiImpl extends ServicesRestApi {
     }
   }
 
+  
+
   @override
   Future<void> sendComplaintEmails(phone, email, message) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-
-      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       Map data = {
         "phone": phone,
@@ -904,9 +938,15 @@ class ServicesRestApiImpl extends ServicesRestApi {
         "message": message,
       };
 
-      final response =
-          await _dioWithoutInterceptor.post('/auth/users/helps', data: data);
-      print(response.statusCode);
+      await _dioWithInterceptor.post(
+        '/auth/users/helps',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -915,18 +955,24 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> sendSuggestion(String message) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-
-      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       Map data = {
         "message": message,
       };
-      await Future.delayed(const Duration(seconds: 10));
-      final response = await _dioWithoutInterceptor
-          .post('/auth/users/suggestions', data: data);
-      print(response.statusCode);
+
+      await _dioWithInterceptor.post(
+        '/auth/users/suggestions',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
@@ -946,10 +992,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
       );
 
       final response =
-          await _dioWithoutInterceptor.post('/pictures', data: formData);
+          await _dioWithInterceptor.post('/pictures', data: formData);
       final image = response.data["urls"][0];
-      print(response.statusCode);
-      print(image);
       return image;
     } on DioError catch (e) {
       throw Exception(e.toString());
@@ -959,16 +1003,22 @@ class ServicesRestApiImpl extends ServicesRestApi {
   @override
   Future<void> updateProfilePic(String pic) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      _dioWithoutInterceptor.options.headers['Authorization'] = 'Bearer $token';
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
 
       Map data = {'picture': pic};
 
-      final response = await _dioWithoutInterceptor
-          .put('/auth/users/profiles/pictures', data: data);
-
-      print(response.statusCode);
+      await _dioWithInterceptor.put(
+        '/auth/users/profiles/pictures',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
