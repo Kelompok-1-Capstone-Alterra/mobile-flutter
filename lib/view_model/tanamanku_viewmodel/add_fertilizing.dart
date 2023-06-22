@@ -41,4 +41,9 @@ class AddFertilizingProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void refresh() {
+    isActive = false;
+    isEnabled = false;
+  }
 }

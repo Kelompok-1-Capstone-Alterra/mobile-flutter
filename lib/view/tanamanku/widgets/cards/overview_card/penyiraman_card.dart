@@ -39,7 +39,7 @@ class PenyiramanCard extends StatelessWidget {
                           children: [
                             TextSpan(
                               text:
-                                  provider.history![currentDay! - 1].toString(),
+                                  provider.history[currentDay! - 1].toString(),
                               style: Theme.of(context).textTheme.displayMedium,
                             ),
                             TextSpan(
@@ -87,14 +87,14 @@ class PenyiramanCard extends StatelessWidget {
                 } else {
                   return IconButton(
                     onPressed:
-                        provider.history?[provider.day! - 1] == provider.period
+                        provider.history[provider.day! - 1] == provider.period
                             ? null
                             : () {
                                 provider.addWatering(idTanaman);
                               },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                        provider.history?[provider.day! - 1] == provider.period
+                        provider.history[provider.day! - 1] == provider.period
                             ? neutral[40]
                             : primary,
                       ),
@@ -102,10 +102,10 @@ class PenyiramanCard extends StatelessWidget {
                     padding: const EdgeInsets.all(13),
                     icon: Icon(
                       FluentIcons.drop_16_regular,
-                      color: provider.history?[provider.day! - 1] ==
-                              provider.period
-                          ? neutral[20]
-                          : neutral[10],
+                      color:
+                          provider.history[provider.day! - 1] == provider.period
+                              ? neutral[20]
+                              : neutral[10],
                     ),
                   );
                 }
