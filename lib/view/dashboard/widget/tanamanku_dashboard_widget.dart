@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view/dashboard/widget/tanamanku_dashboard_item.dart';
+import 'package:mobile_flutter/view/tanamanku/screen/detail_tanaman_screen.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/themes/custom_color.dart';
@@ -92,7 +94,20 @@ class TanamankuDasboardWidget extends StatelessWidget {
                               color: Colors.transparent,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(10),
-                                onTap: () {},
+                                onTap: () {
+                                  pushNewScreen(
+                                    context,
+                                    screen: DetailTanamanScreen(
+                                      idTanaman:
+                                          provider.myPlants[index].myplantId!,
+                                      idDetailTanaman:
+                                          provider.myPlants[index].plantId!,
+                                      location:
+                                          provider.myPlants[index].location!,
+                                    ),
+                                    withNavBar: false,
+                                  );
+                                },
                               ),
                             ),
                           )

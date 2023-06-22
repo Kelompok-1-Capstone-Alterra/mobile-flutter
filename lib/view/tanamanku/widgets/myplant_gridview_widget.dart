@@ -104,18 +104,17 @@ class MyPlantGridviewWidget extends StatelessWidget {
                                 indexSelected: index);
                           } else {
                             pushNewScreen(context,
-                                // ini dummy id cuma lempar 1
-                                screen: const DetailTanamanScreen(idTanaman: 1),
-                                withNavBar: true,
+                                screen: DetailTanamanScreen(
+                                  idTanaman:
+                                      provider.showDataPlants[index].myplantId!,
+                                  idDetailTanaman:
+                                      provider.showDataPlants[index].plantId!,
+                                  location:
+                                      provider.showDataPlants[index].location!,
+                                ),
+                                withNavBar: false,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino);
-
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const DetailTanamanScreen(),
-                            //   ),
-                            // );
                           }
                         },
                       ),

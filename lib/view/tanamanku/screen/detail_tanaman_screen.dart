@@ -1,10 +1,15 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/tanamanku/screen/edit_nama_tanaman_screen.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/overview_section.dart';
 import 'package:mobile_flutter/view/tanamanku/widgets/progress_section.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
+import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/overview_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/tanamanku_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -14,7 +19,14 @@ import 'package:provider/provider.dart';
 
 class DetailTanamanScreen extends StatefulWidget {
   final int idTanaman;
-  const DetailTanamanScreen({super.key, required this.idTanaman});
+  final int idDetailTanaman;
+  final String location;
+  const DetailTanamanScreen({
+    super.key,
+    this.idTanaman = 0,
+    this.idDetailTanaman = 0,
+    this.location = '',
+  });
 
   @override
   State<DetailTanamanScreen> createState() => _DetailTanamanScreenState();
@@ -23,16 +35,31 @@ class DetailTanamanScreen extends StatefulWidget {
 class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
   @override
   void initState() {
-    print(widget.idTanaman);
-    context.read<TanamankuProvider>().getMyPlantName(widget.idTanaman);
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initState();
+    });
+  }
+
+  _initState() async {
+    await context
+        .read<TanamankuProvider>()
+        .getMyPlantName(widget.idTanaman)
+        .then((value) => context
+            .read<TanamankuProvider>()
+            .getPlantDetail(widget.idDetailTanaman));
+
+    if (context.mounted) {
+      context.read<OverviewProvider>().sudahMenanam =
+          context.read<TanamankuProvider>().getDetails.isStartPlanting;
+
+      context.read<OverviewProvider>().refresh();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<TanamankuProvider>(context, listen: false);
-    final providerOverview =
-        Provider.of<OverviewProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -55,7 +82,11 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                   disabledElevation: 0,
                   onPressed: () {
                     provider.refresh();
-                    providerOverview.refresh();
+                    context.read<AddWateringProvider>().refresh();
+                    context.read<AddFertilizingProvider>().refresh();
+                    context.read<AddProgressProvider>().refreshData();
+                    context.read<GetMyPlantsProvider>().getMyPlantsData();
+                    context.read<OverviewProvider>().sudahMenanam = false;
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -83,20 +114,16 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
             } else if (provider.state == MyState.loaded) {
               return ListView(
                 children: [
-                  Image.asset(
-                    'assets/images/sample_tomat.png',
+                  Image.network(
+                    '${AppConstant.imgUrl}${provider.getPlantDetails.picture}',
+                    height: MediaQuery.of(context).size.height * 0.4,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      color: neutral[20],
+                      child: const Icon(Icons.image_not_supported_outlined),
+                    ),
                   ),
-                  // Image.network(
-                  //   'https://34.128.85.215:8080/pictures/5fe5c95d-030e-4623-91f4-b4b6fd8069bf.png',
-                  //   height: MediaQuery.of(context).size.height * 0.4,
-                  //   fit: BoxFit.cover,
-                  //   errorBuilder: (context, error, stackTrace) => Container(
-                  //     height: MediaQuery.of(context).size.height * 0.4,
-                  //     color: neutral[20],
-                  //     child: const Icon(Icons.image_not_supported_outlined),
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -120,7 +147,10 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                                 onPressed: () {
                                   pushNewScreen(
                                     context,
-                                    screen: EditNamaTanamanScreen(),
+                                    screen: EditNamaTanamanScreen(
+                                      idTanaman: widget.idTanaman,
+                                      defaultValue: provider.getDetails.name!,
+                                    ),
                                     withNavBar: false,
                                     pageTransitionAnimation:
                                         PageTransitionAnimation.cupertino,
@@ -213,16 +243,69 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                           height: 22,
                         ),
                         provider.selectedIndex == 0
-                            ? const OverviewSection(idTanaman: 43)
-                            : const ProgressSection(idTanaman: 43),
+                            ? OverviewSection(
+                                idTanaman: widget.idTanaman,
+                                idDetailTanaman: widget.idDetailTanaman,
+                                location: widget.location,
+                              )
+                            : ProgressSection(idTanaman: widget.idTanaman),
                       ],
                     ),
                   ),
                 ],
               );
             } else {
-              return const Center(
-                child: Text("eror di else"),
+              return Center(
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  direction: Axis.vertical,
+                  children: [
+                    Icon(
+                      Icons.error,
+                      size: 40,
+                      color: neutral[40]!,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Terjadi kesalahan.",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: neutral[50]!,
+                          ),
+                    ),
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Kembali",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: error,
+                                  ),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              provider.getMyPlantName(widget.idTanaman);
+                            },
+                            child: Text(
+                              "Coba Lagi?",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: neutral[70]!,
+                                  ),
+                            )),
+                      ],
+                    )
+                  ],
+                ),
               );
             }
           },

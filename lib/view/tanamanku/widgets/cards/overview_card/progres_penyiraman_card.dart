@@ -32,7 +32,7 @@ class ProgresPenyiraman extends StatelessWidget {
                   height: 50.0,
                   child: Row(
                     children: List.generate(7, (index) {
-                      int? wateringValue = provider.history?[index];
+                      int? wateringValue = provider.history[index];
                       Color? color = wateringValue == provider.period
                           ? primary
                           : neutral[40];

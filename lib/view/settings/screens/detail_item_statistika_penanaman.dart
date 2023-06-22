@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
+import 'package:mobile_flutter/utils/app_constant.dart';
 import 'package:mobile_flutter/utils/converter/convert_date.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
@@ -19,9 +20,11 @@ class DetailItemStatistikPenanaman extends StatefulWidget {
     required this.index,
     required this.plantStatsModel,
     required this.myplantId,
+    required this.picture,
   });
   final int index;
   final int myplantId;
+  final String picture;
   final PlantStatsModel plantStatsModel;
 
   @override
@@ -69,9 +72,15 @@ class _DetailItemStatistikPenanamanState
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/sample_tomat.png',
+              Image.network(
+                '${AppConstant.imgUrl}$widget.picture',
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  color: neutral[20],
+                  child: const Icon(Icons.image_not_supported_outlined),
+                ),
               ),
               Padding(
                 padding:
@@ -165,6 +174,7 @@ class _DetailItemStatistikPenanamanState
                                                               'dead'
                                                           ? 'Tanaman Mati'
                                                           : '',
+                                              picture: progress.picture!,
                                               date: progress.status ==
                                                       'planting'
                                                   ? '$fromFormat - $toFormat'

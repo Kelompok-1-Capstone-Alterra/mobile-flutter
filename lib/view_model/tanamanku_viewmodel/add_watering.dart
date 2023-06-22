@@ -7,7 +7,7 @@ class AddWateringProvider with ChangeNotifier {
   int? day;
   int? period;
   bool? isActive;
-  List<int>? history;
+  List<int> history = [];
 
   MyState state = MyState.initial;
   final services = ServicesRestApiImpl();
@@ -19,7 +19,8 @@ class AddWateringProvider with ChangeNotifier {
       week = response.watering?.week;
       day = response.watering?.day;
       period = response.watering?.period;
-      history = response.watering?.history;
+      history.clear();
+      history = response.watering!.history!;
 
       notifyListeners();
     } catch (e) {
@@ -45,5 +46,20 @@ class AddWateringProvider with ChangeNotifier {
       state = MyState.failed;
       notifyListeners();
     }
+  }
+
+  void addHistoryFromList(List<int> list) {
+    history.clear();
+    notifyListeners();
+    history = List.from(list);
+    notifyListeners();
+  }
+
+  void refresh() {
+    week = 1;
+    day = 1;
+    period = 1;
+    isActive = false;
+    history = [];
   }
 }

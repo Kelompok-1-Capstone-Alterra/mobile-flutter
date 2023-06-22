@@ -40,10 +40,12 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
     Navigator.of(context).pushAndRemoveUntil(
         CupertinoPageRoute(
           builder: (context) => DetailTanamanScreen(
-              idTanaman: context
-                  .read<GetPlantDetailsProvider>()
-                  .plantDetails!
-                  .plantId!),
+            idTanaman:
+                context.read<PostAddMyPlantProvider>().postResponse!.myplantId!,
+            idDetailTanaman:
+                context.read<PostAddMyPlantProvider>().postResponse!.plantsId!,
+            location: widget.location,
+          ),
         ),
         (route) => route.isFirst);
   }

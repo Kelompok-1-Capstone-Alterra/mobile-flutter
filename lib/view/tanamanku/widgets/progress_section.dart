@@ -85,6 +85,7 @@ class _ProgressSectionState extends State<ProgressSection> {
                                       : progress.status == 'dead'
                                           ? 'Tanaman Mati'
                                           : '',
+                              picture: progress.picture!,
                               date: progress.status == 'planting'
                                   ? '$fromFormat - $toFormat'
                                   : progress.status == 'harvest' ||
