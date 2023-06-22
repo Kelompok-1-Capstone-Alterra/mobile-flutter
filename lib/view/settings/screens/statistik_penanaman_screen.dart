@@ -117,7 +117,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 6 / 8,
+                      childAspectRatio: 16 / 20,
                       mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.allItems.length,
@@ -145,7 +145,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 6 / 8,
+                      childAspectRatio: 16 / 20,
                       mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.harvestItems.length,
@@ -174,7 +174,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 6 / 8,
+                      childAspectRatio: 16 / 20,
                       mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.deadItems.length,
