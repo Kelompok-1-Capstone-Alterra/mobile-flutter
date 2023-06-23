@@ -41,24 +41,39 @@ class ProgressCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: Row(
               children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  decoration: BoxDecoration(
-                      color: neutral[40],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Image.network(
-                    '${AppConstant.imgUrl}$picture',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      height: 60,
-                      width: 60,
-                      color: neutral[20],
-                      child: const Icon(Icons.image_not_supported_outlined),
-                    ),
-                  ),
-                ),
+                picture == ''
+                    ? Container(
+                        width: 60,
+                        height: 60,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        decoration: BoxDecoration(
+                            color: neutral[40],
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Image.asset(
+                          'assets/images/tanaman_default.png',
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Container(
+                        width: 60,
+                        height: 60,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        decoration: BoxDecoration(
+                            color: neutral[40],
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Image.network(
+                          '${AppConstant.imgUrl}$picture',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            height: 60,
+                            width: 60,
+                            color: neutral[20],
+                            child:
+                                const Icon(Icons.image_not_supported_outlined),
+                          ),
+                        ),
+                      ),
                 const SizedBox(width: 36),
                 Expanded(
                   child: Column(

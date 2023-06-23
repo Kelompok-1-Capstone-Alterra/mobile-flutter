@@ -150,6 +150,8 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                                     screen: EditNamaTanamanScreen(
                                       idTanaman: widget.idTanaman,
                                       defaultValue: provider.getDetails.name!,
+                                      picture:
+                                          provider.getPlantDetails.picture!,
                                     ),
                                     withNavBar: false,
                                     pageTransitionAnimation:

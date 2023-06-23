@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/converter/convert_seen_counter.dart';
+import 'package:mobile_flutter/utils/converter/regexp_wa_phonenumber.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_button_chat.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/url_image.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/deskripsi_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Deskripsi extends StatefulWidget {
   const Deskripsi({
@@ -27,6 +30,19 @@ class Deskripsi extends StatefulWidget {
 }
 
 class _DeskripsiState extends State<Deskripsi> {
+  sendWhatsApp({required String product}) async {
+    ProductService productService = ProductService();
+    final response = await productService.getSellerWa(widget.productId);
+    final String phoneNumber = "${regExpPhoneNumber(response.toString())}";
+    String chromeURL = "googlechrome://navigate?url=";
+    String message = "Halo, apakah produk $product tesedia?";
+    String url =
+        "https://api.whatsapp.com/send?phone=$phoneNumber&text=$message";
+
+    String fullURL = chromeURL + Uri.encodeFull(url);
+    await launchUrl(Uri.parse(fullURL));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -367,7 +383,10 @@ class _DeskripsiState extends State<Deskripsi> {
                                                                         0.38,
                                                                     child:
                                                                         AutoSizeText(
-                                                                      "${current.productSeen}RB dilihat",
+                                                                      seenCounter(
+                                                                          current
+                                                                              .productSeen!),
+                                                                      // "${current.productSeen}RB dilihat",
                                                                       style: Theme.of(
                                                                               context)
                                                                           .textTheme
@@ -421,7 +440,12 @@ class _DeskripsiState extends State<Deskripsi> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: ReuseableButtonChat(
                               text: "Chat Penjual",
-                              onTap: () {},
+                              onTap: () {
+                                sendWhatsApp(
+                                  product: provider
+                                      .currentProduct!.product!.productName!,
+                                );
+                              },
                             ),
                           ),
                         ),

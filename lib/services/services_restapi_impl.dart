@@ -743,6 +743,46 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
+  Future<void> editWeeklyProgress(
+    int idTanaman,
+    int idProgress,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  ) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      List<Map<String, String>> weeklyPictures = [];
+
+      if (pictures != null) {
+        weeklyPictures = pictures.map((url) => {'url': url}).toList();
+      }
+
+      var jsonData = jsonEncode({
+        'condition': condition,
+        'description': description,
+        'weekly_pictures': weeklyPictures,
+      });
+
+      await _dioWithInterceptor.put(
+        '/auth/users/plants/progress/$idProgress',
+        data: jsonData,
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
   Future<List<String>> addPhoto(FormData formData) async {
     try {
       var response = await _dioWithInterceptor.post(
@@ -753,6 +793,17 @@ class ServicesRestApiImpl extends ServicesRestApi {
       var responseData = response.data as Map<String, dynamic>;
       List<String> imageUrl = List<String>.from(responseData['urls']);
       return imageUrl;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> removePhoto(String url) async {
+    try {
+      await _dioWithInterceptor.delete(
+        '/pictures/$url',
+      );
     } on DioError catch (e) {
       throw Exception(e.toString());
     }

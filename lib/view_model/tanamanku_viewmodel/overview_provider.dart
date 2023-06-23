@@ -4,6 +4,7 @@ import 'package:mobile_flutter/models/plant_details_reponse_model.dart';
 import 'package:mobile_flutter/services/service_location.dart';
 import 'package:mobile_flutter/services/services_restapi_impl.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_fertilizing.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_progress_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_watering.dart';
@@ -115,6 +116,10 @@ class OverviewProvider with ChangeNotifier {
                 getOverviewData.weeklyProgress?.to;
             context.read<AddProgressProvider>().isEnabled =
                 getOverviewData.weeklyProgress?.isEnabled;
+
+            context
+                .read<GetNotificationProvider>()
+                .getNotificationDataWithoutParam();
           }
         }
       }
