@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/converter/convert_seen_counter.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
 import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
@@ -334,7 +335,8 @@ class ListProdukState extends State<ListProduk> {
                                                                   0.38,
                                                               child:
                                                                   AutoSizeText(
-                                                                "${current.productSeen}RB dilihat",
+                                                                seenCounter(current
+                                                                    .productSeen!),
                                                                 style: Theme.of(
                                                                         context)
                                                                     .textTheme

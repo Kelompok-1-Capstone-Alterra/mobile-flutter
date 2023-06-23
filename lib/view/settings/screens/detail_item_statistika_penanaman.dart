@@ -40,6 +40,7 @@ class _DetailItemStatistikPenanamanState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ProgresProvider>().getProgres(widget.myplantId);
     });
+    print(widget.picture);
   }
 
   @override
@@ -73,7 +74,9 @@ class _DetailItemStatistikPenanamanState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.network(
-                '${AppConstant.imgUrl}$widget.picture',
+                '${AppConstant.imgUrl}${widget.picture}',
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
                   width: double.infinity,

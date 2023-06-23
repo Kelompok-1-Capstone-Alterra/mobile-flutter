@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/toko/get_product.dart';
+import 'package:mobile_flutter/utils/converter/convert_seen_counter.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/screen/detail_produk.dart';
 import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
@@ -324,7 +325,9 @@ class ListAllProdukState extends State<ListAllProduk> {
                                                                   0.38,
                                                               child:
                                                                   AutoSizeText(
-                                                                "${current.productSeen}RB dilihat",
+                                                                seenCounter(current
+                                                                    .productSeen!),
+                                                                // "${current.productSeen}RB dilihat",
                                                                 style: Theme.of(
                                                                         context)
                                                                     .textTheme

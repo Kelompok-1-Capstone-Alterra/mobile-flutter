@@ -111,7 +111,15 @@ abstract class ServicesRestApi {
     String? description,
     List<String>? pictures,
   );
+  Future<void> editWeeklyProgress(
+    int idTanaman,
+    int idProgress,
+    String? condition,
+    String? description,
+    List<String>? pictures,
+  );
   Future<List<String>> addPhoto(FormData formData);
+  Future<void> removePhoto(String url);
   Future<void> addFertilizing(int idTanaman);
   Future<void> addWatering(int idTanaman);
   Future<void> addDeadProgress(

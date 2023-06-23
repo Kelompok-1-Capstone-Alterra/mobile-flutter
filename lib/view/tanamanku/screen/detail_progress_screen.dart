@@ -300,7 +300,10 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                           onPressed: () {
                             pushNewScreen(
                               context,
-                              screen: const EditProgressMingguanScreen(),
+                              screen: EditProgressMingguanScreen(
+                                idTanaman: widget.idTanaman,
+                                idProgress: widget.idProgress,
+                              ),
                               withNavBar: false,
                               pageTransitionAnimation:
                                   PageTransitionAnimation.cupertino,

@@ -63,12 +63,12 @@ class _EditNamaTanamanScreenState extends State<EditNamaTanamanScreen> {
               Expanded(
                 child: Column(
                   children: [
-                    Container(
-                      width: 220,
-                      height: 220,
-                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                    ClipOval(
                       child: Image.network(
-                        '${AppConstant.imgUrl}$widget.picture',
+                        '${AppConstant.imgUrl}${widget.picture}',
+                        width: 220,
+                        height: 220,
+                        fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Container(
                           width: 220,
                           height: 220,
