@@ -1,82 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/toko/get_product.dart';
 import 'package:mobile_flutter/models/toko/get_product_by_id.dart';
-import 'package:mobile_flutter/models/toko/get_product_by_category.dart';
-import 'package:mobile_flutter/utils/response_dummy/recommendation/get_product_response.dart';
-import 'package:mobile_flutter/utils/response_dummy/recommendation/get_product_by_id_response.dart';
-import 'package:mobile_flutter/utils/response_dummy/recommendation/get_product_by_category_response.dart';
+import 'package:mobile_flutter/utils/dio/global_dio.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/keys/navigator_keys.dart';
+import '../../view_model/aunt_viewmodel/shared_preferences_provider.dart';
 
 class ProductService {
-// //servicedummy
-//   Future<List<Produk>> fetchProducts() async {
-//     DummyApiService dummyApiService = DummyApiService();
-//     GetProducts dummyData = dummyApiService.getDummyData();
-
-//     List<Produk> products = [];
-//     if (dummyData.fertilizers != null) {
-//       products.addAll(dummyData.fertilizers!);
-//     }
-//     if (dummyData.pesticides != null) {
-//       products.addAll(dummyData.pesticides!);
-//     }
-//     if (dummyData.seeds != null) {
-//       products.addAll(dummyData.seeds!);
-//     }
-//     if (dummyData.tools != null) {
-//       products.addAll(dummyData.tools!);
-//     }
-
-//     return products;
-//   }
-
-//   Future<GetProductById> fetchProductById(int productId) async {
-//     DummyProductByIdService dummyApiService = DummyProductByIdService();
-//     GetProductById dummyData = dummyApiService.getDummyData();
-
-//     if (dummyData.product!.id == productId) {
-//       return dummyData;
-//     } else {
-//       throw Exception('Product not found');
-//     }
-//   }
-
-//   Future<List<Produk>> fetchProductsByCategory(String category) async {
-//     DummyApiService dummyApiService = DummyApiService();
-//     GetProducts dummyData = dummyApiService.getDummyData();
-
-//     List<Produk> products = [];
-
-//     if (category == "Pupuk" && dummyData.fertilizers != null) {
-//       products.addAll(dummyData.fertilizers!);
-//     } else if (category == "Pestisida" && dummyData.pesticides != null) {
-//       products.addAll(dummyData.pesticides!);
-//     } else if (category == "Bibit" && dummyData.seeds != null) {
-//       products.addAll(dummyData.seeds!);
-//     } else if (category == "Alat Tani" && dummyData.tools != null) {
-//       products.addAll(dummyData.tools!);
-//     }
-
-//     return products;
-//   }
-
-//service beneran
-// Service Api product
-  String bearerToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVXNlciB0ZXMiLCJyb2xlIjoidXNlciIsInVzZXJfaWQiOjN9.QSSZgZe_erZ2IELUqzx6LlvpJF6DTDbU663vt6RJPFM';
-
-  late Dio _dio;
-
-  ProductService() {
-    _dio = Dio();
-  }
+  final _dioWithInterceptor = DioGlobal().globalDio;
 
   Future<List<Produk>> fetchProducts() async {
     // URL layanan API
-    String apiUrl = 'https://34.128.85.215:8080/auth/users/products';
+    String apiUrl = '/auth/users/products';
 
     try {
-      Response response = await _dio.get(apiUrl,
-          options: Options(headers: {'Authorization': 'Bearer $bearerToken'}));
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      Response response = await _dioWithInterceptor.get(apiUrl,
+          options: Options(headers: {'Authorization': token}));
 
       if (response.statusCode == 200) {
         final responseData = response.data;
@@ -108,12 +53,15 @@ class ProductService {
 //Service Api product by id
   Future<GetProductById> fetchProductById(int productId) async {
     // URL layanan API
-    String apiUrl =
-        'https://34.128.85.215:8080/auth/users/products/$productId/detail';
+    String apiUrl = '/auth/users/products/$productId/detail';
 
     try {
-      Response response = await _dio.get(apiUrl,
-          options: Options(headers: {'Authorization': 'Bearer $bearerToken'}));
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      Response response = await _dioWithInterceptor.get(apiUrl,
+          options: Options(headers: {'Authorization': token}));
 
       if (response.statusCode == 200) {
         final responseData = response.data;
@@ -137,11 +85,15 @@ class ProductService {
 
   Future<List<Produk>> fetchProductsByCategory(String category) async {
     // URL layanan API
-    String apiUrl = 'https://34.128.85.215:8080/auth/users/products';
+    String apiUrl = '/auth/users/products';
 
     try {
-      Response response = await _dio.get(apiUrl,
-          options: Options(headers: {'Authorization': 'Bearer $bearerToken'}));
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+      Response response = await _dioWithInterceptor.get(apiUrl,
+          options: Options(headers: {'Authorization': token}));
 
       if (response.statusCode == 200) {
         final responseData = response.data;
@@ -165,6 +117,28 @@ class ProductService {
       }
     } catch (error) {
       throw Exception('Failed to fetch products by category');
+    }
+  }
+
+  Future<String> getSellerWa(int productId) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/products/$productId/contact',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+      final String waPhoneNumber = response.data['data']['seller_contact'];
+      return waPhoneNumber;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

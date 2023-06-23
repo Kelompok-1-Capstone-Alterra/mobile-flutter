@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -944,8 +943,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
         '/users/$userId/password',
         data: {'password': newPassword},
       );
-    } catch (error) {
-      throw Exception(e);
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 

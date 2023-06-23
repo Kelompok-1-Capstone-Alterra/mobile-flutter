@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:like_button/like_button.dart';
-import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
 import 'package:mobile_flutter/view_model/artikel_viewmodel/artikel_detail_provider.dart';
 import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_liked_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../utils/app_constant.dart';
 import '../../../utils/state/finite_state.dart';
 import '../../../utils/themes/custom_color.dart';
+import '../../../utils/widget/snackbar_custom/snackbar_cutom.dart';
 
 class DetailArtikelScreen extends StatefulWidget {
   const DetailArtikelScreen({super.key, required this.artikelId});
@@ -272,75 +271,34 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
                                     // lakukan post add liked article
                                     providerLiked.liked(widget.artikelId);
                                     //muncul kan snack bar berhasil menyimpan
-                                    AnimatedSnackBar(
-                                      mobilePositionSettings:
-                                          const MobilePositionSettings(
-                                        topOnAppearance: 50,
-                                      ),
-                                      builder: ((context) {
-                                        return Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 5),
-                                          decoration: BoxDecoration(
-                                            color: success[300],
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-
-                                          // height: 50,
-                                          child: Text(
-                                            'Berhasil Menambahkan',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge!
-                                                .copyWith(
-                                                  color: neutral[10],
-                                                ),
-                                            textAlign: TextAlign.justify,
-                                          ),
-                                        );
-                                      }),
-                                    ).show(navigatorKeys.currentContext!);
+                                    context
+                                        .read<SnackbarCustomProvider>()
+                                        .showSnackbarBasic(
+                                            description:
+                                                'Kamu menyukai artikel',
+                                            title: 'Berhasil Menyukai',
+                                            type: SnackbarType.success);
                                     return true;
                                   }
+                                  if (context
+                                          .read<SnackbarCustomProvider>()
+                                          .isShowing ==
+                                      false) {
+                                    if (isLiked == true) {
+                                      // lakukan delete liked article
+                                      providerLiked.unLiked(widget.artikelId);
+                                      //muncul kan snack bar berhasil menghapus
+                                      context
+                                          .read<SnackbarCustomProvider>()
+                                          .showSnackbarBasic(
+                                              description:
+                                                  'Menghapus artikel disukai',
+                                              title: 'Berhasil Menghapus',
+                                              type: SnackbarType.info);
 
-                                  if (isLiked == true) {
-                                    // lakukan delete liked article
-                                    providerLiked.unLiked(widget.artikelId);
-                                    //muncul kan snack bar berhasil menghapus
-                                    AnimatedSnackBar(
-                                      mobilePositionSettings:
-                                          const MobilePositionSettings(
-                                        topOnAppearance: 50,
-                                      ),
-                                      builder: ((context) {
-                                        return Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 5),
-                                          decoration: BoxDecoration(
-                                            color: neutral[40],
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-
-                                          // height: 50,
-                                          child: Text(
-                                            'Berhasil Menghapus',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge!
-                                                .copyWith(
-                                                  color: neutral[10],
-                                                ),
-                                            textAlign: TextAlign.justify,
-                                          ),
-                                        );
-                                      }),
-                                    ).show(navigatorKeys.currentContext!);
-
-                                    return false;
+                                      return false;
+                                    }
                                   }
-
                                   return null;
                                 },
                                 likeBuilder: (isLiked) {

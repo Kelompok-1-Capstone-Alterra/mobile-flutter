@@ -14,6 +14,9 @@ import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/carousel_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/deskripsi_provider.dart';
 import 'package:mobile_flutter/view_model/toko_viewmodel/url_image.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../utils/converter/regexp_wa_phonenumber.dart';
 
 class Details extends StatefulWidget {
   const Details({
@@ -29,6 +32,21 @@ class Details extends StatefulWidget {
 
 class DetailsState extends State<Details> {
   CarouselController carouselController = CarouselController();
+  late CarouselProvider carouselProvider;
+  late int currentIndex;
+
+  sendWhatsApp({required String product}) async {
+    ProductService productService = ProductService();
+    final response = await productService.getSellerWa(widget.productId);
+    final String phoneNumber = "${regExpPhoneNumber(response.toString())}";
+    String chromeURL = "googlechrome://navigate?url=";
+    String message = "Halo, apakah produk $product tesedia?";
+    String url =
+        "https://api.whatsapp.com/send?phone=$phoneNumber&text=$message";
+
+    String fullURL = chromeURL + Uri.encodeFull(url);
+    await launchUrl(Uri.parse(fullURL));
+  }
 
   @override
   void initState() {
@@ -36,6 +54,10 @@ class DetailsState extends State<Details> {
     final currentProductProvider =
         Provider.of<CurrentProductProvider>(context, listen: false);
     fetchProductById(widget.productId, currentProductProvider);
+    carouselProvider = Provider.of<CarouselProvider>(context, listen: false);
+    Future.delayed(Duration.zero, () {
+      carouselProvider.setImageSlide(0);
+    });
   }
 
   Future<void> fetchProductById(
@@ -107,8 +129,8 @@ class DetailsState extends State<Details> {
                               children: [
                                 Consumer<CarouselProvider>(
                                   builder: (context, carouselProvider, _) {
-                                    final currentIndex =
-                                        carouselProvider.currentSlide + 1;
+                                    final currentIndexImage =
+                                        carouselProvider.currentIndex + 1;
                                     final totalImages = currentProduct
                                         .product!.productPictures!.length;
                                     return Stack(
@@ -122,32 +144,18 @@ class DetailsState extends State<Details> {
                                             enlargeCenterPage: true,
                                             aspectRatio: 2,
                                             viewportFraction: 1,
+                                            initialPage:
+                                                carouselProvider.currentSlide,
                                             onPageChanged: (index, reason) {
                                               carouselProvider
-                                                  .setCurrentSlide(index);
+                                                  .setImageSlide(index);
                                             },
                                           ),
                                           itemCount: currentProduct
                                               .product!.productPictures!.length,
                                           itemBuilder: (BuildContext context,
                                               int index, int realIndex) {
-                                            return
-                                                // Container(
-                                                //   width: double.infinity,
-                                                //   height: MediaQuery.of(context)
-                                                //       .size
-                                                //       .width,
-                                                //   decoration: BoxDecoration(
-                                                //     image: DecorationImage(
-                                                //       image: NetworkImage(
-                                                //         '${UrlImage.imgurl}${currentProduct.product!.productPictures![index]}',
-                                                //       ),
-                                                //       fit: BoxFit.cover,
-                                                //     ),
-                                                //   ),
-
-                                                // );
-                                                Container(
+                                            return Container(
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                   image: NetworkImage(
@@ -181,7 +189,7 @@ class DetailsState extends State<Details> {
                                           bottom: 10,
                                           right: 10,
                                           child: Text(
-                                            '$currentIndex/$totalImages',
+                                            '$currentIndexImage/$totalImages',
                                             style: TextStyle(
                                               color: neutral[10],
                                               fontSize: 20,
@@ -304,7 +312,11 @@ class DetailsState extends State<Details> {
                           child: Center(
                             child: ReuseableButtonChat(
                               text: "Chat Penjual",
-                              onTap: () {},
+                              onTap: () async {
+                                sendWhatsApp(
+                                  product: currentProduct.product!.productName!,
+                                );
+                              },
                             ),
                           ),
                         ),
