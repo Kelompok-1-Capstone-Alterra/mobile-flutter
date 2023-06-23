@@ -289,7 +289,7 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
 
                                           // height: 50,
                                           child: Text(
-                                            'Berhasil Menambahkan',
+                                            'Kamu Menyukai Artikel',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelLarge!
@@ -325,7 +325,7 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
 
                                           // height: 50,
                                           child: Text(
-                                            'Berhasil Menghapus',
+                                            'Menghapus Artikel Di Sukai',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelLarge!

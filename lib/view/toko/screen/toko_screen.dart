@@ -33,7 +33,11 @@ class _TokoScreenState extends State<TokoScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<TokoProvider>(context, listen: false).fetchProducts();
+    context.read<TokoProvider>().fetchProducts();
+  }
+
+  Future<void> _refreshPage() async {
+    context.read<TokoProvider>().fetchProducts();
   }
 
   Future<List<Produk>> fetchProductsByCategory(
@@ -44,7 +48,7 @@ class _TokoScreenState extends State<TokoScreen> {
           await productService.fetchProductsByCategory(category);
       return fetchedProducts;
     } catch (e) {
-      print('Error fetching products by category: $e');
+      // print('Error fetching products by category: $e');
       return [];
     }
   }
@@ -57,8 +61,7 @@ class _TokoScreenState extends State<TokoScreen> {
     return SafeArea(
       child: Scaffold(
           body: RefreshIndicator(
-        onRefresh: () =>
-            Provider.of<TokoProvider>(context, listen: false).fetchProducts(),
+        onRefresh: () => _refreshPage(),
         child: SizedBox(
           child: SingleChildScrollView(
             // physics: const BouncingScrollPhysics(),
@@ -433,11 +436,19 @@ class _TokoScreenState extends State<TokoScreen> {
                                     vertical: 20,
                                     horizontal: 20,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      "Mohon maaf tidak ada produk yang tersedia",
-                                      style: TextStyle(
-                                        fontSize: 16,
+                                  child: Card(
+                                    margin: EdgeInsets.all(0),
+                                    elevation: 15,
+                                    shadowColor: Colors.black26,
+                                    color: Colors.white,
+                                    surfaceTintColor: Colors.transparent,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 70, horizontal: 20),
+                                      child: Center(
+                                        child: Text(
+                                          "Produk belum tersedia",
+                                        ),
                                       ),
                                     ),
                                   ),

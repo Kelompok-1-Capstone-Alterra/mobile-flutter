@@ -219,7 +219,9 @@ class _DeskripsiState extends State<Deskripsi> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
                                   height: size.width * 0.70,
                                   width: size.width,
                                   child: provider.currentProduct
@@ -248,10 +250,11 @@ class _DeskripsiState extends State<Deskripsi> {
                                                           .cupertino,
                                                 );
                                               },
-                                              child: Padding(
+                                              child: Container(
+                                                width: 200,
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 10,
+                                                        horizontal: 5,
                                                         vertical: 0),
                                                 child: Card(
                                                   elevation: 20,
@@ -272,20 +275,11 @@ class _DeskripsiState extends State<Deskripsi> {
                                                             .start,
                                                     children: [
                                                       Expanded(
-                                                        child: Container(
+                                                        child: SizedBox(
                                                           height:
                                                               size.width * 0.35,
                                                           width:
                                                               size.width * 0.5,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image: NetworkImage(
-                                                                  '${UrlImage.imgurl}${current.productPictures![0]}'),
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
                                                           child: Stack(
                                                             children: [
                                                               Positioned.fill(
