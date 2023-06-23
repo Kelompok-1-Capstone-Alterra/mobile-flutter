@@ -17,6 +17,7 @@ import 'package:mobile_flutter/models/progres_response_model.dart';
 import '../models/article_response_model.dart';
 import '../models/article_weather_response_model.dart';
 import '../models/available_plant_response_model.dart';
+import '../models/notification_reponse_model.dart';
 import '../models/weather_response_model.dart';
 import 'package:mobile_flutter/models/user_model.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
@@ -28,6 +29,8 @@ abstract class ServicesRestApi {
   // ------ explore and monitoring ------------
   Future<String> getUsername();
   Future<WeatherResponseModel?> getWeather(
+      {required double latitude, required double longitude});
+  Future<List<NotificationResponseModel>> getNotification(
       {required double latitude, required double longitude});
   Future<ArticleWeatherResponseModel> getWeatherArticle({required int labelId});
 

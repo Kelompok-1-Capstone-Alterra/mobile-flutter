@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_flutter/utils/keys/navigator_keys.dart';
+import 'package:mobile_flutter/utils/widget/snackbar_custom/snackbar_cutom.dart';
 import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_lastest_provider.dart';
 import 'package:mobile_flutter/view_model/artikel_viewmodel/get_article_liked_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_all_products_provider.dart';
@@ -7,6 +9,7 @@ import 'package:mobile_flutter/view_model/service_provider/get_article_trending_
 import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_fertilizing_article_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_plant_details.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_plant_location_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_planting_article_provider.dart';
@@ -202,8 +205,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => GetArticleLikedProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => SnackbarCustomProvider()),
+        ChangeNotifierProvider(create: (context) => GetNotificationProvider()),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Agriplan - App',
         theme: agriplantLight,

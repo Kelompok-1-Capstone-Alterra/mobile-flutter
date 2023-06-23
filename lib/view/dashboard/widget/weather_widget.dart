@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'package:mobile_flutter/utils/converter/convert_temperature.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../utils/themes/custom_color.dart';
+import '../../../utils/widget/snackbar_custom/snackbar_cutom.dart';
 import '../../settings/screens/settings_screen.dart';
 import '../screen/artikel_cuaca_screen.dart';
 import '../screen/notification_screen.dart';
@@ -123,20 +125,51 @@ class WeatherWidget extends StatelessWidget {
                     ),
 
                     // --------- icon lonceng dan setting---------
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                    Row(
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            // context.read<DashboardProvider>().tanamankuEmpty();
-                            pushNewScreen(context,
-                                screen: const NotificationScreen(),
-                                withNavBar: false);
-                          },
-                          icon: const Icon(
-                            FluentIcons.alert_16_regular,
-                            size: 30,
-                          ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                // context
+                                //     .read<SnackbarCustomProvider>()
+                                //     .showSnackbarBasic(
+                                //         description: "asdadad",
+                                //         title: 'asdasdad',
+                                //         type: SnackbarType.success
+                                //         // type: SnackbarType.error
+                                //         );
+
+                                pushNewScreen(context,
+                                    screen: const NotificationScreen(),
+                                    withNavBar: false);
+                              },
+                              icon: const Icon(
+                                FluentIcons.alert_16_regular,
+                                size: 30,
+                              ),
+                            ),
+                            Consumer<GetNotificationProvider>(
+                                builder: (context, prov, _) {
+                              if (prov.notifications.isEmpty) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return Positioned(
+                                  child: Container(
+                                margin:
+                                    const EdgeInsets.only(left: 14, bottom: 15),
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: warning[300],
+                                ),
+                                alignment: Alignment.center,
+                              ));
+                            })
+                          ],
                         ),
                         // SizedBox(
                         //   width: 5,
@@ -248,7 +281,9 @@ class WeatherWidgetFailed extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.read<GetWeatherProvider>().getWeatherData();
+                context
+                    .read<GetWeatherProvider>()
+                    .getWeatherData(context: context);
               },
               child: Text(
                 "Try Again?",

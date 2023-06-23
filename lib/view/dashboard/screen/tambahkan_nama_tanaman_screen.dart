@@ -78,12 +78,13 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
         child: Form(
           key: _formKey,
           child: ListView(
+            physics: const BouncingScrollPhysics(),
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                height: MediaQuery.of(context).size.width * 0.55,
-                width: MediaQuery.of(context).size.width * 0.55,
+                height: MediaQuery.of(context).size.height * 0.27,
+                width: MediaQuery.of(context).size.height * 0.27,
                 decoration: const BoxDecoration(shape: BoxShape.circle),
                 child: Image.network(
                   "${AppConstant.imgUrl}${providerDetail.plantDetails!.picture}",
@@ -98,8 +99,8 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                       baseColor: neutral[30]!,
                       highlightColor: neutral[20]!,
                       child: Container(
-                        height: MediaQuery.of(context).size.width * 0.55,
-                        width: MediaQuery.of(context).size.width * 0.55,
+                        height: MediaQuery.of(context).size.height * 0.27,
+                        width: MediaQuery.of(context).size.height * 0.27,
                         color: neutral[20]!,
                       ),
                     );
@@ -109,7 +110,10 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                       child: const Icon(Icons.image_not_supported_outlined)),
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(
+                // height: 30,
+                height: MediaQuery.of(context).size.height * 0.025,
+              ),
               TextFormField(
                 controller: _addNameControler,
                 // initialValue: providerDetail.plantDetails!.name,

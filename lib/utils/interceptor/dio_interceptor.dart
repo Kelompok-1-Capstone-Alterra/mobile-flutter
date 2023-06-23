@@ -1,13 +1,10 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:provider/provider.dart';
 
 import '../keys/navigator_keys.dart';
+import '../widget/snackbar_custom/snackbar_cutom.dart';
 
 class DioInterceptor extends Interceptor {
-// nanti context nya isi ini navigatorKeys.currentContext!;
-
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // mintak validasi punya token kalau ga ada pop semua screen lempar ke login
@@ -29,31 +26,44 @@ class DioInterceptor extends Interceptor {
       500 = “internal server error” string(255)
       504 = “gateway timeout” string(255)
     */
+    SnackbarCustomProvider snackBar = Provider.of<SnackbarCustomProvider>(
+        navigatorKeys.currentContext!,
+        listen: false);
+
+    if (err.response!.statusCode != null) {
+      if (err.response!.statusCode == 404) {
+        snackBar.showSnackbarBasic(
+            title: "kesalahan 404",
+            description: "Data tidak ditemukan",
+            type: SnackbarType.error);
+      } else if (err.response!.statusCode == 500) {
+        snackBar.showSnackbarBasic(
+            title: "Kesalahan 500",
+            description: "Terjadi kesalahan pada server",
+            type: SnackbarType.error);
+      } else if (err.response!.statusCode == 401) {
+        snackBar.showSnackbarBasic(
+            title: "Kesalahan 401 ",
+            description: "Autentikasi gagal, Silakan login kembali",
+            type: SnackbarType.error);
+      } else if (err.response!.statusCode == 400) {
+        snackBar.showSnackbarBasic(
+            title: "Kesalahan 400 ",
+            description: "Terjadi kesalahan. Permintaan tidak valid",
+            type: SnackbarType.error);
+      } else {
+        snackBar.showSnackbarBasic(
+            title: "Error",
+            description: "Maaf, terjadi suatu kesalahan",
+            type: SnackbarType.error);
+      }
+    } else {
+      snackBar.showSnackbarBasic(
+          title: "Error",
+          description: "Upss, terjadi suatu kesalahan",
+          type: SnackbarType.error);
+    }
 
     super.onError(err, handler);
-
-    AnimatedSnackBar(
-      mobilePositionSettings: const MobilePositionSettings(
-        topOnAppearance: 50,
-      ),
-      builder: ((context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          decoration: BoxDecoration(
-            color: const Color(0xffff0000),
-            borderRadius: BorderRadius.circular(10),
-          ),
-
-          // height: 50,
-          child: Text(
-            'Maaf! Terjadi kesalahan.',
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: neutral[10],
-                ),
-            textAlign: TextAlign.justify,
-          ),
-        );
-      }),
-    ).show(navigatorKeys.currentContext!);
   }
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/article_by_id_response_model.dart';
+import 'package:mobile_flutter/models/notification_reponse_model.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
 import 'package:mobile_flutter/models/profile_model.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
@@ -31,6 +32,7 @@ import '../models/all_product_response_model.dart';
 import '../models/article_weather_response_model.dart';
 import '../models/available_plant_response_model.dart';
 import '../models/user_model.dart';
+import '../utils/response_dummy/explore_monitoring/notification_dummy_reponse.dart';
 
 class ServicesRestApiImpl extends ServicesRestApi {
   //--singleton--
@@ -111,6 +113,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
               navigatorKeys.currentContext!,
               listen: false)
           .getToken();
+
+      print(token);
       final response = await _dioWithInterceptor.get(
         '/auth/users/weather/$latitude/$longitude',
         options: Options(
@@ -124,6 +128,19 @@ class ServicesRestApiImpl extends ServicesRestApi {
     } on DioError catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  @override
+  Future<List<NotificationResponseModel>> getNotification(
+      {required double latitude, required double longitude}) async {
+    List<NotificationResponseModel> result = [];
+
+    // Future.delayed(const Duration(seconds: 3));
+    // for (var element in notificationDummyResponse) {
+    //   result.add(NotificationResponseModel.fromJson(element));
+    // }
+
+    return result;
   }
 
   @override
@@ -147,7 +164,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
         ),
       );
 
-      print(response.data['data']);
+      // print(response.data['data']);
       if (response.data['data'] != [] || response.data['data'] != null) {
         for (var json in response.data['data']) {
           plantsData.add(MyPlantsResponseModel.fromJson(json));
@@ -156,7 +173,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
       return plantsData;
     } on DioError catch (e) {
-      print(e.toString());
+      // print(e.toString());
       throw Exception(e.toString());
     }
   }
