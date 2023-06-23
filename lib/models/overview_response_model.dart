@@ -123,7 +123,9 @@ class TemperatureAlert {
       TemperatureAlert(
         isActive: json["is_active"],
         name: json["name"],
-        current: json["current"],
+        current: json["current"] is int
+            ? (json["current"] as int).toDouble()
+            : json["current"],
         min: json["min"],
         max: json["max"],
       );

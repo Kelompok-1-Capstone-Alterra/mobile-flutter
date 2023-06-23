@@ -24,6 +24,7 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
             index: index,
             myplantId: plantStatsModel.myplantId!,
             plantStatsModel: plantStatsModel,
+            picture: plantStatsModel.pictures![0].url!,
           ),
           withNavBar: false,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
@@ -45,12 +46,12 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
                 Image.network(
                   // ' ${AppConstant.imgUrl}${plantStatsModel.picture}',
                   '${AppConstant.imgUrl}${plantStatsModel.pictures![0].url!}',
-                  width: 200,
+                  width: double.infinity,
                   height: 120,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: neutral[20],
-                    width: 151,
+                    width: double.infinity,
                     height: 120,
                     child: const Icon(Icons.image_not_supported_outlined),
                   ),

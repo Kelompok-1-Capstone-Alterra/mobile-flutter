@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_my_plants_provider.dart';
 import 'package:mobile_flutter/view_model/tanamanku_viewmodel/add_panen_mati_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -61,6 +62,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                         if (context.mounted &&
                             provider.state == MyState.loaded) {
                           provider.refresh();
+                          context.read<GetMyPlantsProvider>().getMyPlantsData();
                           Navigator.pop(context);
                         }
                       }
@@ -129,6 +131,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                       height: 10,
                     ),
                     TextFormField(
+                      controller: provider.descriptionController,
                       maxLines: 4,
                       maxLength: 100,
                       textInputAction: TextInputAction.done,

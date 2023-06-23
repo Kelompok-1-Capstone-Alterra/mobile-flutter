@@ -96,8 +96,14 @@ class EmailKamiScreen extends StatelessWidget {
                               ),
                         );
                       } else if (state == MyState.loading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Container(
+                          height: 25,
+                          width: 25,
+                          alignment: Alignment.center,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          ),
                         );
                       } else {
                         return Text(

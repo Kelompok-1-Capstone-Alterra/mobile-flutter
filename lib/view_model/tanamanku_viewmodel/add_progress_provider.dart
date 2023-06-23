@@ -162,4 +162,11 @@ class AddProgressProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void refreshData() {
+    isActive = false;
+    from = '';
+    to = '';
+    isEnabled = false;
+  }
 }

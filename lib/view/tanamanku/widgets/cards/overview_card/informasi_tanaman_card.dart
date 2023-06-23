@@ -24,11 +24,13 @@ class InformasiTanamanCard extends StatefulWidget {
   final CaraMenanamType caraMenanamType;
   final int plantId;
   final String location;
+  final bool isFromMyplant;
   const InformasiTanamanCard({
     super.key,
     required this.caraMenanamType,
     this.plantId = 0,
     this.location = "",
+    this.isFromMyplant = false,
   });
 
   @override
@@ -101,15 +103,27 @@ class _InformasiTanamanCardState extends State<InformasiTanamanCard> {
             switch (type) {
               case InformasiType.caraMenanam:
                 {
-                  pushNewScreen(
-                    context,
-                    screen: LokasiTanamanScreen(
-                      type: ScreenType.informasiLokasi,
-                      plantid: widget.plantId,
-                    ),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
+                  widget.isFromMyplant
+                      ? pushNewScreen(
+                          context,
+                          screen: InformasiCaraMenanamScreen(
+                            plantId: widget.plantId,
+                            location: widget.location,
+                          ),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        )
+                      : pushNewScreen(
+                          context,
+                          screen: LokasiTanamanScreen(
+                            type: ScreenType.informasiLokasi,
+                            plantid: widget.plantId,
+                          ),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
                 }
                 break;
               case InformasiType.spesifikCaraMenanam:

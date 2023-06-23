@@ -34,57 +34,123 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
             FluentIcons.ios_arrow_ltr_24_filled,
           ),
         ),
-        title: AutoSizeText(
-          'Statistik Penanaman',
-          style: ThemeData().textTheme.headlineSmall!.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: 24,
+        title: Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                width: 200, // Lebar maksimum yang diinginkan
+                child: AutoSizeText(
+                  'Statistik Penanaman',
+                  maxLines: 1, // Hanya satu baris yang ditampilkan
+                  style: ThemeData().textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22,
+                      ),
+                ),
               ),
-        ),
-        actions: [
-          Theme(
-            data: Theme.of(context).copyWith(
-              hoverColor: primary[200],
-              highlightColor: primary[200],
-              focusColor: Colors.transparent,
-              splashColor: primary[200],
             ),
-            child: Consumer<StatistikaPenanamanProvider>(
-              builder: (context, statPenanamanProvider, _) => DropdownButton(
-                padding: const EdgeInsets.only(right: 5),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'all',
-                    child: Text('Semua'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'harvest',
-                    child: Text('Panen'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'dead',
-                    child: Text('Mati'),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value != null) {
-                    statPenanamanProvider.setFilter(value);
-                    statPenanamanProvider.getAllPlantStats();
-                  }
-                },
-                underline: const SizedBox(),
-                style: ThemeData().textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
+            Theme(
+              data: Theme.of(context).copyWith(
+                hoverColor: primary[200],
+                highlightColor: primary[200],
+                focusColor: Colors.transparent,
+                splashColor: primary[200],
+              ),
+              child: Consumer<StatistikaPenanamanProvider>(
+                builder: (context, statPenanamanProvider, _) => DropdownButton(
+                  padding: const EdgeInsets.only(right: 20),
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'all',
+                      child: Text('Semua'),
                     ),
-                iconDisabledColor: neutral,
-                iconEnabledColor: neutral,
-                icon: const Icon(FluentIcons.filter_16_filled),
+                    DropdownMenuItem(
+                      value: 'harvest',
+                      child: Text('Panen'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'dead',
+                      child: Text('Mati'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) {
+                      statPenanamanProvider.setFilter(value);
+                    }
+                  },
+                  underline: const SizedBox(),
+                  style: ThemeData().textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                  iconDisabledColor: neutral,
+                  iconEnabledColor: neutral,
+                  icon: const Icon(FluentIcons.filter_16_filled),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+
+      // appBar: AppBar(
+      //   titleSpacing: 0,
+      //   leading: GestureDetector(
+      //     onTap: () => Navigator.pop(context),
+      //     child: const Icon(
+      //       FluentIcons.ios_arrow_ltr_24_filled,
+      //     ),
+      //   ),
+      //   title: AutoSizeText(
+      //     'Statistik Penanaman',
+      //     style: ThemeData().textTheme.headlineSmall!.copyWith(
+      //           fontWeight: FontWeight.w600,
+      //           fontSize: 24,
+      //         ),
+      //   ),
+      //   actions: [
+      //     Theme(
+      //       data: Theme.of(context).copyWith(
+      //         hoverColor: primary[200],
+      //         highlightColor: primary[200],
+      //         focusColor: Colors.transparent,
+      //         splashColor: primary[200],
+      //       ),
+      //       child: Consumer<StatistikaPenanamanProvider>(
+      //         builder: (context, statPenanamanProvider, _) => DropdownButton(
+      //           padding: const EdgeInsets.only(right: 5),
+      //           items: const [
+      //             DropdownMenuItem(
+      //               value: 'Semua',
+      //               child: Text('Semua'),
+      //             ),
+      //             DropdownMenuItem(
+      //               value: 'Panen',
+      //               child: Text('Panen'),
+      //             ),
+      //             DropdownMenuItem(
+      //               value: 'Mati',
+      //               child: Text('Mati'),
+      //             ),
+      //           ],
+      //           onChanged: (value) {
+      //             if (value != null) {
+      //               statPenanamanProvider.setFilter(value);
+      //             }
+      //           },
+      //           underline: const SizedBox(),
+      //           style: ThemeData().textTheme.bodyLarge!.copyWith(
+      //                 fontWeight: FontWeight.w400,
+      //                 fontSize: 16,
+      //               ),
+      //           iconDisabledColor: neutral,
+      //           iconEnabledColor: neutral,
+      //           icon: const Icon(FluentIcons.filter_16_filled),
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
@@ -117,7 +183,7 @@ class _StatistikPenanamanScreenState extends State<StatistikPenanamanScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 16 / 20,
+                      childAspectRatio: 6 / 7,
                       mainAxisSpacing: 10,
                     ),
                     itemCount: statistikaPenanaman.allItems.length,

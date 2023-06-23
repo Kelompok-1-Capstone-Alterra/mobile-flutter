@@ -101,6 +101,9 @@ class _ArtikelScreenState extends State<ArtikelScreen> {
               },
             ),
             ArtikelLatestWidget(horizontal: _horizontal),
+            const SizedBox(
+              height: 15,
+            ),
           ],
         ),
       ),

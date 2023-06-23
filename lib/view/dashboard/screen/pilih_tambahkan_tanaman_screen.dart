@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_avalilable_plants_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../utils/themes/custom_color.dart';
 import '../widget/add_plant_gridview_widget.dart';
 
 class PilihTambahTanamanScreen extends StatefulWidget {
@@ -79,6 +80,8 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                     .searchFieldController,
 
                 decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 18),
                   suffixIcon: IconButton(
                     splashRadius: 5,
                     splashColor: Colors.black.withOpacity(0.01),
@@ -89,16 +92,24 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
 
                       context.read<GetAvailablePlantsProvider>().clearSearch();
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.close,
-                      color: Colors.black,
+                      color: neutral[70],
                       size: 20,
                     ),
                   ),
                   hintText: 'Cari Tanaman',
-                  prefixIcon: const Icon(
-                    FluentIcons.search_16_regular,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(left: 15, right: 10),
+                    child: Icon(
+                      FluentIcons.search_16_regular,
+                      size: 30,
+                    ),
                   ),
+                  hintStyle: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: neutral[40]),
                   focusColor: Theme.of(context).inputDecorationTheme.focusColor,
                   focusedBorder:
                       Theme.of(context).inputDecorationTheme.focusedBorder,
@@ -106,6 +117,34 @@ class _PilihTambahTanamanScreenState extends State<PilihTambahTanamanScreen> {
                   disabledBorder:
                       Theme.of(context).inputDecorationTheme.disabledBorder,
                 ),
+                // InputDecoration(
+                //   suffixIcon: IconButton(
+                //     splashRadius: 5,
+                //     splashColor: Colors.black.withOpacity(0.01),
+                //     highlightColor: Colors.black.withOpacity(0.05),
+                //     onPressed: () {
+                //       //
+                //       // clear text field kalau pencet icon X
+
+                //       context.read<GetAvailablePlantsProvider>().clearSearch();
+                //     },
+                //     icon: const Icon(
+                //       Icons.close,
+                //       color: Colors.black,
+                //       size: 20,
+                //     ),
+                //   ),
+                //   hintText: 'Cari Tanaman',
+                //   prefixIcon: const Icon(
+                //     FluentIcons.search_16_regular,
+                //   ),
+                //   focusColor: Theme.of(context).inputDecorationTheme.focusColor,
+                //   focusedBorder:
+                //       Theme.of(context).inputDecorationTheme.focusedBorder,
+                //   border: Theme.of(context).inputDecorationTheme.border,
+                //   disabledBorder:
+                //       Theme.of(context).inputDecorationTheme.disabledBorder,
+                // ),
               ),
             ),
             const SizedBox(height: 10),
