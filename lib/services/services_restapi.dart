@@ -32,6 +32,10 @@ abstract class ServicesRestApi {
       {required double latitude, required double longitude});
   Future<List<NotificationResponseModel>> getNotification(
       {required double latitude, required double longitude});
+  Future putReadNotification({
+    required int notifId,
+  });
+
   Future<ArticleWeatherResponseModel> getWeatherArticle({required int labelId});
 
   Future<List<MyPlantsResponseModel>> getMyPlants();
@@ -48,7 +52,9 @@ abstract class ServicesRestApi {
 
   Future<void> deleteMyPlants(List<int> myPlantIds);
   Future<void> addMyPlant(
-      {required plantId, required String location, required String namedPlant});
+      {required int plantId,
+      required String location,
+      required String namedPlant});
 
   Future<List<ArticleResponseModel>> getTrendingArticle();
   Future<AllProductsResponseModel> getAllProducts();

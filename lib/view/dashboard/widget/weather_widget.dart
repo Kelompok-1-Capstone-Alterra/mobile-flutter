@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'package:mobile_flutter/utils/converter/convert_temperature.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -11,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../utils/themes/custom_color.dart';
-import '../../../utils/widget/snackbar_custom/snackbar_cutom.dart';
 import '../../settings/screens/settings_screen.dart';
 import '../screen/artikel_cuaca_screen.dart';
 import '../screen/notification_screen.dart';
@@ -132,15 +132,6 @@ class WeatherWidget extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: () {
-                                // context
-                                //     .read<SnackbarCustomProvider>()
-                                //     .showSnackbarBasic(
-                                //         description: "asdadad",
-                                //         title: 'asdasdad',
-                                //         type: SnackbarType.success
-                                //         // type: SnackbarType.error
-                                //         );
-
                                 pushNewScreen(context,
                                     screen: const NotificationScreen(),
                                     withNavBar: false);
@@ -152,22 +143,22 @@ class WeatherWidget extends StatelessWidget {
                             ),
                             Consumer<GetNotificationProvider>(
                                 builder: (context, prov, _) {
-                              if (prov.notifications.isEmpty) {
-                                return const SizedBox.shrink();
+                              if (prov.unreadNotifId.isNotEmpty &&
+                                  prov.state == MyState.loaded) {
+                                return Positioned(
+                                    child: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 14, bottom: 15),
+                                  height: 10,
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: warning[300],
+                                  ),
+                                  alignment: Alignment.center,
+                                ));
                               }
-
-                              return Positioned(
-                                  child: Container(
-                                margin:
-                                    const EdgeInsets.only(left: 14, bottom: 15),
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: warning[300],
-                                ),
-                                alignment: Alignment.center,
-                              ));
+                              return const SizedBox.shrink();
                             })
                           ],
                         ),

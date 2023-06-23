@@ -61,7 +61,7 @@ class _TokoScreenState extends State<TokoScreen> {
             Provider.of<TokoProvider>(context, listen: false).fetchProducts(),
         child: SizedBox(
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            // physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 Padding(
@@ -82,11 +82,11 @@ class _TokoScreenState extends State<TokoScreen> {
                       surfaceTintColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: neutral[40]!),
+                        side: BorderSide(color: neutral[30]!),
                       ),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16,
-                          vertical: 14), // Ubah ukuran padding tombol
+                          vertical: 12), // Ubah ukuran padding tombol
                     ),
                     child: Row(
                       children: [
@@ -116,9 +116,9 @@ class _TokoScreenState extends State<TokoScreen> {
                     children: [
                       CarouselSlider(
                         options: CarouselOptions(
-                          aspectRatio: 2.4,
+                          aspectRatio: 14 / 6.2,
                           autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 5),
+                          autoPlayInterval: const Duration(seconds: 8),
                           autoPlayAnimationDuration:
                               const Duration(milliseconds: 800),
                           enableInfiniteScroll: true,
@@ -133,7 +133,7 @@ class _TokoScreenState extends State<TokoScreen> {
                         }).toList(),
                       ),
                       Positioned(
-                        bottom: 25.0,
+                        bottom: 18.0,
                         left: 0,
                         right: 0,
                         child: Align(
@@ -143,7 +143,7 @@ class _TokoScreenState extends State<TokoScreen> {
                             children: crousel.asMap().entries.map((entry) {
                               int index = entry.key;
                               return Container(
-                                width: 20.0,
+                                width: 15.0,
                                 height: 6.0,
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 4.0),
@@ -249,8 +249,8 @@ class _TokoScreenState extends State<TokoScreen> {
 
                 /// Spesial Untukmu
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   width: size.width,
                   child: Consumer<TokoProvider>(
                     builder: (context, tokoProvider, _) {
@@ -268,9 +268,9 @@ class _TokoScreenState extends State<TokoScreen> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: tokoProvider.products.length,
                                   gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    childAspectRatio: 7 / size.height * 80,
+                                    childAspectRatio: 5 / 8,
                                     crossAxisSpacing: 15,
                                     mainAxisSpacing: 15,
                                   ),
@@ -457,21 +457,19 @@ class _TokoScreenState extends State<TokoScreen> {
   Widget card(Crousel data, TextTheme theme, Size size) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 2,
-            horizontal: 5,
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          // padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+          clipBehavior: Clip.antiAlias,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3),
-              image: DecorationImage(
-                image: AssetImage(data.imageUrl),
-                fit: BoxFit.fill,
-                alignment: Alignment.center,
-              ),
-            ),
+          child: Image(
+            image: AssetImage(data.imageUrl),
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
           ),
         );
       },

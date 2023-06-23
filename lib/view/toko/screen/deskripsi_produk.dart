@@ -127,6 +127,61 @@ class _DeskripsiState extends State<Deskripsi> {
                                                             .currentProduct!
                                                             .product!
                                                             .productDescription!,
+                                                        style: {
+                                                          'p': Style(
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                          ),
+                                                          'br': Style(
+                                                            fontSize:
+                                                                FontSize(0),
+                                                            margin: Margins
+                                                                .symmetric(
+                                                              horizontal: 0,
+                                                              vertical: 0,
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        0,
+                                                                    vertical:
+                                                                        0),
+                                                          ),
+                                                          'ol': Style(
+                                                              margin: Margins
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          0,
+                                                                      vertical:
+                                                                          0),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 18,
+                                                                      top: 0,
+                                                                      right: 0,
+                                                                      bottom: 0)
+                                                              // padding: EdgeInsets.all(0),
+                                                              ),
+                                                          'ul': Style(
+                                                              margin: Margins
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          0),
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      18)
+                                                              // padding: EdgeInsets.all(0),
+                                                              ),
+                                                          'li': Style(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .justify
+                                                              // padding: EdgeInsets.all(0),
+                                                              ),
+                                                        },
                                                       )
                                                     : Container(),
                                               ),

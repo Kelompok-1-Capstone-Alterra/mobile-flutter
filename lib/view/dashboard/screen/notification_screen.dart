@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/notification_reponse_model.dart';
 import '../../../view_model/service_provider/get_notification_provider.dart';
+import '../../tanamanku/screen/detail_tanaman_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -37,6 +39,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
             "Notifikasi",
             style: Theme.of(context).textTheme.headlineSmall,
           ),
+          actions: [
+            Consumer<GetNotificationProvider>(builder: (context, prov, _) {
+              if (prov.notifications.isNotEmpty) {
+                return Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: TextButton(
+                      onPressed: () {
+                        if (prov.unreadNotifId.isNotEmpty) {
+                          prov.readAllNotification();
+                        }
+                      },
+                      child: const Icon(
+                        Icons.drafts_outlined,
+                        color: Colors.black54,
+                      )),
+                );
+              }
+              return const SizedBox.shrink();
+            })
+          ],
         ),
         body: Consumer<GetNotificationProvider>(builder: (context, prov, _) {
           if (prov.state == MyState.loading) {
@@ -47,7 +69,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             if (prov.notifications.isEmpty) {
               return Center(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.8,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -56,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         width: MediaQuery.of(context).size.width * 0.65,
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 13,
                       ),
                       Text(
                         'Sepertinya kamu belum memiliki notifikasi',
@@ -97,8 +119,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        // provider.getTemperatureArticleData(
-                        //     plantId: widget.plantId);
+                        context
+                            .read<GetNotificationProvider>()
+                            .getNotificationDataWithoutParam();
                       },
                       child: Text(
                         "Try Again?",
@@ -110,17 +133,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
             );
           }
-        })
-
-        // ListView(
-        //   children: const [
-        //     NotficationListTileWidget(
-        //         plantTitle: "Tomat", description: "Kamu melupakan penyiraman"),
-        //     NotficationListTileWidget(
-        //         plantTitle: "wortel", description: "Kamu melupakan penyiraman"),
-        //   ],
-        // ),
-        );
+        }));
   }
 }
 
@@ -135,15 +148,26 @@ class NotficationListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       shape: LinearBorder.bottom(side: const BorderSide(color: Colors.black26)),
       onTap: () {
-        //
+        context
+            .read<GetNotificationProvider>()
+            .readNotification(notifId: data.idNotif!);
 
-        //fungsi ke halaman detail tanamanku
-        // cek dlu ini false apa true , kalau false jalan kan http post read notif
-        //
-        //
+        context
+            .read<GetNotificationProvider>()
+            .getNotificationDataWithoutParam();
+
+        Navigator.of(context).pushAndRemoveUntil(
+            CupertinoPageRoute(
+              builder: (context) => DetailTanamanScreen(
+                idTanaman: data.myplantId!,
+                idDetailTanaman: data.plantId!,
+                location: data.location!,
+              ),
+            ),
+            (route) => route.isFirst);
       },
       splashColor: neutral[20]!.withOpacity(0.15),
       tileColor: data.readStatus == false ? primary[100] : neutral[10],

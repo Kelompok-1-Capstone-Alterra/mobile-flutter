@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/toko/get_product.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
@@ -96,26 +97,44 @@ class ListAllProdukState extends State<ListAllProduk> {
                             style: Theme.of(context).textTheme.bodyLarge,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
-                                vertical: 20,
-                                horizontal: 20,
-                              ),
-                              filled: true,
-                              fillColor: neutral[10],
-                              prefixIcon: const Icon(Icons.search),
+                                  horizontal: 5, vertical: 18),
                               suffixIcon: IconButton(
+                                splashRadius: 5,
+                                splashColor: Colors.black.withOpacity(0.01),
+                                highlightColor: Colors.black.withOpacity(0.05),
                                 onPressed: () {
                                   productProvider.filterProducts("");
                                   textFieldController.clear();
                                 },
-                                icon:
-                                    const Icon(Icons.highlight_remove_outlined),
+                                icon: Icon(
+                                  Icons.close,
+                                  color: neutral[70],
+                                  size: 20,
+                                ),
                               ),
-                              hintStyle: Theme.of(context).textTheme.bodyLarge,
-                              hintText: "Cari Produk disini...",
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(color: neutral[70]!),
-                                borderRadius: BorderRadius.circular(10),
+                              hintText: 'Cari Produk disini...',
+                              prefixIcon: const Padding(
+                                padding: EdgeInsets.only(left: 15, right: 10),
+                                child: Icon(
+                                  FluentIcons.search_16_regular,
+                                  size: 30,
+                                ),
                               ),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(color: neutral[40]),
+                              focusColor: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .focusColor,
+                              focusedBorder: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .focusedBorder,
+                              border:
+                                  Theme.of(context).inputDecorationTheme.border,
+                              disabledBorder: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .disabledBorder,
                             ),
                           ),
                         ),
@@ -162,9 +181,9 @@ class ListAllProdukState extends State<ListAllProduk> {
                                     itemCount:
                                         productProvider.filteredProducts.length,
                                     gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
-                                      childAspectRatio: 7 / size.height * 80,
+                                      childAspectRatio: 5 / 8,
                                       crossAxisSpacing: 15,
                                       mainAxisSpacing: 15,
                                     ),

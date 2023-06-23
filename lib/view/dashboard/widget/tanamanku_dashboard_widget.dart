@@ -180,7 +180,19 @@ class TanamankuDasboardWidget extends StatelessWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(10),
-                            onTap: () {},
+                            onTap: () {
+                              pushNewScreen(
+                                context,
+                                screen: DetailTanamanScreen(
+                                  idTanaman:
+                                      provider.myPlants[index].myplantId!,
+                                  idDetailTanaman:
+                                      provider.myPlants[index].plantId!,
+                                  location: provider.myPlants[index].location!,
+                                ),
+                                withNavBar: false,
+                              );
+                            },
                           ),
                         ),
                       )

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_flutter/utils/converter/remove_html_tags.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_flutter/utils/themes/custom_color.dart';
 import 'package:mobile_flutter/view/toko/screen/deskripsi_produk.dart';
 import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_price.dart';
 import 'package:mobile_flutter/view/toko/widget/toko_widget/reusable_button_chat.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mobile_flutter/models/toko/get_product_by_id.dart';
 import 'package:mobile_flutter/services/toko/service_get_product.dart';
@@ -201,20 +201,13 @@ class DetailsState extends State<Details> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(height: size.height * 0.016),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                            child: AutoSizeText(
-                                              currentProduct
-                                                  .product!.productName!,
-                                              overflow: TextOverflow.ellipsis,
-                                              minFontSize: 20,
-                                              maxLines: 2,
-                                            ),
-                                          ),
-                                        ],
+                                      SizedBox(
+                                        child: AutoSizeText(
+                                          currentProduct.product!.productName!,
+                                          overflow: TextOverflow.ellipsis,
+                                          minFontSize: 20,
+                                          maxLines: 2,
+                                        ),
                                       ),
                                       SizedBox(height: size.height * 0.016),
                                       Row(
@@ -282,11 +275,18 @@ class DetailsState extends State<Details> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
-                                            child: Html(
-                                              data: currentProduct
-                                                  .product!.productDescription!,
+                                              child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 7),
+                                            child: Text(
+                                              parseHtmlString(currentProduct
+                                                  .product!
+                                                  .productDescription!),
+                                              maxLines: 5,
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ),
+                                          )),
                                         ],
                                       ),
                                       const SizedBox(height: 65),
