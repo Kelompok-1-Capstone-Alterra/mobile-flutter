@@ -84,6 +84,15 @@ abstract class ServicesRestApi {
 
   // Explore Monitoring Fauzi
   Future<MyPlantNameResponseModel> getMyPlantName(int idTanaman);
+  Future<void> changeMyPlantName(
+    int idTanaman,
+    String namaTanamanBaru,
+  );
+  Future<void> startPlanting(
+    int idTanaman,
+    double longitude,
+    double latitude,
+  );
   Future<OverviewResponseModel> getOverview(int idTanaman);
   Future<List<ProgresResponseModel>> getProgres(int idTanaman);
   Future<ProgresDetailResponseModel> getProgresDetail(

@@ -24,6 +24,7 @@ class ItemStatistikaPenanamanWidget extends StatelessWidget {
             index: index,
             myplantId: plantStatsModel.myplantId!,
             plantStatsModel: plantStatsModel,
+            picture: plantStatsModel.pictures![0].url!,
           ),
           withNavBar: false,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
