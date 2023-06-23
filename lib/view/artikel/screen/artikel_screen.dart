@@ -23,8 +23,11 @@ class _ArtikelScreenState extends State<ArtikelScreen> {
 
   @override
   void initState() {
-    context.read<GetArticleLatestProvider>().getArticleLatestData();
-    context.read<GetArticleLikedProvider>().getArticleLikedtData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<GetArticleLatestProvider>().getArticleLatestData();
+      context.read<GetArticleLikedProvider>().getArticleLikedtData();
+    });
+
     super.initState();
   }
 

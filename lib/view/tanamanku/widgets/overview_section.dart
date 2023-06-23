@@ -211,7 +211,7 @@ class _OverviewSectionState extends State<OverviewSection> {
                                 onPressed: () async {
                                   context
                                       .read<GetWeatherProvider>()
-                                      .getWeatherData();
+                                      .getWeatherData(context: context);
                                   await provider.startPlanting(
                                     context,
                                     widget.idTanaman,

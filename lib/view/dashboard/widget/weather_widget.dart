@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'package:mobile_flutter/utils/converter/convert_temperature.dart';
+import 'package:mobile_flutter/utils/state/finite_state.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
 import 'package:mobile_flutter/view_model/service_provider/get_weather_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -123,20 +125,42 @@ class WeatherWidget extends StatelessWidget {
                     ),
 
                     // --------- icon lonceng dan setting---------
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                    Row(
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            // context.read<DashboardProvider>().tanamankuEmpty();
-                            pushNewScreen(context,
-                                screen: const NotificationScreen(),
-                                withNavBar: false);
-                          },
-                          icon: const Icon(
-                            FluentIcons.alert_16_regular,
-                            size: 30,
-                          ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                pushNewScreen(context,
+                                    screen: const NotificationScreen(),
+                                    withNavBar: false);
+                              },
+                              icon: const Icon(
+                                FluentIcons.alert_16_regular,
+                                size: 30,
+                              ),
+                            ),
+                            Consumer<GetNotificationProvider>(
+                                builder: (context, prov, _) {
+                              if (prov.unreadNotifId.isNotEmpty &&
+                                  prov.state == MyState.loaded) {
+                                return Positioned(
+                                    child: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 14, bottom: 15),
+                                  height: 10,
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: warning[300],
+                                  ),
+                                  alignment: Alignment.center,
+                                ));
+                              }
+                              return const SizedBox.shrink();
+                            })
+                          ],
                         ),
                         // SizedBox(
                         //   width: 5,
@@ -248,7 +272,9 @@ class WeatherWidgetFailed extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.read<GetWeatherProvider>().getWeatherData();
+                context
+                    .read<GetWeatherProvider>()
+                    .getWeatherData(context: context);
               },
               child: Text(
                 "Try Again?",

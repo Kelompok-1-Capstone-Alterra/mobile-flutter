@@ -297,7 +297,7 @@ class TanamankuScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              context.read<GetMyPlantsProvider>().deleteAllSelected();
+              context.read<GetMyPlantsProvider>().deleteAllSelected(context);
               Navigator.pop(context);
             },
             style: ButtonStyle(

@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _refreshPage() async {
     context.read<GetWeatherProvider>().getUsernameData();
-    context.read<GetWeatherProvider>().getWeatherData();
+    context.read<GetWeatherProvider>().getWeatherData(context: context);
     context.read<GetMyPlantsProvider>().getMyPlantsData();
     context.read<GetTrendingArticleProvider>().getTrendingArticleData();
     context.read<GetAllProductsProvider>().getAllProductsData();
@@ -36,11 +36,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    context.read<GetWeatherProvider>().getUsernameData();
-    context.read<GetWeatherProvider>().getWeatherData();
-    context.read<GetMyPlantsProvider>().getMyPlantsData();
-    context.read<GetTrendingArticleProvider>().getTrendingArticleData();
-    context.read<GetAllProductsProvider>().getAllProductsData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<GetWeatherProvider>().getUsernameData();
+      context.read<GetWeatherProvider>().getWeatherData(context: context);
+      context.read<GetMyPlantsProvider>().getMyPlantsData();
+      context.read<GetTrendingArticleProvider>().getTrendingArticleData();
+      context.read<GetAllProductsProvider>().getAllProductsData();
+    });
+
     super.initState();
   }
 

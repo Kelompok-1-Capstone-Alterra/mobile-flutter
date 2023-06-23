@@ -17,6 +17,7 @@ import 'package:mobile_flutter/models/progres_response_model.dart';
 import '../models/article_response_model.dart';
 import '../models/article_weather_response_model.dart';
 import '../models/available_plant_response_model.dart';
+import '../models/notification_reponse_model.dart';
 import '../models/weather_response_model.dart';
 import 'package:mobile_flutter/models/user_model.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
@@ -29,6 +30,12 @@ abstract class ServicesRestApi {
   Future<String> getUsername();
   Future<WeatherResponseModel?> getWeather(
       {required double latitude, required double longitude});
+  Future<List<NotificationResponseModel>> getNotification(
+      {required double latitude, required double longitude});
+  Future putReadNotification({
+    required int notifId,
+  });
+
   Future<ArticleWeatherResponseModel> getWeatherArticle({required int labelId});
 
   Future<List<MyPlantsResponseModel>> getMyPlants();
@@ -45,7 +52,9 @@ abstract class ServicesRestApi {
 
   Future<void> deleteMyPlants(List<int> myPlantIds);
   Future<void> addMyPlant(
-      {required plantId, required String location, required String namedPlant});
+      {required int plantId,
+      required String location,
+      required String namedPlant});
 
   Future<List<ArticleResponseModel>> getTrendingArticle();
   Future<AllProductsResponseModel> getAllProducts();

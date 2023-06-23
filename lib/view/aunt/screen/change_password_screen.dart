@@ -50,7 +50,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         }
       } catch (e) {
         provider.setIsError(true);
-        print(e);
+        // print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           customSnackBar(text: 'Terjadi kesalahan.'),
         );

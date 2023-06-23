@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:mobile_flutter/models/article_by_id_response_model.dart';
+import 'package:mobile_flutter/models/notification_reponse_model.dart';
 import 'package:mobile_flutter/models/plant_stats_model.dart';
 import 'package:mobile_flutter/models/profile_model.dart';
 import 'package:mobile_flutter/models/article_response_model.dart';
@@ -110,6 +111,8 @@ class ServicesRestApiImpl extends ServicesRestApi {
               navigatorKeys.currentContext!,
               listen: false)
           .getToken();
+
+      // print(token);
       final response = await _dioWithInterceptor.get(
         '/auth/users/weather/$latitude/$longitude',
         options: Options(
@@ -126,6 +129,60 @@ class ServicesRestApiImpl extends ServicesRestApi {
   }
 
   @override
+  Future<List<NotificationResponseModel>> getNotification(
+      {required double latitude, required double longitude}) async {
+    List<NotificationResponseModel> result = [];
+
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.get(
+        '/auth/users/plants/notifications/$latitude/$longitude',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+
+      if (response.data['data'] != [] || response.data['data'] != null) {
+        for (var json in response.data['data']) {
+          result.add(NotificationResponseModel.fromJson(json));
+        }
+      }
+
+      return result;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future putReadNotification({required int notifId}) async {
+    try {
+      String token = await Provider.of<SharedPreferencesProvider>(
+              navigatorKeys.currentContext!,
+              listen: false)
+          .getToken();
+
+      final response = await _dioWithInterceptor.put(
+        '/auth/users/plants/notifications/$notifId',
+        options: Options(
+          headers: {
+            'Authorization': token,
+          },
+        ),
+      );
+      return response.statusCode;
+    } on DioError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
   Future<List<MyPlantsResponseModel>> getMyPlants() async {
     List<MyPlantsResponseModel> plantsData = [];
     try {
@@ -134,19 +191,16 @@ class ServicesRestApiImpl extends ServicesRestApi {
               listen: false)
           .getToken();
 
-      // print(token);
       final response = await _dioWithInterceptor.get(
         '/auth/users/plants',
         options: Options(
           headers: {
-            'Authorization':
-                // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoianVuYW4yIiwicm9sZSI6InVzZXIiLCJ1c2VyX2lkIjoyNH0.tELVGGgB57W0wlCslWtREJ0h9YMolpLCIivGz5EAtiU",
-                token,
+            'Authorization': token,
           },
         ),
       );
 
-      print(response.data['data']);
+      // print(response.data['data']);
       if (response.data['data'] != [] || response.data['data'] != null) {
         for (var json in response.data['data']) {
           plantsData.add(MyPlantsResponseModel.fromJson(json));
@@ -155,7 +209,7 @@ class ServicesRestApiImpl extends ServicesRestApi {
 
       return plantsData;
     } on DioError catch (e) {
-      print(e.toString());
+      // print(e.toString());
       throw Exception(e.toString());
     }
   }

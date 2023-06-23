@@ -2,6 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/weather_response_model.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/service_location.dart';
 import '../../services/services_restapi_impl.dart';
@@ -31,7 +33,8 @@ class GetWeatherProvider extends ChangeNotifier {
   WeatherResponseModel? currentWeather;
   String username = "";
 
-  void getWeatherData() async {
+  void getWeatherData({required BuildContext context}) async {
+    // print("weather------");
     //ini untuk dapatin lokasi serta handler service location
     if (state == MyState.loaded || state == MyState.failed) {
       state = MyState.loading;
@@ -49,11 +52,20 @@ class GetWeatherProvider extends ChangeNotifier {
     if (location != null) {
       latitude = location.latitude;
       longitude = location.longitude;
+
+      // print("latitude : $latitude -------- longitude : $longitude");
       try {
         //ini untuk dapatin cuaca dari restApi
         final response = await service.getWeather(
             latitude: latitude!, longitude: longitude!);
         currentWeather = response;
+
+        if (context.mounted) {
+          context
+              .read<GetNotificationProvider>()
+              .getNotificationData(latitude: latitude!, longitude: longitude!);
+        }
+
         state = MyState.loaded;
         // print(
         //     "fetch -------- latitude = ${location.latitude} and lontitude = ${location.longitude} -------");
@@ -67,6 +79,8 @@ class GetWeatherProvider extends ChangeNotifier {
       // print("eror mas bro");
     }
   }
+
+  void intialFetchNotif() {}
 
   void getUsernameData() async {
     try {

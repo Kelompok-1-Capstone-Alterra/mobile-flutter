@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/services_restapi_impl.dart';
 import '../../utils/state/finite_state.dart';
+import '../../utils/widget/snackbar_custom/snackbar_cutom.dart';
 
 class GetMyPlantsProvider extends ChangeNotifier {
   // text field control and query
@@ -76,7 +78,7 @@ class GetMyPlantsProvider extends ChangeNotifier {
     // print(isDeleteMode);
   }
 
-  deleteAllSelected() async {
+  deleteAllSelected(BuildContext context) async {
     List<int> myplantId = [];
     for (var value in dataSelected) {
       myplantId.add(value.myplantId!);
@@ -86,13 +88,20 @@ class GetMyPlantsProvider extends ChangeNotifier {
       try {
         final response = await service.deleteMyPlants(myplantId);
         if (response == 200) {
-          print("berhasil hapus ler");
+          if (context.mounted) {
+            context.read<SnackbarCustomProvider>().showSnackbarBasic(
+                title: "Succes",
+                description: "Tanaman kamu berhasil di hapus",
+                type: SnackbarType.success);
+          }
+
+          // print("berhasil hapus ler");
           // buat snackbar berhasil hapus
           // get data lagi biar liat pembaharuan
           getMyPlantsData();
         }
       } catch (e) {
-        print("gagal cok");
+        // print("gagal cok");
         // buat snackbar gagal
       }
     }
