@@ -40,7 +40,7 @@ class _DetailItemStatistikPenanamanState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ProgresProvider>().getProgres(widget.myplantId);
     });
-    print(widget.picture);
+    // print(widget.picture);
   }
 
   @override

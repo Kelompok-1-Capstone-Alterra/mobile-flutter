@@ -15,7 +15,7 @@ class TokoProvider with ChangeNotifier {
 
       products = fetchedProducts;
     } catch (e) {
-      print('Error fetching products: $e');
+      // print('Error fetching products: $e');
       rethrow;
     } finally {
       isLoading = false;
