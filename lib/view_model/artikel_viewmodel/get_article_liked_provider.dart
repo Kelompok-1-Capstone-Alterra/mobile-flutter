@@ -38,12 +38,10 @@ class GetArticleLikedProvider extends ChangeNotifier {
   }
 
   void liked(int artikelId) async {
-    Future.delayed(const Duration(seconds: 3));
     await service.like(artikelId);
   }
 
   void unLiked(int artikelId) async {
-    Future.delayed(const Duration(seconds: 3));
     await service.unLike(artikelId);
   }
 }

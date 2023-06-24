@@ -154,6 +154,11 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                                 context
                                     .read<GetMyPlantsProvider>()
                                     .getMyPlantsData();
+
+                                if (provider.postResponse!.myplantId != null &&
+                                    provider.state != MyState.loading) {
+                                  navigationToDetailMyPlant();
+                                }
                               }
                             } catch (e) {
                               throw Exception(e);
@@ -161,10 +166,6 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                           }
                           // print(
                           //     "${provider.postResponse!.myplantId} ${provider.postResponse!.plantsId}");
-                          if (provider.postResponse!.myplantId != null &&
-                              provider.state != MyState.loading) {
-                            navigationToDetailMyPlant();
-                          }
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -211,6 +212,11 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                                 context
                                     .read<GetMyPlantsProvider>()
                                     .getMyPlantsData();
+
+                                if (providers.postResponse!.myplantId != null &&
+                                    providers.state != MyState.loading) {
+                                  navigationToDetailMyPlant();
+                                }
                               }
                             } catch (e) {
                               throw Exception(e);
@@ -218,10 +224,7 @@ class _TambahNamaTanamanScreenState extends State<TambahNamaTanamanScreen> {
                           }
                           // print(
                           //     "${provider.postResponse!.myplantId} ${provider.postResponse!.plantsId}");
-                          if (providers.postResponse!.myplantId != null &&
-                              providers.state != MyState.loading) {
-                            navigationToDetailMyPlant();
-                          }
+
                           // if (providers.state != MyState.loading) {
                           //   try {
                           //     providers.addMyPlant(

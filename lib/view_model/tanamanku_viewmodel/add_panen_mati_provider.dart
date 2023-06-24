@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobile_flutter/services/services_restapi_impl.dart';
 import 'package:mobile_flutter/utils/state/finite_state.dart';
 import 'package:mobile_flutter/utils/widget/show_dialog/show_dialog_icon_widget.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddPanenMatiProvider with ChangeNotifier {
   final TextEditingController descriptionController = TextEditingController();
@@ -89,6 +91,9 @@ class AddPanenMatiProvider with ChangeNotifier {
       notifyListeners();
 
       if (context.mounted) {
+        context
+            .read<GetNotificationProvider>()
+            .getNotificationDataWithoutParam();
         await customShowDialogIcon(
             context: context,
             iconDialog: FluentIcons.plant_ragweed_20_regular,
@@ -136,6 +141,9 @@ class AddPanenMatiProvider with ChangeNotifier {
       notifyListeners();
 
       if (context.mounted) {
+        context
+            .read<GetNotificationProvider>()
+            .getNotificationDataWithoutParam();
         await customShowDialogIcon(
             context: context,
             iconDialog: FluentIcons.premium_16_regular,

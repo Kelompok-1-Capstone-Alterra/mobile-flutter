@@ -75,12 +75,12 @@ class _DetailItemStatistikPenanamanState
             children: [
               Image.network(
                 '${AppConstant.imgUrl}${widget.picture}',
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   color: neutral[20],
                   child: const Icon(Icons.image_not_supported_outlined),
                 ),

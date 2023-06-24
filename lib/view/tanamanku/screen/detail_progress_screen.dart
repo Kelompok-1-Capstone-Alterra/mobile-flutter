@@ -105,6 +105,7 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                   provider.imageList.isEmpty
                       ? Image.asset(
                           'assets/images/tanaman_default.png',
+                          height: MediaQuery.of(context).size.height * 0.35,
                           fit: BoxFit.cover,
                         )
                       : Stack(
@@ -134,7 +135,7 @@ class _DetailProgresScreenState extends State<DetailProgresScreen> {
                               options: CarouselOptions(
                                 scrollPhysics: const BouncingScrollPhysics(),
                                 height:
-                                    MediaQuery.of(context).size.height * 0.4,
+                                    MediaQuery.of(context).size.height * 0.35,
                                 aspectRatio: 2,
                                 viewportFraction: 1,
                                 onPageChanged: (index, reason) {

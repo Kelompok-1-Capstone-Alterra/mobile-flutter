@@ -167,7 +167,7 @@ class TanamankuScreen extends StatelessWidget {
                 );
               } else {
                 return Text(
-                  'Pilih tanaman yang ingin anda hapus !',
+                  'Silahkan pilih tanaman yang ingin di hapus',
                   style: Theme.of(context).textTheme.titleSmall,
                 );
               }

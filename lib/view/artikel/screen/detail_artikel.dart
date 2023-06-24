@@ -273,11 +273,10 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
                                     //muncul kan snack bar berhasil menyimpan
                                     context
                                         .read<SnackbarCustomProvider>()
-                                        .showSnackbarBasic(
-                                            description:
-                                                'Kamu menyukai artikel',
-                                            title: 'Berhasil Menyukai',
-                                            type: SnackbarType.success);
+                                        .succesLikeArtikel(
+                                          description: 'Kamu menyukai artikel',
+                                          title: 'Berhasil Menyukai',
+                                        );
                                     return true;
                                   }
                                   if (context
@@ -290,11 +289,11 @@ class _DetailArtikelScreenState extends State<DetailArtikelScreen> {
                                       //muncul kan snack bar berhasil menghapus
                                       context
                                           .read<SnackbarCustomProvider>()
-                                          .showSnackbarBasic(
-                                              description:
-                                                  'Menghapus artikel disukai',
-                                              title: 'Berhasil Menghapus',
-                                              type: SnackbarType.info);
+                                          .infoUnlikeArtikel(
+                                            description:
+                                                'Menghapus artikel disukai',
+                                            title: 'Berhasil Menghapus',
+                                          );
 
                                       return false;
                                     }

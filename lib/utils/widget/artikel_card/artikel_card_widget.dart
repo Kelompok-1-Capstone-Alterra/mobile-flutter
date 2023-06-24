@@ -21,7 +21,7 @@ class ArtikelCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 110,
+      height: 117,
       child: Card(
         margin: const EdgeInsets.all(0),
         elevation: 15,

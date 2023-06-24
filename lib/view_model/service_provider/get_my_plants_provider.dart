@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_flutter/models/plants_response_model.dart';
+import 'package:mobile_flutter/view_model/service_provider/get_notification_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/services_restapi_impl.dart';
@@ -85,21 +86,22 @@ class GetMyPlantsProvider extends ChangeNotifier {
       // print("delete ${myPlants[indexSelected].plantName}");
     }
     if (myplantId.isNotEmpty) {
+      final notificationProvider =
+          Provider.of<GetNotificationProvider>(context, listen: false);
+      final snackBarProvider =
+          Provider.of<SnackbarCustomProvider>(context, listen: false);
       try {
-        final response = await service.deleteMyPlants(myplantId);
-        if (response == 200) {
-          if (context.mounted) {
-            context.read<SnackbarCustomProvider>().showSnackbarBasic(
-                title: "Succes",
-                description: "Tanaman kamu berhasil di hapus",
-                type: SnackbarType.success);
-          }
+        await service.deleteMyPlants(myplantId);
+        notificationProvider.getNotificationDataWithoutParam();
+        snackBarProvider.showSnackbarBasic(
+            title: "Succes",
+            description: "Tanaman kamu berhasil di hapus",
+            type: SnackbarType.success);
 
-          // print("berhasil hapus ler");
-          // buat snackbar berhasil hapus
-          // get data lagi biar liat pembaharuan
-          getMyPlantsData();
-        }
+        // print("berhasil hapus ler");
+        // buat snackbar berhasil hapus
+        // get data lagi biar liat pembaharuan
+        getMyPlantsData();
       } catch (e) {
         // print("gagal cok");
         // buat snackbar gagal

@@ -116,10 +116,10 @@ class _DetailTanamanScreenState extends State<DetailTanamanScreen> {
                 children: [
                   Image.network(
                     '${AppConstant.imgUrl}${provider.getPlantDetails.picture}',
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.35,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.35,
                       color: neutral[20],
                       child: const Icon(Icons.image_not_supported_outlined),
                     ),

@@ -381,4 +381,147 @@ class SnackbarCustomProvider extends ChangeNotifier {
       ).show(navigatorKeys.currentContext!);
     }
   }
+
+//===================================================================================================================//
+
+  void succesLikeArtikel({
+    required String title,
+    required String description,
+  }) {
+    AnimatedSnackBar(
+        duration: const Duration(milliseconds: 5000),
+        mobilePositionSettings: const MobilePositionSettings(
+          topOnAppearance: 50,
+        ),
+        builder: (context) {
+          return Container(
+            width:
+                MediaQuery.of(navigatorKeys.currentContext!).size.width * 0.62,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 5),
+                  // offset: Offset(10, 10),
+                  color: Colors.black.withOpacity(0.25), //New
+                  blurRadius: 10.0,
+                )
+              ],
+              color: succesType,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  size:
+                      MediaQuery.of(navigatorKeys.currentContext!).size.width *
+                          0.08,
+                  color: const Color.fromARGB(255, 233, 235, 238),
+                ),
+                SizedBox(
+                  // color: Colors.purple,
+                  width:
+                      MediaQuery.of(navigatorKeys.currentContext!).size.width *
+                          0.45,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 233, 235, 238)),
+                      ),
+                      AutoSizeText(
+                        description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            height: 1.25,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10,
+                            color: Color.fromARGB(255, 233, 235, 238)),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }).show(navigatorKeys.currentContext!);
+  }
+
+//===================================================================================================================//
+
+  void infoUnlikeArtikel({
+    required String title,
+    required String description,
+  }) {
+    AnimatedSnackBar(
+        duration: const Duration(milliseconds: 5000),
+        mobilePositionSettings: const MobilePositionSettings(
+          topOnAppearance: 50,
+        ),
+        builder: (context) {
+          return Container(
+            width:
+                MediaQuery.of(navigatorKeys.currentContext!).size.width * 0.62,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 5),
+                  // offset: Offset(10, 10),
+                  color: Colors.black.withOpacity(0.25), //New
+                  blurRadius: 10.0,
+                )
+              ],
+              color: infoType,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  Icons.info,
+                  size:
+                      MediaQuery.of(navigatorKeys.currentContext!).size.width *
+                          0.08,
+                  color: const Color.fromARGB(255, 233, 235, 238),
+                ),
+                SizedBox(
+                  width:
+                      MediaQuery.of(navigatorKeys.currentContext!).size.width *
+                          0.45,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 233, 235, 238)),
+                      ),
+                      AutoSizeText(
+                        description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            height: 1.25,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10,
+                            color: Color.fromARGB(255, 233, 235, 238)),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }).show(navigatorKeys.currentContext!);
+  }
 }

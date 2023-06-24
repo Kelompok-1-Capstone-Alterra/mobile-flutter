@@ -87,7 +87,8 @@ class DetailsState extends State<Details> {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
+            // Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pop(context);
           },
           icon: Icon(
             FluentIcons.ios_arrow_ltr_24_filled,

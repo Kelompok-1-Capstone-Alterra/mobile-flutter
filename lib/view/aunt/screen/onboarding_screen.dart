@@ -72,21 +72,21 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
             child: SizedBox(
-              height: screenHeight * 0.4,
+              height: screenHeight * 0.38,
               child: SvgPicture.asset('assets/svg/onboarding_1.svg'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
             child: SizedBox(
-              height: screenHeight * 0.4,
+              height: screenHeight * 0.38,
               child: SvgPicture.asset('assets/svg/onboarding_2.svg'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
             child: SizedBox(
-              height: screenHeight * 0.4,
+              height: screenHeight * 0.38,
               child: SvgPicture.asset('assets/svg/onboarding_3.svg'),
             ),
           ),
@@ -101,8 +101,8 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(
-                  height: 414,
+                SizedBox(
+                  height: screenHeight * 0.5,
                 ),
                 Text(
                   'Monitoring tanamanmu dengan Agriplan',
@@ -126,8 +126,8 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(
-                  height: 414,
+                SizedBox(
+                  height: screenHeight * 0.5,
                 ),
                 Text(
                   'Pantau Kondisi tanaman secara real-time',
@@ -151,8 +151,8 @@ class _OnBroadingScreenState extends State<OnBroadingScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(
-                  height: 414,
+                SizedBox(
+                  height: screenHeight * 0.5,
                 ),
                 Text(
                   'Gabung dan pantau tanamanmu sekarang juga',
